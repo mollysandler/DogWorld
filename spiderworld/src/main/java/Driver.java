@@ -22,6 +22,10 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private PlayButtonGUI playButton;
+
+    private Speed fastButton;
+    private Speed slowButton;
+
     private final InstructionList instructionCopies = InstructionList.getInstance();
 
     @Override
@@ -53,6 +57,13 @@ public class Driver extends PApplet{
 
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
         playButton = new PlayButtonGUI(this, 180, 615, startButtonImg);
+
+        //displaying speed mode
+        PImage fast = loadImage("src/main/images/hare.png");
+        fastButton = new Speed(this, 500, 500, fast);
+        PImage slow = loadImage("src/main/images/turtle.png");
+        slowButton = new Speed(this, 550, 550, slow);
+
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
@@ -96,7 +107,11 @@ public class Driver extends PApplet{
             currInstruction.drag();
             currInstruction.display();
         }
+        fastButton.display();
+        slowButton.display();
+
     }
+
 
     @Override
     public void mousePressed() {
