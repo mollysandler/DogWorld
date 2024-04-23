@@ -22,15 +22,43 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private PlayButtonGUI playButton;
-
     private Speed fastButton;
     private Speed slowButton;
-
     private final InstructionList instructionCopies = InstructionList.getInstance();
+    private boolean speed = false;
 
     @Override
     public void settings(){
         size(1200, 900);
+    }
+
+    public void buttonDisplay(){
+        //displaying all buttons
+        PImage stepBlockImage = loadImage("src/main/images/step.png");
+        stepBlock = new StepInstruction(this, 1000, 200, stepBlockImage);
+        PImage turnBlockImage = loadImage("src/main/images/turn.png");
+        turnBlock = new TurnInstruction(this, 1000, 275, turnBlockImage);
+        PImage paintBlueBlockImage = loadImage("src/main/images/paint_blue.png");
+        paintBlueBlock = new PaintInstruction(this, 1000, 350, paintBlueBlockImage, "blue");
+        PImage paintGreenBlockImage = loadImage("src/main/images/paint_green.png");
+        paintGreenBlock = new PaintInstruction(this, 1000, 425, paintGreenBlockImage, "green");
+        PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
+        paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
+        PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
+
+        //displaying speed modes
+        PImage fast = loadImage("src/main/images/hare.png");
+        fastButton = new Speed(this, 250, 500, fast);
+        PImage slow = loadImage("src/main/images/turtle.png");
+        slowButton = new Speed(this, 60, 500, slow);
+
+        playButton = new PlayButtonGUI(this, 250, 620, startButtonImg, speed);
+
+        //drawing the trashcan images over the background
+        closedDelete = loadImage("src/main/images/trash1.png");
+        closedDelete.resize(100, 150);
+        openedDelete = loadImage("src/main/images/trash2.png");
+        openedDelete.resize(100, 150);
     }
 
     @Override
@@ -40,36 +68,8 @@ public class Driver extends PApplet{
         LevelGenerator.makeLevels();
         level = new LoadLevels(1);
 
-        PImage stepBlockImage = loadImage("src/main/images/step.png");
-        stepBlock = new StepInstruction(this, 1000, 200, stepBlockImage);
-
-        PImage turnBlockImage = loadImage("src/main/images/turn.png");
-        turnBlock = new TurnInstruction(this, 1000, 275, turnBlockImage);
-
-        PImage paintBlueBlockImage = loadImage("src/main/images/paint_blue.png");
-        paintBlueBlock = new PaintInstruction(this, 1000, 350, paintBlueBlockImage, "blue");
-
-        PImage paintGreenBlockImage = loadImage("src/main/images/paint_green.png");
-        paintGreenBlock = new PaintInstruction(this, 1000, 425, paintGreenBlockImage, "green");
-
-        PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
-        paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
-
-        PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
-        playButton = new PlayButtonGUI(this, 180, 615, startButtonImg);
-
-        //displaying speed mode
-        PImage fast = loadImage("src/main/images/hare.png");
-        fastButton = new Speed(this, 500, 500, fast);
-        PImage slow = loadImage("src/main/images/turtle.png");
-        slowButton = new Speed(this, 550, 550, slow);
-
-
-        //drawing the trashcan images over the background
-        closedDelete = loadImage("src/main/images/trash1.png");
-        closedDelete.resize(100, 150);
-        openedDelete = loadImage("src/main/images/trash2.png");
-        openedDelete.resize(100, 150);
+        //gets all the buttons and blocks on the board
+        buttonDisplay();
 
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
@@ -88,11 +88,11 @@ public class Driver extends PApplet{
 
         //if the mouse is over the trashcan, display the opened can
         if (mouseX > 100 && mouseX < 100 + closedDelete.width && mouseY > 600 && mouseY < 600 + closedDelete.height) {
-            image(openedDelete, 100, 600); //display the open trash can
+            image(openedDelete, 60, 600); //display the open trash can
         }
         else {
             //otherwise display the closed trashcan
-            image(closedDelete, 100, 600);
+            image(closedDelete, 60, 600);
         }
 
         //make blocks draggable
@@ -108,8 +108,9 @@ public class Driver extends PApplet{
             currInstruction.display();
         }
         fastButton.display();
+        fastButton.mousePressed();
         slowButton.display();
-
+        slowButton.mousePressed();
     }
 
 
