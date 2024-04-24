@@ -20,6 +20,7 @@ public class LevelGenerator {
         level12();
         level13();
         level14();
+        level15();
         level16();
         level17();
         level18();
@@ -56,12 +57,14 @@ public class LevelGenerator {
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
-        map.put("dimentions", dimentions);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(35.302990, -120.667650));
 
         lvl.saveHashMap(map);
     }
+
     public static void level2() {
         LoadLevels lvl = new LoadLevels(2);
 
@@ -93,7 +96,8 @@ public class LevelGenerator {
         Point rowsXcols = new Point(5, 5);
         ArrayList<Point> dimentions = new ArrayList<>();
         dimentions.add(rowsXcols);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimentions);
+        map.put("location", new Point(21.128103, -101.684652));
 
         lvl.saveHashMap(map);
     }
@@ -129,9 +133,10 @@ public class LevelGenerator {
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
-        map.put("dimentions", dimentions);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(32.312691, -64.741543));
 
         lvl.saveHashMap(map);
     }
@@ -163,9 +168,10 @@ public class LevelGenerator {
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
-        map.put("dimentions", dimentions);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(3.408819, -73.093863));
 
         lvl.saveHashMap(map);
     }
@@ -199,9 +205,10 @@ public class LevelGenerator {
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
-        map.put("dimentions", dimentions);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(-35.471097, -65.098419));
 
         lvl.saveHashMap(map);
     }
@@ -242,9 +249,10 @@ public class LevelGenerator {
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
-        map.put("dimentions", dimentions);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(-21.304608, 46.156031));
 
         lvl.saveHashMap(map);
     }
@@ -265,8 +273,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -274,7 +282,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(-30.992229, 24.224748));
 
         lvl.saveHashMap(map);
     }
@@ -302,8 +311,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -311,7 +320,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(17.708655, -1.752516));
 
         lvl.saveHashMap(map);
     }
@@ -348,8 +358,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -357,7 +367,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(39.400499, -3.280582));
 
         lvl.saveHashMap(map);
     }
@@ -384,8 +395,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -393,7 +404,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(39.566565, -8.619381));
 
         lvl.saveHashMap(map);
     }
@@ -428,8 +440,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -437,7 +449,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(46.539692, 2.411616));
 
         lvl.saveHashMap(map);
     }
@@ -466,8 +479,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -475,7 +488,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(42.858246, 12.447456));
 
         lvl.saveHashMap(map);
     }
@@ -522,8 +536,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -531,7 +545,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(52.773781, 18.638980));
 
         lvl.saveHashMap(map);
     }
@@ -570,8 +585,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -579,7 +594,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(54.740789, -2.629444));
 
         lvl.saveHashMap(map);
     }
@@ -622,8 +638,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -631,7 +647,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(55.406666, 10.025383));
 
         lvl.saveHashMap(map);
     }
@@ -660,8 +677,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -669,7 +686,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(64.953823, -18.667527));
 
         lvl.saveHashMap(map);
     }
@@ -698,8 +716,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -707,7 +725,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(34.792269, 103.647665));
 
         lvl.saveHashMap(map);
     }
@@ -734,8 +753,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -743,7 +762,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(61.851756, 98.782434));
 
         lvl.saveHashMap(map);
     }
@@ -772,8 +792,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -781,7 +801,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(-25.363802, 134.210544));
 
         lvl.saveHashMap(map);
     }
@@ -810,8 +831,8 @@ public class LevelGenerator {
         ArrayList<Point> spider = new ArrayList<>();
         spider.add(spiderLoc);
         spider.add(spiderDirection);
-        ArrayList<Point> dimentions = new ArrayList<>();
-        dimentions.add(rowsXcols);
+        ArrayList<Point> dimensions = new ArrayList<>();
+        dimensions.add(rowsXcols);
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
@@ -819,7 +840,8 @@ public class LevelGenerator {
         map.put("red", redPoints);
         map.put("green", greenPoints);
         map.put("spider", spider);
-        map.put("dimentions", dimentions);
+        map.put("dimensions", dimensions);
+        map.put("location", new Point(36.557594, 138.489280));
 
         lvl.saveHashMap(map);
     }

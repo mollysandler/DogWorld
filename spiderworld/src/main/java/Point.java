@@ -1,27 +1,28 @@
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * @author Aayush Joshi
  */
-class Point implements Serializable {
-    private final int x;
-    private final int y;
+class Point extends ArrayList<Point> implements Serializable {
+    private final double x;
+    private final double y;
 
-    public Point(int x, int y) {
+    public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
     public int getX() {
-        return this.x;
+        return (int)this.x;
     }
     public int getY() {
-        return this.y;
+        return (int)this.y;
     }
 
     @Override
     public int hashCode() {
-        return (7 * 31 + this.x) * 31 + this.y;
+        return (int)((7 * 31 + this.x) * 31 + this.y);
     }
 
     @Override

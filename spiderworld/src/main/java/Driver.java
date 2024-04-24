@@ -23,6 +23,9 @@ public class Driver extends PApplet{
     private PImage openedDelete;
     private PlayButtonGUI playButton;
 
+    private LevelSelectorGUI levelSelector;
+    private static int currentLevel = 1;
+
     private Speed fastButton;
     private Speed slowButton;
 
@@ -38,7 +41,7 @@ public class Driver extends PApplet{
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
         LevelGenerator.makeLevels();
-        level = new LoadLevels(1);
+        level = new LoadLevels(currentLevel);
 
         PImage stepBlockImage = loadImage("src/main/images/step.png");
         stepBlock = new StepInstruction(this, 1000, 200, stepBlockImage);
@@ -57,6 +60,9 @@ public class Driver extends PApplet{
 
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
         playButton = new PlayButtonGUI(this, 180, 615, startButtonImg);
+
+        levelSelector = new LevelSelectorGUI(this, 60, 40);
+        this.loadImages();
 
         //displaying speed mode
         PImage fast = loadImage("src/main/images/hare.png");
@@ -77,6 +83,30 @@ public class Driver extends PApplet{
 
         originalInstructions = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock};
     }
+
+    public void loadImages() {
+        for (int i = 1; i < 21; i++) {
+            String fName = "src/main/images/numbers/" + i + ".png";
+            switch (fName) {
+                case "src/main/images/numbers/1.png", "src/main/images/numbers/5.png", "src/main/images/numbers/7.png" -> {
+                    PImage img = loadImage(fName);
+                    img.resize(30, 0);
+                    levelSelector.addToImg(img);
+                }
+                case "src/main/images/numbers/3.png", "src/main/images/numbers/6.png" -> {
+                    PImage img = loadImage(fName);
+                    img.resize(35, 0);
+                    levelSelector.addToImg(img);
+                }
+                default -> {
+                    PImage img = loadImage(fName);
+                    img.resize(40, 0);
+                    levelSelector.addToImg(img);
+                }
+            }
+        }
+    }
+
     @Override
     public void draw() {
         background(100, 100, 100);
@@ -109,13 +139,14 @@ public class Driver extends PApplet{
         }
         fastButton.display();
         slowButton.display();
-
+        levelSelector.display();
     }
 
 
     @Override
     public void mousePressed() {
         playButton.mousePressed();
+        levelSelector.mousePressed();
         //when on original blocks, will create copies and will automatically be dragging copies
         for(Instruction currInstruction: originalInstructions) {
             if (currInstruction.isMouseOver()) {
@@ -170,6 +201,10 @@ public class Driver extends PApplet{
                 }
             }
         }
+    }
+
+    public static void setLevel(int l) {
+        currentLevel = l;
     }
 
     public static void main(String[] args) {
