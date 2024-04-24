@@ -40,4 +40,9 @@ public class PlayButtonGUI {
         //System.out.println("speed changing");
         PlayButtonGUI.speed = newSpeed;
     }
+
+    public static boolean getSpeed(){
+        //System.out.println("speed changing");
+        return speed;
+    }
 }

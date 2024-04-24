@@ -45,20 +45,18 @@ public class Speed {
                 && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
     }
     public void mousePressed() {
+        System.out.println( "Mouse Down");
         if(!isMouseOver()){
             return;
         }
         if(speed){
-            if(mouseReleased()) {
-                PlayButtonGUI.setSpeed(true);
-                System.out.println("fast");
-            }
+            if (!PlayButtonGUI.getSpeed()) System.out.println("fast");
+            PlayButtonGUI.setSpeed(true);
         }
         else{
-            if(mouseReleased()) {
-                PlayButtonGUI.setSpeed(false);
-                System.out.println("slow");
-            }
+            if (PlayButtonGUI.getSpeed()) System.out.println("slow");
+            PlayButtonGUI.setSpeed(false);
         }
+        return;
     }
 }

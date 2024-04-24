@@ -29,24 +29,14 @@ public class Driver extends PApplet{
     private Speed fastButton;
     private Speed slowButton;
     private final InstructionList instructionCopies = InstructionList.getInstance();
-    private LevelSelectorGUI levelSelector;
-    private static int currentLevel = 1;
 
     @Override
     public void settings(){
         size(1200, 900);
     }
 
-    public void buttonDisplay(){
+    public void buttonDisplay() {
         //displaying all buttons
-    
-      @Override
-    public void setup(){
-        worldData = WorldData.getWorldData();
-        worldData.addPropertyChangeListener(worldView);
-        LevelGenerator.makeLevels();
-        level = new LoadLevels(currentLevel);
-
         PImage stepBlockImage = loadImage("src/main/images/step.png");
         stepBlock = new StepInstruction(this, 1000, 200, stepBlockImage);
         PImage turnBlockImage = loadImage("src/main/images/turn.png");
@@ -58,9 +48,6 @@ public class Driver extends PApplet{
         PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
         paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
-
-        levelSelector = new LevelSelectorGUI(this, 60, 40);
-        this.loadImages();
 
         PImage fast = loadImage("src/main/images/hare.png");
         fastButton = new Speed(this, 1050, 645, fast, true);
@@ -86,6 +73,9 @@ public class Driver extends PApplet{
 
         //gets all the buttons and blocks on the board
         buttonDisplay();
+
+        levelSelector = new LevelSelectorGUI(this, 60, 40);
+        this.loadImages();
 
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
@@ -151,9 +141,7 @@ public class Driver extends PApplet{
             currInstruction.display();
         }
         fastButton.display();
-        fastButton.mousePressed();
         slowButton.display();
-        slowButton.mousePressed();
         levelSelector.display();
     }
 
@@ -163,6 +151,8 @@ public class Driver extends PApplet{
         levelSelector.mousePressed();
         playButton.mousePressed();
         levelSelector.mousePressed();
+        fastButton.mousePressed();
+        slowButton.mousePressed();
         //when on original blocks, will create copies and will automatically be dragging copies
         for(Instruction currInstruction: originalInstructions) {
             if (currInstruction.isMouseOver()) {
@@ -217,10 +207,6 @@ public class Driver extends PApplet{
                 }
             }
         }
-    }
-
-    public static void setLevel(int l) {
-        currentLevel = l;
     }
 
     public static void main(String[] args) {
