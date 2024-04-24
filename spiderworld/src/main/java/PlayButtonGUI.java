@@ -10,14 +10,14 @@ public class PlayButtonGUI {
     private PImage img;
     private static boolean speed;
 
-    public PlayButtonGUI(PApplet screen, int xPos, int yPos, PImage img, boolean speed){
+    public PlayButtonGUI(PApplet screen, int xPos, int yPos, PImage img){
         this.screen = screen;
         this.xPos = xPos;
         this.yPos = yPos;
         this.img = img;
         this.width = img.width;
         this.height = img.height;
-        PlayButtonGUI.speed = speed;
+        PlayButtonGUI.speed = Speed.getSpeed();
     }
 
     public void display(){screen.image(img, xPos, yPos);}

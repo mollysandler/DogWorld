@@ -25,7 +25,7 @@ public class Driver extends PApplet{
     private Speed fastButton;
     private Speed slowButton;
     private final InstructionList instructionCopies = InstructionList.getInstance();
-    private boolean speed = false;
+    //private boolean speed = false;
 
     @Override
     public void settings(){
@@ -48,11 +48,11 @@ public class Driver extends PApplet{
 
         //displaying speed modes
         PImage fast = loadImage("src/main/images/hare.png");
-        fastButton = new Speed(this, 250, 500, fast);
+        fastButton = new Speed(this, 1050, 645, fast);
         PImage slow = loadImage("src/main/images/turtle.png");
-        slowButton = new Speed(this, 60, 500, slow);
+        slowButton = new Speed(this, 850, 650, slow);
 
-        playButton = new PlayButtonGUI(this, 250, 620, startButtonImg, speed);
+        playButton = new PlayButtonGUI(this, 200, 620, startButtonImg);
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");

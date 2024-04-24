@@ -12,7 +12,7 @@ public class Speed {
     private int height = 150;
 
     //fast = true and slow = false
-    private boolean speed = false;
+    private static boolean speed = false;
 
     public Speed(PApplet screen, int xPos, int yPos, PImage img) {
         this.screen = screen;
@@ -21,8 +21,8 @@ public class Speed {
         this.yPos = yPos;
     }
 
-    public boolean getSpeed(){
-        return this.speed;
+    public static boolean getSpeed(){
+        return speed;
     }
 
     public void display(){
