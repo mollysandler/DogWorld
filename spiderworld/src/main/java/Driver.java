@@ -51,7 +51,7 @@ public class Driver extends PApplet{
         PImage slow = loadImage("src/main/images/turtle.png");
         slowButton = new Speed(this, 850, 650, slow, false);
 
-        playButton = new PlayButtonGUI(this, 200, 620, startButtonImg);
+        playButton = new PlayButtonGUI(this, 180, 620, startButtonImg);
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
