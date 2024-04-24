@@ -4,21 +4,61 @@ import processing.core.PImage;
 import java.awt.*;
 
 public class Speed {
-    private PImage img;
-    private PApplet screen;
-    protected int xPos;
-    protected int yPos;
+    private final PImage img;
+    private final PApplet screen;
+    private int xPos;
+    private int yPos;
+    private int width = 150;
+    private int height = 150;
 
-    public Speed(PApplet screen, int xPos, int yPos, PImage img) {
+    //fast = true and slow = false
+    private boolean speed;
+
+    public Speed(PApplet screen, int xPos, int yPos, PImage img, boolean speed) {
         this.screen = screen;
         this.img = img;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.speed = speed;
+    }
+
+    public boolean getSpeed(){
+        return this.speed;
     }
 
     public void display(){
         screen.image(img, xPos, yPos);
     }
+//
+//    public boolean isMouseOverFast(){
+//        return (((xPos < screen.mouseX) && (screen.mouseX < xPos + width))
+//                && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
+//    }
 
+    public boolean isMouseOver(){
+        return (((xPos < screen.mouseX) && (screen.mouseX < xPos + width))
+                && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
+    }
+
+    public boolean mouseReleased(){
+        return (((xPos < screen.mouseX) && (screen.mouseX < xPos + width))
+                && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
+    }
+    public void mousePressed() {
+        if(!isMouseOver()){
+            return;
+        }
+        if(speed){
+            if(mouseReleased()) {
+                PlayButtonGUI.setSpeed(true);
+                System.out.println("fast");
+            }
+        }
+        else{
+            if(mouseReleased()) {
+                PlayButtonGUI.setSpeed(false);
+                System.out.println("slow");
+            }
+        }
+    }
 }
-

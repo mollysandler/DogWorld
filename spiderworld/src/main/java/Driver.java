@@ -28,15 +28,19 @@ public class Driver extends PApplet{
 
     private Speed fastButton;
     private Speed slowButton;
-
     private final InstructionList instructionCopies = InstructionList.getInstance();
+    private LevelSelectorGUI levelSelector;
+    private static int currentLevel = 1;
 
     @Override
     public void settings(){
         size(1200, 900);
     }
 
-    @Override
+    public void buttonDisplay(){
+        //displaying all buttons
+    
+      @Override
     public void setup(){
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
@@ -45,37 +49,43 @@ public class Driver extends PApplet{
 
         PImage stepBlockImage = loadImage("src/main/images/step.png");
         stepBlock = new StepInstruction(this, 1000, 200, stepBlockImage);
-
         PImage turnBlockImage = loadImage("src/main/images/turn.png");
         turnBlock = new TurnInstruction(this, 1000, 275, turnBlockImage);
-
         PImage paintBlueBlockImage = loadImage("src/main/images/paint_blue.png");
         paintBlueBlock = new PaintInstruction(this, 1000, 350, paintBlueBlockImage, "blue");
-
         PImage paintGreenBlockImage = loadImage("src/main/images/paint_green.png");
         paintGreenBlock = new PaintInstruction(this, 1000, 425, paintGreenBlockImage, "green");
-
         PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
         paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
-
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
-        playButton = new PlayButtonGUI(this, 180, 615, startButtonImg);
 
         levelSelector = new LevelSelectorGUI(this, 60, 40);
         this.loadImages();
 
-        //displaying speed mode
         PImage fast = loadImage("src/main/images/hare.png");
-        fastButton = new Speed(this, 500, 500, fast);
+        fastButton = new Speed(this, 1050, 645, fast, true);
         PImage slow = loadImage("src/main/images/turtle.png");
-        slowButton = new Speed(this, 550, 550, slow);
+        slowButton = new Speed(this, 850, 650, slow, false);
 
+        playButton = new PlayButtonGUI(this, 180, 620, startButtonImg);
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
         closedDelete.resize(100, 150);
         openedDelete = loadImage("src/main/images/trash2.png");
         openedDelete.resize(100, 150);
+    }
+
+    @Override
+    public void setup(){
+
+        worldData = WorldData.getWorldData();
+        worldData.addPropertyChangeListener(worldView);
+        LevelGenerator.makeLevels();
+        level = new LoadLevels(currentLevel);
+
+        //gets all the buttons and blocks on the board
+        buttonDisplay();
 
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
@@ -106,7 +116,10 @@ public class Driver extends PApplet{
             }
         }
     }
-
+    public static void setLevel(int l) {
+        currentLevel = l;
+    }
+  
     @Override
     public void draw() {
         background(100, 100, 100);
@@ -118,11 +131,11 @@ public class Driver extends PApplet{
 
         //if the mouse is over the trashcan, display the opened can
         if (mouseX > 100 && mouseX < 100 + closedDelete.width && mouseY > 600 && mouseY < 600 + closedDelete.height) {
-            image(openedDelete, 100, 600); //display the open trash can
+            image(openedDelete, 60, 600); //display the open trash can
         }
         else {
             //otherwise display the closed trashcan
-            image(closedDelete, 100, 600);
+            image(closedDelete, 60, 600);
         }
 
         //make blocks draggable
@@ -138,13 +151,16 @@ public class Driver extends PApplet{
             currInstruction.display();
         }
         fastButton.display();
+        fastButton.mousePressed();
         slowButton.display();
+        slowButton.mousePressed();
         levelSelector.display();
     }
 
 
     @Override
     public void mousePressed() {
+        levelSelector.mousePressed();
         playButton.mousePressed();
         levelSelector.mousePressed();
         //when on original blocks, will create copies and will automatically be dragging copies

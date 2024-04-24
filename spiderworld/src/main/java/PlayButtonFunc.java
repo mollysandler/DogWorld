@@ -5,9 +5,15 @@ import java.util.List;
  * @author Andy Duong
  */
 public class PlayButtonFunc implements Runnable{
-    public PlayButtonFunc(){}
+    private final boolean speed;
+
+    public PlayButtonFunc(boolean speed){
+        this.speed = speed;
+    }
+
     @Override
     public void run() {
+        //System.out.println(speed);
 
         WorldData myData = WorldData.getWorldData();
         InstructionList instructionList = InstructionList.getInstance();
@@ -17,7 +23,14 @@ public class PlayButtonFunc implements Runnable{
         //per instruction send each instruction to their respective function
         for(Instruction instruction:instructions) {
             try {
-                Thread.sleep(500);
+                if (!speed) {
+                    System.out.println("movement happening slowly");
+                    Thread.sleep(500);
+                }
+                else{
+                    System.out.println("movement happening fast");
+                    Thread.sleep(200);
+                }
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
