@@ -25,6 +25,8 @@ public class Driver extends PApplet{
     private Speed fastButton;
     private Speed slowButton;
     private final InstructionList instructionCopies = InstructionList.getInstance();
+    private LevelSelectorGUI levelSelector;
+    private static int currentLevel = 1;
 
     @Override
     public void settings(){
@@ -62,10 +64,11 @@ public class Driver extends PApplet{
 
     @Override
     public void setup(){
+
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
         LevelGenerator.makeLevels();
-        level = new LoadLevels(1);
+        level = new LoadLevels(currentLevel);
 
         //gets all the buttons and blocks on the board
         buttonDisplay();
@@ -75,6 +78,33 @@ public class Driver extends PApplet{
         level.saveHashMap(map);
 
         originalInstructions = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock};
+    }
+
+    public void loadImages() {
+        for (int i = 1; i < 21; i++) {
+            String fName = "src/main/images/numbers/" + i + ".png";
+            switch (fName) {
+                case "src/main/images/numbers/1.png", "src/main/images/numbers/5.png", "src/main/images/numbers/7.png" -> {
+                    PImage img = loadImage(fName);
+                    img.resize(30, 0);
+                    levelSelector.addToImg(img);
+                }
+                case "src/main/images/numbers/3.png", "src/main/images/numbers/6.png" -> {
+                    PImage img = loadImage(fName);
+                    img.resize(35, 0);
+                    levelSelector.addToImg(img);
+                }
+                default -> {
+                    PImage img = loadImage(fName);
+                    img.resize(40, 0);
+                    levelSelector.addToImg(img);
+                }
+            }
+        }
+    }
+
+    public static void setLevel(int l) {
+        currentLevel = l;
     }
     @Override
     public void draw() {
@@ -110,11 +140,13 @@ public class Driver extends PApplet{
         fastButton.mousePressed();
         slowButton.display();
         slowButton.mousePressed();
+        levelSelector.display();
     }
 
 
     @Override
     public void mousePressed() {
+        levelSelector.mousePressed();
         playButton.mousePressed();
         //when on original blocks, will create copies and will automatically be dragging copies
         for(Instruction currInstruction: originalInstructions) {
