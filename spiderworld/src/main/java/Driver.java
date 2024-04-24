@@ -22,6 +22,10 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private PlayButtonGUI playButton;
+
+    private LevelSelectorGUI levelSelector;
+    private static int currentLevel = 1;
+
     private Speed fastButton;
     private Speed slowButton;
     private final InstructionList instructionCopies = InstructionList.getInstance();
@@ -35,6 +39,14 @@ public class Driver extends PApplet{
 
     public void buttonDisplay(){
         //displaying all buttons
+    
+      @Override
+    public void setup(){
+        worldData = WorldData.getWorldData();
+        worldData.addPropertyChangeListener(worldView);
+        LevelGenerator.makeLevels();
+        level = new LoadLevels(currentLevel);
+
         PImage stepBlockImage = loadImage("src/main/images/step.png");
         stepBlock = new StepInstruction(this, 1000, 200, stepBlockImage);
         PImage turnBlockImage = loadImage("src/main/images/turn.png");
@@ -47,7 +59,9 @@ public class Driver extends PApplet{
         paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
 
-        //displaying speed modes
+        levelSelector = new LevelSelectorGUI(this, 60, 40);
+        this.loadImages();
+
         PImage fast = loadImage("src/main/images/hare.png");
         fastButton = new Speed(this, 1050, 645, fast, true);
         PImage slow = loadImage("src/main/images/turtle.png");
@@ -102,10 +116,10 @@ public class Driver extends PApplet{
             }
         }
     }
-
     public static void setLevel(int l) {
         currentLevel = l;
     }
+  
     @Override
     public void draw() {
         background(100, 100, 100);
@@ -148,6 +162,7 @@ public class Driver extends PApplet{
     public void mousePressed() {
         levelSelector.mousePressed();
         playButton.mousePressed();
+        levelSelector.mousePressed();
         //when on original blocks, will create copies and will automatically be dragging copies
         for(Instruction currInstruction: originalInstructions) {
             if (currInstruction.isMouseOver()) {
@@ -202,6 +217,10 @@ public class Driver extends PApplet{
                 }
             }
         }
+    }
+
+    public static void setLevel(int l) {
+        currentLevel = l;
     }
 
     public static void main(String[] args) {
