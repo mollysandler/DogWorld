@@ -13,7 +13,7 @@ public class PlayButtonFunc implements Runnable{
 
     @Override
     public void run() {
-        System.out.println(speed);
+        //System.out.println(speed);
 
         WorldData myData = WorldData.getWorldData();
         InstructionList instructionList = InstructionList.getInstance();

@@ -12,29 +12,30 @@ public class Speed {
     private int height = 150;
 
     //fast = true and slow = false
-    private static boolean speed = false;
+    private boolean speed;
 
-    public Speed(PApplet screen, int xPos, int yPos, PImage img) {
+    public Speed(PApplet screen, int xPos, int yPos, PImage img, boolean speed) {
         this.screen = screen;
         this.img = img;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.speed = speed;
     }
 
-    public static boolean getSpeed(){
-        return speed;
+    public boolean getSpeed(){
+        return this.speed;
     }
 
     public void display(){
         screen.image(img, xPos, yPos);
     }
+//
+//    public boolean isMouseOverFast(){
+//        return (((xPos < screen.mouseX) && (screen.mouseX < xPos + width))
+//                && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
+//    }
 
-    public boolean isMouseOverFast(){
-        return (((xPos < screen.mouseX) && (screen.mouseX < xPos + width))
-                && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
-    }
-
-    public boolean isMouseOverSlow(){
+    public boolean isMouseOver(){
         return (((xPos < screen.mouseX) && (screen.mouseX < xPos + width))
                 && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
     }
@@ -44,21 +45,20 @@ public class Speed {
                 && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
     }
     public void mousePressed() {
-        if(isMouseOverFast()){
+        if(!isMouseOver()){
+            return;
+        }
+        if(speed){
             if(mouseReleased()) {
                 PlayButtonGUI.setSpeed(true);
+                System.out.println("fast");
             }
-            //System.out.println("fast");
         }
-        else if(isMouseOverSlow()){
+        else{
             if(mouseReleased()) {
                 PlayButtonGUI.setSpeed(false);
+                System.out.println("slow");
             }
-            //System.out.println("slow");
         }
     }
-
 }
-
-
-

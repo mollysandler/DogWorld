@@ -17,7 +17,7 @@ public class PlayButtonGUI {
         this.img = img;
         this.width = img.width;
         this.height = img.height;
-        PlayButtonGUI.speed = Speed.getSpeed();
+        //PlayButtonGUI.speed = Speed.getSpeed();
     }
 
     public void display(){screen.image(img, xPos, yPos);}
