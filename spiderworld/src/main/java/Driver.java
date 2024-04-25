@@ -137,6 +137,8 @@ public class Driver extends PApplet{
         paintBlueBlock.drag();
         paintGreenBlock.drag();
         paintRedBlock.drag();
+        paintLightBlock.drag();
+        paintDarkBlock.drag();
 
         for (Instruction currInstruction : InstructionList.getInstance().getSortedInstructions()) {
             currInstruction.drag();
