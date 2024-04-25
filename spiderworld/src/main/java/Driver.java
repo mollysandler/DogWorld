@@ -16,9 +16,7 @@ public class Driver extends PApplet{
     private Instruction[] originalInstructions;
     private StepInstruction stepBlock;
     private TurnInstruction turnBlock;
-    private PaintInstruction paintBlueBlock;
-    private PaintInstruction paintGreenBlock;
-    private PaintInstruction paintRedBlock;
+    private PaintInstruction paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock;
     private PImage closedDelete;
     private PImage openedDelete;
     private PlayButtonGUI playButton;
@@ -47,6 +45,10 @@ public class Driver extends PApplet{
         paintGreenBlock = new PaintInstruction(this, 1000, 425, paintGreenBlockImage, "green");
         PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
         paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
+        PImage paintLightBlockImage = loadImage("images/paint_light.png");
+        paintLightBlock = new PaintInstruction(this, 1000, 575, paintLightBlockImage, "light");
+        PImage paintDarkBlockImage = loadImage("images/paint_dark.png");
+        paintDarkBlock = new PaintInstruction(this, 1000, 650, paintDarkBlockImage, "dark");
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
 
         PImage fast = loadImage("src/main/images/hare.png");
@@ -81,7 +83,7 @@ public class Driver extends PApplet{
         worldData.setLevel(map);
         level.saveHashMap(map);
 
-        originalInstructions = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock};
+        originalInstructions = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock};
     }
 
     public void loadImages() {
