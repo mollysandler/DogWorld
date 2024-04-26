@@ -45,16 +45,16 @@ public class Driver extends PApplet{
         paintGreenBlock = new PaintInstruction(this, 1000, 425, paintGreenBlockImage, "green");
         PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
         paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
-        PImage paintLightBlockImage = loadImage("images/paint_light.png");
+        PImage paintLightBlockImage = loadImage("src/main/images/paint_light.png");
         paintLightBlock = new PaintInstruction(this, 1000, 575, paintLightBlockImage, "light");
-        PImage paintDarkBlockImage = loadImage("images/paint_dark.png");
+        PImage paintDarkBlockImage = loadImage("src/main/images/paint_dark.png");
         paintDarkBlock = new PaintInstruction(this, 1000, 650, paintDarkBlockImage, "dark");
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
 
         PImage fast = loadImage("src/main/images/hare.png");
-        fastButton = new Speed(this, 1050, 645, fast, true);
+        fastButton = new Speed(this, 850, 645, fast, true);
         PImage slow = loadImage("src/main/images/turtle.png");
-        slowButton = new Speed(this, 850, 650, slow, false);
+        slowButton = new Speed(this, 700, 660, slow, false);
 
         playButton = new PlayButtonGUI(this, 180, 620, startButtonImg);
 
