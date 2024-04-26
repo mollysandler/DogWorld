@@ -16,9 +16,7 @@ public class Driver extends PApplet{
     private Instruction[] originalInstructions;
     private StepInstruction stepBlock;
     private TurnInstruction turnBlock;
-    private PaintInstruction paintBlueBlock;
-    private PaintInstruction paintGreenBlock;
-    private PaintInstruction paintRedBlock;
+    private PaintInstruction paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock;
     private PImage closedDelete;
     private PImage openedDelete;
     private PlayButtonGUI playButton;
@@ -47,12 +45,16 @@ public class Driver extends PApplet{
         paintGreenBlock = new PaintInstruction(this, 1000, 425, paintGreenBlockImage, "green");
         PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
         paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
+        PImage paintLightBlockImage = loadImage("src/main/images/paint_light.png");
+        paintLightBlock = new PaintInstruction(this, 1000, 575, paintLightBlockImage, "light");
+        PImage paintDarkBlockImage = loadImage("src/main/images/paint_dark.png");
+        paintDarkBlock = new PaintInstruction(this, 1000, 650, paintDarkBlockImage, "dark");
         PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
 
         PImage fast = loadImage("src/main/images/hare.png");
-        fastButton = new Speed(this, 1050, 645, fast, true);
+        fastButton = new Speed(this, 850, 645, fast, true);
         PImage slow = loadImage("src/main/images/turtle.png");
-        slowButton = new Speed(this, 850, 650, slow, false);
+        slowButton = new Speed(this, 700, 660, slow, false);
 
         playButton = new PlayButtonGUI(this, 180, 620, startButtonImg);
 
@@ -81,7 +83,7 @@ public class Driver extends PApplet{
         worldData.setLevel(map);
         level.saveHashMap(map);
 
-        originalInstructions = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock};
+        originalInstructions = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock};
     }
 
     public void loadImages() {
@@ -135,6 +137,8 @@ public class Driver extends PApplet{
         paintBlueBlock.drag();
         paintGreenBlock.drag();
         paintRedBlock.drag();
+        paintLightBlock.drag();
+        paintDarkBlock.drag();
 
         for (Instruction currInstruction : InstructionList.getInstance().getSortedInstructions()) {
             currInstruction.drag();

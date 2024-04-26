@@ -77,6 +77,9 @@ public final class WorldView implements PropertyChangeListener {
                 screen.text('◆', diamondX, diamondY );
             }
         }
+    }
+
+    public void drawSpider() {
         String imgPath = IMAGEFOLDERPATH;
         switch ( spider[2] ) {
             case 1:
@@ -97,27 +100,17 @@ public final class WorldView implements PropertyChangeListener {
 
     public void drawPaint() {
         for ( Point p : tileMap.keySet() ) {
-            switch ( tileMap.get(p) ){
-                case "red":
-                    screen.fill( screen.color( 255, 89, 94 ), 99 );
-                    break;
-                case "blue":
-                    screen.fill( screen.color( 63, 166, 231 ), 99 );
-                    break;
-                case "green":
-                    screen.fill( screen.color( 138, 201, 38 ), 99 );
-                    break;
-                default:
-                    screen.fill( bgColor );
-            }
+            int[] color = PaintMixer.getPaintColor(p);
+            screen.fill( color[0], color[1], color[2] );
             screen.rect(leftPadding + tileWidth * ( p.getX() ), topPadding + tileWidth * ( p.getY() ), tileWidth, tileWidth );
         }
     }
 
     public void drawWorld() {
         drawGrid();
-        drawDiamonds();
         drawPaint();
+        drawDiamonds();
+        drawSpider();
     }
 
     @Override
