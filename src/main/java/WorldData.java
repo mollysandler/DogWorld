@@ -13,7 +13,7 @@ public final class WorldData extends PropertyChangeSupport {
     private HashMap <String, ArrayList <Point>> levelMap;
     private HashMap <Point, String> tileMap;
     private int[] spider, bgColor;
-    private int speed = 500;
+    private int speed = 250;
     private boolean gameState;
 
     private WorldData() {
@@ -32,7 +32,7 @@ public final class WorldData extends PropertyChangeSupport {
         return worldData;
     }
     public void setSpeed(int speed) {
-        this.speed = speed * 50;
+        this.speed = speed * 5;
     }
 
     public int getSpeed() {

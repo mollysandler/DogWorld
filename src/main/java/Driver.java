@@ -212,7 +212,6 @@ public class Driver extends PApplet{
     }
     public void handleSliderEvents(GSlider slider, GEvent event){
         if (slider == speedSlider && event == GEvent.RELEASED){
-//            println(slider.getValueI());
             WorldData.getWorldData().setSpeed(slider.getValueI());
         }
     }
