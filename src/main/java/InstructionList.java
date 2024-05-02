@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 public class InstructionList {
     private static InstructionList instance;
-    private List<Instruction> instructions;
+    private static List<Instruction> instructions;
 
     private InstructionList() {
         instructions = new ArrayList<>();
@@ -36,3 +36,4 @@ public class InstructionList {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }
+

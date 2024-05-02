@@ -2,6 +2,8 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static processing.core.PApplet.println;
+
 /**
  * @author Jemma Arona
  */
@@ -11,6 +13,8 @@ public final class WorldData extends PropertyChangeSupport {
     private HashMap <String, ArrayList <Point>> levelMap;
     private HashMap <Point, String> tileMap;
     private int[] spider, bgColor;
+    private int speed = 500;
+    private boolean gameState;
 
     private WorldData() {
         super( new Object() );
@@ -26,6 +30,13 @@ public final class WorldData extends PropertyChangeSupport {
             worldData = new WorldData();
         }
         return worldData;
+    }
+    public void setSpeed(int speed) {
+        this.speed = speed * 50;
+    }
+
+    public int getSpeed() {
+        return speed;
     }
 
     public void setLevel( HashMap <String, ArrayList<Point>> level ) {
@@ -73,6 +84,13 @@ public final class WorldData extends PropertyChangeSupport {
         return tileMap;
     }
 
+    public void setGameState(boolean gameState) {
+        this.gameState = gameState;
+    }
+    public boolean getGameState(){
+        return this.gameState;
+    }
+
     public void paintTile( int x, int y, String color ) {
         PaintMixer.addPaint( x, y, color );
         firePropertyChange( "visible", null, true );
@@ -88,6 +106,12 @@ public final class WorldData extends PropertyChangeSupport {
         } catch ( NullPointerException e ) {
             moveSpider( 0, 0, 0 );
         }
+    }
+
+    public void sandboxWorld(){
+        tileMap.clear();
+        println("cleared");
+
     }
 }
 

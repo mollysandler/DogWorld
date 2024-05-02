@@ -23,16 +23,7 @@ public final class WorldView implements PropertyChangeListener {
     public WorldView(PApplet screen) {
         this.screen = screen;
     }
-//    public int[] getSpider() {
-//        return spider;
-//    }
-//
-//    public void readLevel() {
-////        edit if level has different size or background color
-//        numRows = 5;
-//        tileWidth = 60;
-//        bgColor = screen.color( 110, 113, 132 );
-//    }
+
 
     public void drawGrid() {
         screen.fill( bgColor );
@@ -46,6 +37,22 @@ public final class WorldView implements PropertyChangeListener {
             screen.line( leftPadding + tileWidth * col, topPadding,
                     leftPadding + tileWidth * col, topPadding + tileWidth * numRows );
         }
+    }
+
+    public void drawSandGrid(){
+        screen.color(50, 50, 50);
+        screen.fill(211, 211, 210);
+        screen.stroke(0, 0, 250);
+        screen.rect( leftPadding, topPadding, tileWidth * numRows, tileWidth * numRows );
+        for ( int row = 1; row < numRows; row++ ) {
+            screen.line( leftPadding, topPadding + tileWidth * row,
+                    leftPadding + tileWidth * numRows, topPadding + tileWidth * row );
+        }
+        for ( int col = 1; col < numRows; col++ ) {
+            screen.line( leftPadding + tileWidth * col, topPadding,
+                    leftPadding + tileWidth * col, topPadding + tileWidth * numRows );
+        }
+
     }
 
     public void drawDiamonds() {

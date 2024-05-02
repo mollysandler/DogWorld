@@ -1,4 +1,9 @@
+import g4p_controls.GConstants;
+import g4p_controls.GEvent;
+import g4p_controls.GImageButton;
+import g4p_controls.GSlider;
 import processing.core.PApplet;
+import processing.core.PFont;
 import processing.core.PImage;
 
 import java.util.ArrayList;
@@ -13,20 +18,34 @@ public class Driver extends PApplet{
     private WorldData worldData;
     private final WorldView worldView = new WorldView(this);
     private LoadLevels level;
-    private Instruction[] originalInstructions;
+    private OriginalInstructions originalInstructions;
     private StepInstruction stepBlock;
     private TurnInstruction turnBlock;
     private PaintInstruction paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock;
     private PImage closedDelete;
     private PImage openedDelete;
-    private PlayButtonGUI playButton;
+    private InstructionList instructionCopies = InstructionList.getInstance();
 
     private LevelSelectorGUI levelSelector;
     private static int currentLevel = 1;
 
-    private Speed fastButton;
-    private Speed slowButton;
-    private final InstructionList instructionCopies = InstructionList.getInstance();
+
+    private GImageButton btnPlay;
+
+    private GImageButton sandboxBtn;
+
+    private GImageButton mainWorldBtn;
+
+    private GSlider speedSlider;
+
+    enum ScreenState {
+        MAIN,
+        SANDBOX
+
+    }
+
+    ScreenState currentState = ScreenState.MAIN;
+    DragAndDropManager dragAndDropManager;
 
     @Override
     public void settings(){
@@ -49,20 +68,34 @@ public class Driver extends PApplet{
         paintLightBlock = new PaintInstruction(this, 1000, 575, paintLightBlockImage, "light");
         PImage paintDarkBlockImage = loadImage("src/main/images/paint_dark.png");
         paintDarkBlock = new PaintInstruction(this, 1000, 650, paintDarkBlockImage, "dark");
-        PImage startButtonImg = loadImage("src/main/images/playButtonImg.png");
-
-        PImage fast = loadImage("src/main/images/hare.png");
-        fastButton = new Speed(this, 850, 645, fast, true);
-        PImage slow = loadImage("src/main/images/turtle.png");
-        slowButton = new Speed(this, 700, 660, slow, false);
-
-        playButton = new PlayButtonGUI(this, 180, 620, startButtonImg);
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
         closedDelete.resize(100, 150);
         openedDelete = loadImage("src/main/images/trash2.png");
         openedDelete.resize(100, 150);
+
+
+        String[] playButtonImgs = {"src/main/images/playButtonImg.png"};
+        btnPlay = new GImageButton(this, 180, 615, playButtonImgs);
+        btnPlay.addEventHandler(this, "handleButtonEvents");
+
+        String[] sandboxButtonImage = {"src/main/images/sandbox.png"};
+        String[] homeButtonImage = {"src/main/images/home.png"};
+
+        sandboxBtn = new GImageButton(this, 1000, 100, 100, 100, sandboxButtonImage);
+        sandboxBtn.addEventHandler(this, "handleSandboxEvents");
+
+        mainWorldBtn = new GImageButton(this, 1000, 100, 100, 100, homeButtonImage);
+        mainWorldBtn.addEventHandler(this, "handleMainWorldButtonEvents");
+        mainWorldBtn.setVisible(false);
+
+        speedSlider = new GSlider(this, 25, 475, 275, 100, 30);
+        speedSlider.setLimits(50, 0, 100); // initial, left, right
+        speedSlider.setNbrTicks(3);
+        speedSlider.setShowTicks(true);
+        speedSlider.setLocalColorScheme(GConstants.ORANGE_SCHEME);
+        speedSlider.addEventHandler(this, "handleSliderEvents");
     }
 
     @Override
@@ -83,7 +116,9 @@ public class Driver extends PApplet{
         worldData.setLevel(map);
         level.saveHashMap(map);
 
-        originalInstructions = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock};
+        originalInstructions = new OriginalInstructions(stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock);
+
+        dragAndDropManager = new DragAndDropManager(this, closedDelete);
     }
 
     public void loadImages() {
@@ -111,13 +146,24 @@ public class Driver extends PApplet{
     public static void setLevel(int l) {
         currentLevel = l;
     }
-  
-    @Override
-    public void draw() {
-        background(100, 100, 100);
-        playButton.display();
 
-        for (Instruction currInstruction : originalInstructions) {
+    public void draw() {
+        switch (currentState) {
+            case MAIN:
+                drawMain();
+                break;
+            case SANDBOX:
+                drawSandbox();
+                break;
+        }
+
+    }
+
+    public void drawMain() {
+        background(100, 100, 100);
+        mainWorldBtn.setVisible(false);
+
+        for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
         }
 
@@ -130,88 +176,84 @@ public class Driver extends PApplet{
             image(closedDelete, 60, 600);
         }
 
-        //make blocks draggable
         worldView.drawWorld();
-        stepBlock.drag();
-        turnBlock.drag();
-        paintBlueBlock.drag();
-        paintGreenBlock.drag();
-        paintRedBlock.drag();
-        paintLightBlock.drag();
-        paintDarkBlock.drag();
+        sandboxBtn.setVisible(true);
+        sandboxBtn.setEnabled(true);
+        btnPlay.setEnabled(true);
+        btnPlay.setVisible(true);
+        speedSlider.setEnabled(true);
+        speedSlider.setVisible(true);
 
-        for (Instruction currInstruction : InstructionList.getInstance().getSortedInstructions()) {
-            currInstruction.drag();
-            currInstruction.display();
-        }
-        fastButton.display();
-        slowButton.display();
+        btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
+
+        dragAndDropManager.makeDraggable();
         levelSelector.display();
+    }
+
+    public void drawSandbox(){
+        background(190, 164, 132);
+        worldView.drawSandGrid();
+        mainWorldBtn.setVisible(true);
+        PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
+        textFont(font);
+        textAlign(CENTER, TOP);
+
+        text("Welcome to SandBox", (float) width / 2,  50);
+
+    }
+    public void handleButtonEvents(GImageButton imagebutton, GEvent event){
+        if (imagebutton == btnPlay && event == GEvent.CLICKED){
+            WorldData.getWorldData().resetWorld();
+            WorldData.getWorldData().setGameState(true);
+            PlayButtonFunc playButtonFunc = new PlayButtonFunc();
+            Thread t1 = new Thread(playButtonFunc);
+            t1.start();
+        }
+    }
+    public void handleSliderEvents(GSlider slider, GEvent event){
+        if (slider == speedSlider && event == GEvent.RELEASED){
+//            println(slider.getValueI());
+            WorldData.getWorldData().setSpeed(slider.getValueI());
+        }
+    }
+
+    public void handleSandboxEvents(GImageButton sandButton, GEvent event){
+        if (sandButton == sandboxBtn && event == GEvent.CLICKED){
+            cleanUpMain();
+            currentState = ScreenState.SANDBOX;
+            // println("Switched to sandbox");
+        }
+    }
+
+    public void handleMainWorldButtonEvents(GImageButton mainButton, GEvent event){
+        if (mainButton == mainWorldBtn && event == GEvent.CLICKED){
+            currentState = ScreenState.MAIN;
+            // Clean up Sandbox
+        }
+    }
+
+    public void cleanUpMain(){
+        worldData.resetWorld();
+        btnPlay.setVisible(false);
+        btnPlay.setEnabled(false);
+        sandboxBtn.setVisible(false);
+        sandboxBtn.setEnabled(false);
+        speedSlider.setVisible(false);
     }
 
 
     @Override
     public void mousePressed() {
         levelSelector.mousePressed();
-        playButton.mousePressed();
         levelSelector.mousePressed();
-        fastButton.mousePressed();
-        slowButton.mousePressed();
-        //when on original blocks, will create copies and will automatically be dragging copies
-        for(Instruction currInstruction: originalInstructions) {
-            if (currInstruction.isMouseOver()) {
-                Instruction copy = null; // Create a copy
-                try {
-                    copy = currInstruction.clone();
-                } catch (CloneNotSupportedException e) {
-                    throw new RuntimeException(e);
-                }
-                copy.mousePressed();
-                instructionCopies.addInstruction(copy); // Add the copy to the list
-                break;
-            }
-        }
-        //lets you drag around copies that you've dropped
-        for (Instruction copy : InstructionList.getInstance().getSortedInstructions()) {
-            copy.mousePressed();
-        }
+        dragAndDropManager.mousePressed();
     }
 
     @Override
     public void mouseReleased() {
-        List<Instruction> instructions = instructionCopies.getSortedInstructions();
-        List<Instruction> newInstructions = new ArrayList<>(instructions);
-
-        //dealing with release of instruction over trash can
-        for (Instruction currInstruction : instructions) {
-            currInstruction.isDragging = false;
-            if(currInstruction.getxPos() < 100 + closedDelete.width && currInstruction.getxPos() + 100 > 100 && currInstruction.getyPos() < 600 + closedDelete.height && currInstruction.getyPos() + 60 > 600 && currInstruction.isMouseOver()){
-                newInstructions.remove(currInstruction);
-            }
-        }
-
-        instructionCopies.setInstructions(newInstructions);
-        instructions = instructionCopies.getSortedInstructions();
-
-        // Snapping to other blocks
-        for (int i = 0; i < instructions.size(); i++) {
-            for (int j = 0; j < instructions.size(); j++) {
-                if (i == j) continue;
-                Instruction a = instructions.get(i);
-                Instruction b = instructions.get(j);
-
-                if (a.toSnap(b)) {
-                    if (a.yPos < b.yPos) {
-                        b.xPos = a.xPos;
-                        b.yPos = a.yPos + 50;
-                    } else {
-                        a.xPos = b.xPos;
-                        a.yPos = b.yPos + 50;
-                    }
-                }
-            }
-        }
+        dragAndDropManager.mouseReleased();
     }
+
 
     public static void main(String[] args) {
         String[] processingArgs = {"Driver"};
