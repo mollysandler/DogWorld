@@ -38,13 +38,16 @@ public class LevelSelectorGUI extends PApplet {
     }
 
     public void mousePressed() {
+        try {
+            System.out.println(Weather.getTemperature());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         int offset = 0;
         int level = 1;
         for (PImage image : imgs) {
             if ((screen.mouseX > 50 + offset) && (screen.mouseX < 50 + offset + image.width + 10) &&
                     (screen.mouseY > 15) && (screen.mouseY < 15 + image.height + 10)) {
-                System.out.println(level);
-                //Driver.setLevel(level);
                 LoadLevels l = new LoadLevels(level);
                 WorldData.getWorldData().setLevel(l.loadHashMap());
                 break;

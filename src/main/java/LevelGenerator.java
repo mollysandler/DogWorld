@@ -60,7 +60,11 @@ public class LevelGenerator {
         ArrayList<Point> dimensions = new ArrayList<>();
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(35.302990, -120.667650));
+
+        Point logXlat = new Point(35.302990, -120.667650);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -97,7 +101,11 @@ public class LevelGenerator {
         ArrayList<Point> dimentions = new ArrayList<>();
         dimentions.add(rowsXcols);
         map.put("dimensions", dimentions);
-        map.put("location", new Point(21.128103, -101.684652));
+
+        Point logXlat = new Point(21.128103, -101.684652);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -136,7 +144,11 @@ public class LevelGenerator {
         ArrayList<Point> dimensions = new ArrayList<>();
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(32.312691, -64.741543));
+
+        Point logXlat = new Point(32.312691, -64.741543);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -171,7 +183,11 @@ public class LevelGenerator {
         ArrayList<Point> dimensions = new ArrayList<>();
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(3.408819, -73.093863));
+
+        Point logXlat = new Point(3.408819, -73.093863);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -208,7 +224,11 @@ public class LevelGenerator {
         ArrayList<Point> dimensions = new ArrayList<>();
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(-35.471097, -65.098419));
+
+        Point logXlat = new Point(-35.471097, -65.098419);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -252,7 +272,11 @@ public class LevelGenerator {
         ArrayList<Point> dimensions = new ArrayList<>();
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(-21.304608, 46.156031));
+
+        Point logXlat = new Point(-21.304608, 46.156031);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -283,7 +307,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(-30.992229, 24.224748));
+
+        Point logXlat = new Point(-30.992229, 24.224748);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -321,7 +349,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(17.708655, -1.752516));
+
+        Point logXlat = new Point(17.708655, -1.752516);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -368,7 +400,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(39.400499, -3.280582));
+
+        Point logXlat = new Point(39.400499, -3.280582);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -405,7 +441,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(39.566565, -8.619381));
+
+        Point logXlat = new Point(39.566565, -8.619381);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -450,7 +490,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(46.539692, 2.411616));
+
+        Point logXlat = new Point(46.539692, 2.411616);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -489,7 +533,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(42.858246, 12.447456));
+
+        Point logXlat = new Point(42.858246, 12.447456);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -546,7 +594,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(52.773781, 18.638980));
+
+        Point logXlat = new Point(52.773781, 18.638980);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -595,7 +647,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(54.740789, -2.629444));
+
+        Point logXlat = new Point(54.740789, -2.629444);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -648,7 +704,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(55.406666, 10.025383));
+
+        Point logXlat = new Point(55.406666, 10.025383);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -687,7 +747,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(64.953823, -18.667527));
+
+        Point logXlat = new Point(64.953823, -18.667527);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -726,7 +790,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(34.792269, 103.647665));
+
+        Point logXlat = new Point(34.792269, 103.647665);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -763,7 +831,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(61.851756, 98.782434));
+
+        Point logXlat = new Point(61.851756, 98.782434);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -802,7 +874,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(-25.363802, 134.210544));
+
+        Point logXlat = new Point(-25.363802, 134.210544);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }
@@ -841,7 +917,11 @@ public class LevelGenerator {
         map.put("green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
-        map.put("location", new Point(36.557594, 138.489280));
+
+        Point logXlat = new Point(36.557594, 138.489280);
+        ArrayList<Point> logXlats = new ArrayList<>();
+        logXlats.add(logXlat);
+        map.put("location", logXlats);
 
         lvl.saveHashMap(map);
     }

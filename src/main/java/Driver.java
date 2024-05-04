@@ -8,7 +8,6 @@ import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Molly Sandler
@@ -100,7 +99,6 @@ public class Driver extends PApplet{
 
     @Override
     public void setup(){
-
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
         LevelGenerator.makeLevels();
@@ -114,7 +112,12 @@ public class Driver extends PApplet{
 
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
-        level.saveHashMap(map);
+
+        try {
+            System.out.println(Weather.getTemperature());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         originalInstructions = new OriginalInstructions(stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock);
 
@@ -243,7 +246,6 @@ public class Driver extends PApplet{
 
     @Override
     public void mousePressed() {
-        levelSelector.mousePressed();
         levelSelector.mousePressed();
         dragAndDropManager.mousePressed();
     }

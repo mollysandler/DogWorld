@@ -31,4 +31,9 @@ class Point extends ArrayList<Point> implements Serializable {
         if ( !( o instanceof Point p ) ) return false;
         return p.getX() == x && p.getY() == y;
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }
