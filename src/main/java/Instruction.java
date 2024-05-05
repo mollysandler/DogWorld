@@ -21,6 +21,7 @@ public class Instruction implements Draggable, Cloneable {
         this.xPos = xPos;
         this.yPos = yPos;
         this.img = img;
+        this.skill = skill;
         this.isDragging = false;
         width = img.width;
         height = img.height;
