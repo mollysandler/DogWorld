@@ -1,7 +1,9 @@
 package Dog;
 
 import com.fazecast.jSerialComm.*;
-
+/**
+ * @author Ivan Martinez
+ */
 public class Camera {
     private SerialPort camera;
 
