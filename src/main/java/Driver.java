@@ -8,7 +8,6 @@ import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * @author Molly Sandler
@@ -26,7 +25,7 @@ public class Driver extends PApplet{
     private PImage openedDelete;
     private InstructionList instructionCopies = InstructionList.getInstance();
 
-    private LevelSelectorGUI levelSelector;
+    private LevelSelector levelSelector;
     private static int currentLevel = 1;
 
 
@@ -109,7 +108,7 @@ public class Driver extends PApplet{
         //gets all the buttons and blocks on the board
         buttonDisplay();
 
-        levelSelector = new LevelSelectorGUI(this, 60, 40);
+        levelSelector = new LevelSelector(this, 60, 40);
         this.loadImages();
 
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
@@ -119,6 +118,7 @@ public class Driver extends PApplet{
         originalInstructions = new OriginalInstructions(stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock);
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
+        levelSelector.initButtons();
     }
 
     public void loadImages() {
@@ -187,7 +187,8 @@ public class Driver extends PApplet{
         btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
 
         dragAndDropManager.makeDraggable();
-        levelSelector.display();
+        levelSelector.displayNavBar();
+
     }
 
     public void drawSandbox(){
@@ -243,8 +244,6 @@ public class Driver extends PApplet{
 
     @Override
     public void mousePressed() {
-        levelSelector.mousePressed();
-        levelSelector.mousePressed();
         dragAndDropManager.mousePressed();
     }
 
