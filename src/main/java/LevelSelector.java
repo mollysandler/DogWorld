@@ -26,9 +26,6 @@ public class LevelSelector{
     }
 
 
-
-
-
     public void displayButtons(){
         int level = 1;
         int offset = 0;
@@ -66,6 +63,12 @@ public class LevelSelector{
     public void hideButtons(){
         for (GImageButton button : buttons.keySet()){
             button.setVisible(false);
+        }
+    }
+
+    public void showButtons(){
+        for (GImageButton button : buttons.keySet()){
+            button.setVisible(true);
         }
     }
 

@@ -13,13 +13,15 @@ public class Instruction implements Draggable, Cloneable {
     private boolean isDragging;
     private int xOffset;
     private int yOffset;
+    private String skill;
 
 
-    public Instruction(PApplet screen, int xPos, int yPos, PImage img){
+    public Instruction(PApplet screen, int xPos, int yPos, PImage img, String skill){
         this.screen = screen;
         this.xPos = xPos;
         this.yPos = yPos;
         this.img = img;
+        this.skill = skill;
         this.isDragging = false;
         width = img.width;
         height = img.height;
@@ -81,5 +83,10 @@ public class Instruction implements Draggable, Cloneable {
     public void setIsDragging(boolean newIsDragging) {
         this.isDragging = newIsDragging;
     }
+
+    public String getSkill() {
+        return this.skill;
+    }
 }
+
 

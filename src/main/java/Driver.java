@@ -115,8 +115,9 @@ public class Driver extends PApplet{
         originalInstructions = new OriginalInstructions(stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock);
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
+        levelSelector.displayButtons();
 
-        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
+//        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
     }
 
@@ -187,7 +188,7 @@ public class Driver extends PApplet{
         dragAndDropManager.makeDraggable();
 
         levelSelector.displayNavBar();
-        levelSelector.displayButtons();
+
 
     }
 
@@ -229,6 +230,7 @@ public class Driver extends PApplet{
     public void handleMainWorldButtonEvents(GImageButton mainButton, GEvent event){
         if (mainButton == mainWorldBtn && event == GEvent.CLICKED){
             currentState = ScreenState.MAIN;
+            levelSelector.showButtons();
             // Clean up Sandbox
         }
     }

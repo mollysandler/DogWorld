@@ -3,7 +3,9 @@ import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Riya Badadare
+ */
 public class DragAndDropManager {
     private PApplet screen;
     private InstructionList instructions;
@@ -11,8 +13,6 @@ public class DragAndDropManager {
     private InstructionList instructionCopies = InstructionList.getInstance();
 
     public DragAndDropManager(PApplet screen, PImage closedDelete) {
-//        this.screen = screen;
-//        this.instructions = InstructionList.getInstance();
         this.closedDelete = closedDelete;
     }
 

@@ -1,3 +1,7 @@
+import Dog.Skill;
+
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -13,9 +17,14 @@ public class PlayButtonFunc implements Runnable{
         InstructionList instructionList = InstructionList.getInstance();
 
         List<Instruction> instructions = instructionList.getSortedInstructions();
+
+
         int[] dataSpider = myData.getSpider();
+        List<String> commands = new ArrayList<>();
+
         //per instruction send each instruction to their respective function
         for(Instruction instruction:instructions) {
+            commands.add(instruction.getSkill());
             try {
                 Thread.sleep(myData.getSpeed());
             } catch (InterruptedException e) {
@@ -30,6 +39,17 @@ public class PlayButtonFunc implements Runnable{
                 String color = ((PaintInstruction) instruction).getColor();
                 myData.paintTile(dataSpider[0], dataSpider[1], color);
             }
+        }
+
+
+
+        commands.add("perform");
+        commands.add("exit");
+        OurSkill sk = new OurSkill();
+        try {
+            sk.RobotSkillSet(commands);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         WorldData.getWorldData().setGameState(false);
     }
