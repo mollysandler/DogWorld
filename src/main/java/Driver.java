@@ -1,7 +1,4 @@
-import g4p_controls.GConstants;
-import g4p_controls.GEvent;
-import g4p_controls.GImageButton;
-import g4p_controls.GSlider;
+import g4p_controls.*;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
@@ -28,7 +25,7 @@ public class Driver extends PApplet{
     private LevelSelector levelSelector;
     private static int currentLevel = 1;
 
-
+    private GPanel blockPanel;
     private GImageButton btnPlay;
 
     private GImageButton sandboxBtn;
@@ -118,7 +115,9 @@ public class Driver extends PApplet{
         originalInstructions = new OriginalInstructions(stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock);
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
-        levelSelector.initButtons();
+
+        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
+
     }
 
     public void loadImages() {
@@ -143,9 +142,7 @@ public class Driver extends PApplet{
             }
         }
     }
-    public static void setLevel(int l) {
-        currentLevel = l;
-    }
+
 
     public void draw() {
         switch (currentState) {
@@ -162,6 +159,7 @@ public class Driver extends PApplet{
     public void drawMain() {
         background(100, 100, 100);
         mainWorldBtn.setVisible(false);
+
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
@@ -187,7 +185,9 @@ public class Driver extends PApplet{
         btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
 
         dragAndDropManager.makeDraggable();
+
         levelSelector.displayNavBar();
+        levelSelector.displayButtons();
 
     }
 
@@ -195,6 +195,7 @@ public class Driver extends PApplet{
         background(190, 164, 132);
         worldView.drawSandGrid();
         mainWorldBtn.setVisible(true);
+        levelSelector.hideButtons();
         PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
         textFont(font);
         textAlign(CENTER, TOP);

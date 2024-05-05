@@ -25,7 +25,11 @@ public class LevelSelector{
         this.imgs = new ArrayList<>();
     }
 
-    public void initButtons(){
+
+
+
+
+    public void displayButtons(){
         int level = 1;
         int offset = 0;
         for (PImage image : imgs){
@@ -57,6 +61,12 @@ public class LevelSelector{
         screen.rect(xPos - 25, yPos - 10, 1130, 60);
         screen.circle(xPos - 20, yPos + 20, 62);
         screen.circle(xPos + 1095, yPos + 20, 62);
+    }
+
+    public void hideButtons(){
+        for (GImageButton button : buttons.keySet()){
+            button.setVisible(false);
+        }
     }
 
 }
