@@ -3,6 +3,9 @@ package Dog;//
 // (powered by FernFlower decompiler)
 //
 
+/**
+ * @author Ivan Martinez
+ */
 import java.io.IOException;
 import java.util.Scanner;
 

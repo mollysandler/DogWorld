@@ -3,7 +3,9 @@ import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @author Riya Badadare
+ */
 public class DragAndDropManager {
     private PApplet screen;
     private InstructionList instructions;

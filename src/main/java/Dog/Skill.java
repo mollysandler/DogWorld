@@ -2,7 +2,9 @@ package Dog;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-
+/**
+ * @author Ivan Martinez
+ */
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
