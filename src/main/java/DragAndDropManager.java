@@ -11,8 +11,6 @@ public class DragAndDropManager {
     private InstructionList instructionCopies = InstructionList.getInstance();
 
     public DragAndDropManager(PApplet screen, PImage closedDelete) {
-//        this.screen = screen;
-//        this.instructions = InstructionList.getInstance();
         this.closedDelete = closedDelete;
     }
 
