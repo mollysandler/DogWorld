@@ -83,5 +83,10 @@ public class Instruction implements Draggable, Cloneable {
     public void setIsDragging(boolean newIsDragging) {
         this.isDragging = newIsDragging;
     }
+
+    public String getSkill(String skill) {
+        return this.skill;
+    }
 }
+
 
