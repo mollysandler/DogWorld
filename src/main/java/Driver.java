@@ -99,11 +99,11 @@ public class Driver extends PApplet{
 
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
-        try {
-            LevelGenerator.makeLevels();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            LevelGenerator.makeLevels();
+//        } catch (Exception e) {
+//            throw new RuntimeException(e);
+//        }
         level = new LoadLevels(currentLevel);
 
         //gets all the buttons and blocks on the board
