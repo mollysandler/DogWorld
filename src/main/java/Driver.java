@@ -25,7 +25,7 @@ public class Driver extends PApplet{
     private LevelSelector levelSelector;
     private static int currentLevel = 1;
 
-    private GPanel blockPanel;
+    private BlockPanel blockPanel;
     private GImageButton btnPlay;
 
     private GImageButton sandboxBtn;
@@ -117,7 +117,7 @@ public class Driver extends PApplet{
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         levelSelector.displayButtons();
 
-//        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
+        blockPanel = new BlockPanel(this, 325, 215, 875, 685, closedDelete);
 
     }
 
@@ -188,6 +188,8 @@ public class Driver extends PApplet{
         dragAndDropManager.makeDraggable();
 
         levelSelector.displayNavBar();
+
+//        blockPanel.draw();
 
 
     }
