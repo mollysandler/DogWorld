@@ -24,11 +24,11 @@ public class OurSkill {
         return (String)skillMap.get(skillKey);
     }
 
-    public void RobotSkillSet(List<String> commands) throws IOException {
+    public void RobotSkillSet(List<String> commands) throws IOException, InterruptedException {
         List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
 
         /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
-        SerialPort robotConnection = SerialPort.getCommPort("COM7"); //port to which robot is communicating
+        SerialPort robotConnection = SerialPort.getCommPort("COM4"); //port to which robot is communicating
 
         robotConnection.openPort();
 
@@ -45,11 +45,13 @@ public class OurSkill {
                 System.out.println("Read " + numRead + " bytes.");
             }
         });
+        Thread.sleep(4000);
 
         for(String command : commands){
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
 
             if (command.equalsIgnoreCase("exit")) { //if an exit is called close the serial port
+
 //                robotConnection.closePort();
                 return; //loops until an exit is called
             }
@@ -61,6 +63,7 @@ public class OurSkill {
                 PerformSkills(skillSet, robotConnection);
                 skillSet.clear();
                 printAllSkills();
+                Thread.sleep(4000);
 
             }
             else if (commandSerial == null){ //if a command is not found let the user know
@@ -82,7 +85,6 @@ public class OurSkill {
 
     //send all the desired skills in the skillSet to the robot to be performed
     public void PerformSkills(List<String> skillSet, SerialPort robotConnection) throws IOException {
-
 
         OutputStream outputStream = robotConnection.getOutputStream(); //creates an output stream to the serial port
         long duration = 5000L;
@@ -132,6 +134,7 @@ public class OurSkill {
         skillMap.put("look_around", "kck");
     }
 }
+
 /*
 ALL POSSIBLE INPUTS FROM OPENCAT
 ['kbalance','kbuttUp','kcalib','kdropped','klifted','klnd','krest','ksit','kstr',
