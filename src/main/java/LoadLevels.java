@@ -25,7 +25,7 @@ class LoadLevels {
 
     // Loading existing level file
     public HashMap<String, ArrayList<Point>> loadHashMap() {
-        String fileName = "src/main/Levels/" +"level" + this.curLevel;
+        String fileName = "src/main/Levels/" + "level" + this.curLevel;
         HashMap<String, ArrayList<Point>> map = null;
 
         try (FileInputStream fis = new FileInputStream(fileName);
