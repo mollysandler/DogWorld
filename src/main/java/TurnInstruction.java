@@ -15,4 +15,7 @@ public class TurnInstruction extends Instruction {
     public String toString() {
         return "turn";
     }
+
+    @Override
+    public void runAction(){}
 }

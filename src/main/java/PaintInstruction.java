@@ -23,4 +23,7 @@ public class PaintInstruction extends Instruction {
     public String getColor() {
         return this.color;
     }
+
+    @Override
+    public void runAction(){}
 }

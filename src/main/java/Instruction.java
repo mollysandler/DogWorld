@@ -3,7 +3,7 @@ import processing.core.PImage;
 /**
  * @author Riya Badadare
  */
-public class Instruction implements Draggable, Cloneable {
+public abstract class Instruction implements Draggable, Cloneable {
     final PImage img;
     private PApplet screen;
     private int xPos;
@@ -87,6 +87,8 @@ public class Instruction implements Draggable, Cloneable {
     public String getSkill() {
         return this.skill;
     }
+
+    public abstract void runAction();
 }
 
 

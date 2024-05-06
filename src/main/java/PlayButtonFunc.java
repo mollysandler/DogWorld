@@ -38,6 +38,8 @@ public class PlayButtonFunc implements Runnable{
             } else if (instruction instanceof PaintInstruction) {
                 String color = ((PaintInstruction) instruction).getColor();
                 myData.paintTile(dataSpider[0], dataSpider[1], color);
+            } else if (instruction instanceof EraseInstruction) {
+                instruction.runAction();
             }
         }
 

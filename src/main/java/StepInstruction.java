@@ -15,4 +15,7 @@ public class StepInstruction extends Instruction{
     public String toString() {
         return "step";
     }
+
+    @Override
+    public void runAction(){}
 }
