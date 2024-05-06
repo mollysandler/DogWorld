@@ -9,7 +9,7 @@ public class PaintInstruction extends Instruction {
     private String color;
 
     public PaintInstruction(PApplet screen, int xPos, int yPos, PImage img, String color) {
-        super(screen, xPos, yPos, img, "wave");
+        super(screen, xPos, yPos, img, "sit");
         this.color = color;
     }
     @Override
