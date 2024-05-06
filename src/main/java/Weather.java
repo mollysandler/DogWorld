@@ -12,7 +12,8 @@ import java.net.URLConnection;
 public class Weather extends JPanel {
 
     static String apiKeyPath = "keys/WeatherAPIKey";
-    // Jemma key: XGUyxtVpHGGAcGuYqKsT9vPDAzLVRiXG
+    // key: qdUL9O9zA0UD9fo5vdJ5A6aWAJ2ibkXF
+    //      XGUyxtVpHGGAcGuYqKsT9vPDAzLVRiXG
 
     public static double getTemperature(String location) throws Exception {
         FileInputStream apiKeyFile = new FileInputStream(apiKeyPath);

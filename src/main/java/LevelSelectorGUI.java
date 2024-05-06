@@ -45,7 +45,7 @@ public class LevelSelectorGUI extends PApplet {
                     (screen.mouseY > 15) && (screen.mouseY < 15 + image.height + 10)) {
                 LoadLevels l = new LoadLevels(level);
                 WorldData.getWorldData().setLevel(l.loadHashMap());
-                double temperature =l.loadHashMap().get("weather").get(0).getX();
+                double temperature = l.loadHashMap().get("weather").get(0).getX();
                 System.out.println(temperature);
                 break;
             }
