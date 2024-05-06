@@ -20,6 +20,10 @@ class Point extends ArrayList<Point> implements Serializable {
         return (int)this.y;
     }
 
+    public String getLonXLat() {
+        return Double.toString(this.x) + Double.toString(this.y);
+    }
+
     @Override
     public int hashCode() {
         return (int)((7 * 31 + this.x) * 31 + this.y);
