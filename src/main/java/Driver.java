@@ -18,6 +18,7 @@ public class Driver extends PApplet{
     private StepInstruction stepBlock;
     private TurnInstruction turnBlock;
     private PaintInstruction paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock;
+    private EraseInstruction eraseBlock;
     private PImage closedDelete;
     private PImage openedDelete;
     private InstructionList instructionCopies = InstructionList.getInstance();
@@ -64,6 +65,8 @@ public class Driver extends PApplet{
         paintLightBlock = new PaintInstruction(this, 1000, 575, paintLightBlockImage, "light");
         PImage paintDarkBlockImage = loadImage("src/main/images/paint_dark.png");
         paintDarkBlock = new PaintInstruction(this, 1000, 650, paintDarkBlockImage, "dark");
+        PImage eraseBlockImage = loadImage("src/main/images/erase.png");
+        eraseBlock = new EraseInstruction(this, 1000, 725, eraseBlockImage);
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
@@ -112,7 +115,16 @@ public class Driver extends PApplet{
         worldData.setLevel(map);
         level.saveHashMap(map);
 
-        originalInstructions = new OriginalInstructions(stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock);
+        originalInstructions = new OriginalInstructions(
+                stepBlock,
+                turnBlock,
+                paintBlueBlock,
+                paintGreenBlock,
+                paintRedBlock,
+                paintLightBlock,
+                paintDarkBlock,
+                eraseBlock
+        );
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         levelSelector.displayButtons();

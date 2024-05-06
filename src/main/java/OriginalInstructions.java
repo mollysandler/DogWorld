@@ -11,9 +11,10 @@ public class OriginalInstructions {
                                 PaintInstruction paintGreenBlock,
                                 PaintInstruction paintRedBlock,
                                 PaintInstruction paintLightBlock,
-                                PaintInstruction paintDarkBlock) {
+                                PaintInstruction paintDarkBlock,
+                                EraseInstruction eraseBlock) {
         instance = new Instruction[]{stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock
-        , paintLightBlock, paintDarkBlock};
+        , paintLightBlock, paintDarkBlock, eraseBlock};
     }
 
     public static Instruction[] getInstance() {

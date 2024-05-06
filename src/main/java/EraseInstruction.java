@@ -8,8 +8,8 @@ public class EraseInstruction extends Instruction{
         super(screen, xPos, yPos, img, "walk");
     }
     @Override
-    public StepInstruction clone() throws CloneNotSupportedException {
-        return (StepInstruction) super.clone();
+    public EraseInstruction clone() throws CloneNotSupportedException {
+        return (EraseInstruction) super.clone();
     }
     @Override
     public String toString() {
