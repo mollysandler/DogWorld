@@ -5,7 +5,7 @@ import java.util.HashMap;
  * @author Aayush Joshi
  */
 public class LevelGenerator {
-    public static void makeLevels(){
+    public static void makeLevels() throws Exception {
         level1();
         level2();
         level3();
@@ -28,7 +28,7 @@ public class LevelGenerator {
         level20();
     }
 
-    public static void level1() {
+    public static void level1() throws Exception {
         LoadLevels lvl = new LoadLevels(1);
 
         // Create points
@@ -61,15 +61,21 @@ public class LevelGenerator {
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(35.302990, -120.667650);
+        Point logXlat = new Point(331999, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("331999");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
 
-    public static void level2() {
+    public static void level2() throws Exception {
         LoadLevels lvl = new LoadLevels(2);
 
         // Create points
@@ -102,14 +108,20 @@ public class LevelGenerator {
         dimentions.add(rowsXcols);
         map.put("dimensions", dimentions);
 
-        Point logXlat = new Point(21.128103, -101.684652);
+        Point logXlat = new Point(3569851, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("3569851");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level3() {
+    public static void level3() throws Exception {
         LoadLevels lvl = new LoadLevels(3);
 
         // Create points
@@ -145,14 +157,20 @@ public class LevelGenerator {
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(32.312691, -64.741543);
+        Point logXlat = new Point(1113517, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("1113517");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level4() {
+    public static void level4() throws Exception {
         LoadLevels lvl = new LoadLevels(4);
 
         // Create points
@@ -184,14 +202,20 @@ public class LevelGenerator {
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(3.408819, -73.093863);
+        Point logXlat = new Point(110286, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("110286");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level5() {
+    public static void level5() throws Exception {
         LoadLevels lvl = new LoadLevels(5);
 
         // Create points
@@ -225,14 +249,20 @@ public class LevelGenerator {
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(-35.471097, -65.098419);
+        Point logXlat = new Point(9598, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("9598");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level6() {
+    public static void level6() throws Exception {
         LoadLevels lvl = new LoadLevels(6);
 
         // Create points
@@ -273,14 +303,20 @@ public class LevelGenerator {
         dimensions.add(rowsXcols);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(-21.304608, 46.156031);
+        Point logXlat = new Point(227856, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("227856");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level7() {
+    public static void level7() throws Exception {
         LoadLevels lvl = new LoadLevels(7);
 
         // Create points
@@ -308,14 +344,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(-30.992229, 24.224748);
+        Point logXlat = new Point(299904, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("299904");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level8() {
+    public static void level8() throws Exception {
         LoadLevels lvl = new LoadLevels(8);
 
         // Create points
@@ -350,14 +392,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(17.708655, -1.752516);
+        Point logXlat = new Point(232837, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("232837");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level9() {
+    public static void level9() throws Exception {
         LoadLevels lvl = new LoadLevels(9);
 
         // Create points
@@ -401,14 +449,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(39.400499, -3.280582);
+        Point logXlat = new Point(303868, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("303868");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level10() {
+    public static void level10() throws Exception {
         LoadLevels lvl = new LoadLevels(10);
 
         // Create points
@@ -442,14 +496,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(39.566565, -8.619381);
+        Point logXlat = new Point(866679, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("866679");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level11() {
+    public static void level11() throws Exception {
         LoadLevels lvl = new LoadLevels(11);
 
         // Create points
@@ -491,14 +551,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(46.539692, 2.411616);
+        Point logXlat = new Point(163530, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("163530");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level12() {
+    public static void level12() throws Exception {
         LoadLevels lvl = new LoadLevels(12);
 
         // Create points
@@ -534,14 +600,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(42.858246, 12.447456);
+        Point logXlat = new Point(1551040, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("1551040");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level13() {
+    public static void level13() throws Exception {
         LoadLevels lvl = new LoadLevels(13);
 
         // Create points
@@ -595,14 +667,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(52.773781, 18.638980);
+        Point logXlat = new Point(1390076, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("1390076");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level14() {
+    public static void level14() throws Exception {
         LoadLevels lvl = new LoadLevels(14);
 
         // Create points
@@ -648,14 +726,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(54.740789, -2.629444);
+        Point logXlat = new Point(714090, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("714090");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level15() {
+    public static void level15() throws Exception {
         LoadLevels lvl = new LoadLevels(15);
 
         // Create points
@@ -705,14 +789,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(55.406666, 10.025383);
+        Point logXlat = new Point(2653518, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("2653518");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level16() {
+    public static void level16() throws Exception {
         LoadLevels lvl = new LoadLevels(16);
 
         // Create points
@@ -748,14 +838,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(64.953823, -18.667527);
+        Point logXlat = new Point(696611, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("696611");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level17() {
+    public static void level17() throws Exception {
         LoadLevels lvl = new LoadLevels(17);
 
         // Create points
@@ -791,14 +887,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(34.792269, 103.647665);
+        Point logXlat = new Point(58079, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("58079");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level18() {
+    public static void level18() throws Exception {
         LoadLevels lvl = new LoadLevels(18);
 
         // Create points
@@ -832,14 +934,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(61.851756, 98.782434);
+        Point logXlat = new Point(1876241, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("1876241");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level19() {
+    public static void level19() throws Exception {
         LoadLevels lvl = new LoadLevels(19);
 
         // Create points
@@ -875,14 +983,20 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(-25.363802, 134.210544);
+        Point logXlat = new Point(3494974, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
+        double wea = Weather.getTemperature("3494974");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
+
         lvl.saveHashMap(map);
     }
-    public static void level20() {
+    public static void level20() throws Exception {
         LoadLevels lvl = new LoadLevels(20);
 
         // Create points
@@ -918,10 +1032,16 @@ public class LevelGenerator {
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
-        Point logXlat = new Point(36.557594, 138.489280);
+        Point logXlat = new Point(1507716, 0);
         ArrayList<Point> logXlats = new ArrayList<>();
         logXlats.add(logXlat);
         map.put("location", logXlats);
+
+        double wea = Weather.getTemperature("1507716");
+        Point weather = new Point(wea, 0);
+        ArrayList<Point> weathersX = new ArrayList<>();
+        weathersX.add(weather);
+        map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
     }

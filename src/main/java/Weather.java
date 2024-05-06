@@ -8,24 +8,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 
 public class Weather extends JPanel {
 
     static String apiKeyPath = "keys/WeatherAPIKey";
+    // Jemma key: XGUyxtVpHGGAcGuYqKsT9vPDAzLVRiXG
 
-    public static double getTemperature() throws Exception {
-        System.out.println(WorldData.getWorldData().getLocation());
+    public static double getTemperature(String location) throws Exception {
         FileInputStream apiKeyFile = new FileInputStream(apiKeyPath);
         String apiKey = new String(apiKeyFile.readAllBytes());
 
-        Point locationPoint = WorldData.getWorldData().getLocation();
-        String locationKey = Double.toString(locationPoint.getX()) + "," + Double.toString(locationPoint.getY());
-        String encodedLocationKey = URLEncoder.encode(locationKey, StandardCharsets.UTF_8.toString());
+        String locationKey = location;
+        System.out.println(locationKey);
 
-        String urlStr = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey="
-                + apiKey + "&q=" + encodedLocationKey;
+        String urlStr = "http://dataservice.accuweather.com/currentconditions/v1/"
+                + locationKey + "?apikey=" + apiKey;
 
         URL url = new URL(urlStr);
         URLConnection connection = url.openConnection();
@@ -37,24 +34,6 @@ public class Weather extends JPanel {
         while ((inputLine = reader.readLine()) != null) {
             response += inputLine;
         }
-        System.out.println(response);
-
-        JSONObject jsonResponse = new JSONObject(response);
-        locationKey = jsonResponse.getString("Key");
-        System.out.println(locationKey);
-        urlStr = "http://dataservice.accuweather.com/currentconditions/v1/"
-                + locationKey + "?apikey=" + apiKey;
-
-        url = new URL(urlStr);
-        connection = url.openConnection();
-        inputStream = connection.getInputStream();
-        reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        response = "";
-        while ((inputLine = reader.readLine()) != null) {
-            response += inputLine;
-        }
-        System.out.println(response);
 
         inputStream.close();
         return parse(response);

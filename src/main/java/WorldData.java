@@ -43,15 +43,6 @@ public final class WorldData extends PropertyChangeSupport {
         setLevel( level, 5, 26, 26, 26 );
     }
 
-    public Point getLocation() {
-        if (levelMap != null) {
-            return levelMap.get("location").get(0);
-        }
-        else {
-            return null;
-        }
-    }
-
     public void setLevel( HashMap <String, ArrayList<Point>> level, int rows, int r, int g, int b ) {
         levelMap = level;
         if ( levelMap == null ) {
