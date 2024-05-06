@@ -46,6 +46,7 @@ public class LevelSelector{
             int level = buttons.get(button);
             LoadLevels l = new LoadLevels(level);
             WorldData.getWorldData().setLevel(l.loadHashMap());
+            double temperature = l.loadHashMap().get("weather").get(0).getX();
         }
     }
 

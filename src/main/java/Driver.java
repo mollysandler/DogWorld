@@ -99,7 +99,11 @@ public class Driver extends PApplet{
 
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
-        LevelGenerator.makeLevels();
+        try {
+            LevelGenerator.makeLevels();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         level = new LoadLevels(currentLevel);
 
         //gets all the buttons and blocks on the board
@@ -110,7 +114,6 @@ public class Driver extends PApplet{
 
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
-        level.saveHashMap(map);
 
         originalInstructions = new OriginalInstructions(stepBlock, turnBlock, paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock);
 
