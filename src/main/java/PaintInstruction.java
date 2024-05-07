@@ -25,5 +25,9 @@ public class PaintInstruction extends Instruction {
     }
 
     @Override
-    public void runAction(){}
+    public void runAction(){
+        WorldData myData = WorldData.getWorldData();
+        int[] dataSpider = myData.getSpider();
+        myData.paintTile(dataSpider[0], dataSpider[1], color);
+    }
 }

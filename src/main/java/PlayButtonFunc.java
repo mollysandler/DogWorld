@@ -30,17 +30,7 @@ public class PlayButtonFunc implements Runnable{
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-            if (instruction instanceof StepInstruction) {
-                int[] newPos = stepHandler(dataSpider[0], dataSpider[1], dataSpider[2]);
-                myData.moveSpider(newPos[0], newPos[1], newPos[2]);
-            } else if (instruction instanceof TurnInstruction) {
-                myData.moveSpider(dataSpider[0], dataSpider[1], turnHandler(dataSpider[2]));
-            } else if (instruction instanceof PaintInstruction) {
-                String color = ((PaintInstruction) instruction).getColor();
-                myData.paintTile(dataSpider[0], dataSpider[1], color);
-            } else if (instruction instanceof EraseInstruction) {
-                instruction.runAction();
-            }
+            instruction.runAction();
         }
 
 
