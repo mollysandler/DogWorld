@@ -74,7 +74,7 @@ public class Driver extends PApplet{
         openedDelete = loadImage("src/main/images/trash2.png");
         openedDelete.resize(100, 150);
 
-
+//        Driver.class.getClass().getClassLoader().getResource("fila name");
         String[] playButtonImgs = {"src/main/images/playButtonImg.png"};
         btnPlay = new GImageButton(this, 180, 615, playButtonImgs);
         btnPlay.addEventHandler(this, "handleButtonEvents");
