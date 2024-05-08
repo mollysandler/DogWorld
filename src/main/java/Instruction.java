@@ -50,7 +50,7 @@ public abstract class Instruction implements Draggable, Cloneable {
     public boolean toSnap(Instruction b) {
         double xDiff = Math.abs(this.xPos - b.xPos);
         double yDiff = Math.abs(this.yPos - b.yPos);
-        return (xDiff < 30) && (yDiff < 30);
+        return (xDiff < 60) && (yDiff < 60);
     }
     public void drag() {
         if (isDragging) {
