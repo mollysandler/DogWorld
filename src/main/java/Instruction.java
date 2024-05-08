@@ -4,8 +4,8 @@ import processing.core.PImage;
  * @author Riya Badadare
  */
 public abstract class Instruction implements Draggable, Cloneable {
-    final PImage img;
-    private PApplet screen;
+    PImage img;
+    protected PApplet screen;
     private int xPos;
     private int yPos;
     private int width;
@@ -39,6 +39,12 @@ public abstract class Instruction implements Draggable, Cloneable {
     // for cloning the sidebar blocks
     public Instruction clone() throws CloneNotSupportedException {
         return (Instruction) super.clone();
+    }
+
+    public void changeColor(String newColor) {
+        final String url = "src/main/images/paint_" + newColor + ".png";
+        PImage newImage = screen.loadImage(url);
+        img = newImage;
     }
 
     public boolean toSnap(Instruction b) {

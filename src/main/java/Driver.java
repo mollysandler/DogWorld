@@ -17,11 +17,11 @@ public class Driver extends PApplet{
     private OriginalInstructions originalInstructions;
     private StepInstruction stepBlock;
     private TurnInstruction turnBlock;
-    private PaintInstruction paintBlueBlock, paintGreenBlock, paintRedBlock, paintLightBlock, paintDarkBlock;
+    private PaintInstruction paintBlock;
     private EraseInstruction eraseBlock;
     private PImage closedDelete;
     private PImage openedDelete;
-    private InstructionList instructionCopies = InstructionList.getInstance();
+//    private InstructionList instructionCopies = InstructionList.getInstance();
 
     private LevelSelector levelSelector;
     private static int currentLevel = 1;
@@ -52,21 +52,13 @@ public class Driver extends PApplet{
     public void buttonDisplay() {
         //displaying all buttons
         PImage stepBlockImage = loadImage("src/main/images/step.png");
-        stepBlock = new StepInstruction(this, 1000, 200, stepBlockImage);
+        stepBlock = new StepInstruction(this, 1000, 250, stepBlockImage);
         PImage turnBlockImage = loadImage("src/main/images/turn.png");
-        turnBlock = new TurnInstruction(this, 1000, 275, turnBlockImage);
-        PImage paintBlueBlockImage = loadImage("src/main/images/paint_blue.png");
-        paintBlueBlock = new PaintInstruction(this, 1000, 350, paintBlueBlockImage, "blue");
-        PImage paintGreenBlockImage = loadImage("src/main/images/paint_green.png");
-        paintGreenBlock = new PaintInstruction(this, 1000, 425, paintGreenBlockImage, "green");
-        PImage paintRedBlockImage = loadImage("src/main/images/paint_red.png");
-        paintRedBlock = new PaintInstruction(this, 1000, 500, paintRedBlockImage, "red");
+        turnBlock = new TurnInstruction(this, 1000, 350, turnBlockImage);
         PImage paintLightBlockImage = loadImage("src/main/images/paint_light.png");
-        paintLightBlock = new PaintInstruction(this, 1000, 575, paintLightBlockImage, "light");
-        PImage paintDarkBlockImage = loadImage("src/main/images/paint_dark.png");
-        paintDarkBlock = new PaintInstruction(this, 1000, 650, paintDarkBlockImage, "dark");
+        paintBlock = new PaintInstruction(this, 1000, 450, paintLightBlockImage, "light");
         PImage eraseBlockImage = loadImage("src/main/images/erase.png");
-        eraseBlock = new EraseInstruction(this, 1000, 725, eraseBlockImage);
+        eraseBlock = new EraseInstruction(this, 1000, 550, eraseBlockImage);
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
@@ -118,16 +110,12 @@ public class Driver extends PApplet{
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
 
-        originalInstructions = new OriginalInstructions(
+        originalInstructions = new OriginalInstructions(new Instruction[]{
                 stepBlock,
                 turnBlock,
-                paintBlueBlock,
-                paintGreenBlock,
-                paintRedBlock,
-                paintLightBlock,
-                paintDarkBlock,
+                paintBlock,
                 eraseBlock
-        );
+        });
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         levelSelector.displayButtons();
@@ -173,7 +161,7 @@ public class Driver extends PApplet{
     }
 
     public void drawMain() {
-        background(100, 100, 100);
+        background(40,52,68);
         mainWorldBtn.setVisible(false);
 
 
