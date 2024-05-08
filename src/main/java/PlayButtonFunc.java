@@ -24,7 +24,12 @@ public class PlayButtonFunc implements Runnable{
 
         //per instruction send each instruction to their respective function
         for(Instruction instruction:instructions) {
+            if(instruction.getSkill() .equals( "turn")){
+                commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
+            }
             commands.add(instruction.getSkill());
+
             try {
                 Thread.sleep(myData.getSpeed());
             } catch (InterruptedException e) {
@@ -32,8 +37,6 @@ public class PlayButtonFunc implements Runnable{
             }
             instruction.runAction();
         }
-
-
 
         commands.add("perform");
         commands.add("rest");

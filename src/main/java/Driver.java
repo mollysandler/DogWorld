@@ -35,7 +35,6 @@ public class Driver extends PApplet{
     enum ScreenState {
         MAIN,
         SANDBOX
-
     }
 
     ScreenState currentState = ScreenState.MAIN;
@@ -88,7 +87,6 @@ public class Driver extends PApplet{
 
     @Override
     public void setup(){
-
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
 //        try {

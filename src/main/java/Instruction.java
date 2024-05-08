@@ -84,15 +84,12 @@ public abstract class Instruction implements Draggable, Cloneable {
     public String toString() {
         return "instruction\n";
     }
-
     public void setIsDragging(boolean newIsDragging) {
         this.isDragging = newIsDragging;
     }
-
     public String getSkill() {
         return this.skill;
     }
-
     public abstract void runAction();
 }
 

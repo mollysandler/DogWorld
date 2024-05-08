@@ -19,7 +19,7 @@ public class PaintInstruction extends Instruction {
     private boolean showDropdown = false;
 
     public PaintInstruction(PApplet screen, int xPos, int yPos, PImage img, String color) {
-        super(screen, xPos, yPos, img, "sit");
+        super(screen, xPos, yPos, img, "wave");
         this.color = color;
 
     }
