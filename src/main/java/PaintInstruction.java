@@ -16,7 +16,6 @@ public class PaintInstruction extends Instruction {
             {20, 20, 20}, {240, 240, 240}
     };
     private final int dropdownW = 30;
-    private final int dropdownH = 46;
     private boolean showDropdown = false;
 
     public PaintInstruction(PApplet screen, int xPos, int yPos, PImage img, String color) {
@@ -27,6 +26,7 @@ public class PaintInstruction extends Instruction {
     private void dropdownClick() {
         var s = super.screen;
         if (s.mousePressed) {
+            int dropdownH = 46;
             showDropdown = s.mouseX > getDropdownX() && s.mouseX < getDropdownX() + dropdownW &&
                 s.mouseY > getDropdownY() && s.mouseY < getDropdownY() + dropdownH;
         }

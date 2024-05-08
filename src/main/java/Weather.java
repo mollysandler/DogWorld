@@ -30,14 +30,14 @@ public class Weather extends JPanel {
         InputStream inputStream = connection.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-        String response = "";
+        StringBuilder response = new StringBuilder();
         String inputLine;
         while ((inputLine = reader.readLine()) != null) {
-            response += inputLine;
+            response.append(inputLine);
         }
 
         inputStream.close();
-        return parse(response);
+        return parse(response.toString());
     }
 
     private static double parse(String response) {

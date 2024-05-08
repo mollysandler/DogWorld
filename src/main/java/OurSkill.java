@@ -1,9 +1,6 @@
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-/**
- * @author Molly Sandler, Andy Duong
- */
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
@@ -12,10 +9,12 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
-
+/**
+ * @author Molly Sandler, Andy Duong
+ */
 public class OurSkill {
 
-    private static final Map<String, String> skillMap = new HashMap();
+    private static final Map<String, String> skillMap = new HashMap<>();
 
     public OurSkill() {
     }

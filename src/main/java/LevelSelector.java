@@ -15,7 +15,7 @@ public class LevelSelector{
     private final ArrayList<PImage> imgs;
     private final int xPos;
     private final int yPos;
-    private HashMap<GImageButton, Integer> buttons = new HashMap<>();
+    private final HashMap<GImageButton, Integer> buttons = new HashMap<>();
 
 
     public LevelSelector(PApplet screen, int xPos, int yPos) {

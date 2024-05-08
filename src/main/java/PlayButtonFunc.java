@@ -42,9 +42,7 @@ public class PlayButtonFunc implements Runnable{
         OurSkill sk = new OurSkill();
         try {
             sk.RobotSkillSet(commands);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         WorldData.getWorldData().setGameState(false);
