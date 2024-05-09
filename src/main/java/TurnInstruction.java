@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 public class TurnInstruction extends Instruction {
     public TurnInstruction(PApplet screen, int xPos, int yPos, PImage img) {
-        super(screen, xPos, yPos, img, "stand");
+        super(screen, xPos, yPos, img, "walk_left");
     }
     @Override
     public TurnInstruction clone() throws CloneNotSupportedException {

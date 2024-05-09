@@ -9,7 +9,5 @@ public class BlockPanel extends GPanel {
         super(pApplet, v, v1, v2, v3);
     }
 
-    public void draw() {
-
-    }
+    public void draw() {}
 }

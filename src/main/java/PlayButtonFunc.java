@@ -24,7 +24,15 @@ public class PlayButtonFunc implements Runnable{
 
         //per instruction send each instruction to their respective function
         for(Instruction instruction:instructions) {
+            if(instruction.getSkill() .equals( "turn")){
+                commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
+            }
             commands.add(instruction.getSkill());
+
             try {
                 Thread.sleep(myData.getSpeed());
             } catch (InterruptedException e) {
@@ -42,9 +50,7 @@ public class PlayButtonFunc implements Runnable{
         OurSkill sk = new OurSkill();
         try {
             sk.RobotSkillSet(commands);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
         WorldData.getWorldData().setGameState(false);

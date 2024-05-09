@@ -13,8 +13,6 @@ public class Driver extends PApplet{
 
     private WorldData worldData;
     private final WorldView worldView = new WorldView(this);
-    private LoadLevels level;
-    private OriginalInstructions originalInstructions;
     private StepInstruction stepBlock;
     private TurnInstruction turnBlock;
     private PaintInstruction paintBlock;
@@ -24,7 +22,6 @@ public class Driver extends PApplet{
 //    private InstructionList instructionCopies = InstructionList.getInstance();
 
     private LevelSelector levelSelector;
-    private static int currentLevel = 1;
 
     private GPanel blockPanel;
     private GImageButton btnPlay;
@@ -38,7 +35,6 @@ public class Driver extends PApplet{
     enum ScreenState {
         MAIN,
         SANDBOX
-
     }
 
     ScreenState currentState = ScreenState.MAIN;
@@ -91,7 +87,6 @@ public class Driver extends PApplet{
 
     @Override
     public void setup(){
-
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
 //        try {
@@ -99,7 +94,8 @@ public class Driver extends PApplet{
 //        } catch (Exception e) {
 //            throw new RuntimeException(e);
 //        }
-        level = new LoadLevels(currentLevel);
+        int currentLevel = 1;
+        LoadLevels level = new LoadLevels(currentLevel);
 
         //gets all the buttons and blocks on the board
         buttonDisplay();
@@ -110,7 +106,7 @@ public class Driver extends PApplet{
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
 
-        originalInstructions = new OriginalInstructions(new Instruction[]{
+        OriginalInstructions originalInstructions = new OriginalInstructions(new Instruction[]{
                 stepBlock,
                 turnBlock,
                 paintBlock,
@@ -157,13 +153,11 @@ public class Driver extends PApplet{
                 drawSandbox();
                 break;
         }
-
     }
 
     public void drawMain() {
         background(40,52,68);
         mainWorldBtn.setVisible(false);
-
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
@@ -187,12 +181,8 @@ public class Driver extends PApplet{
         speedSlider.setVisible(true);
 
         btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
-
         dragAndDropManager.makeDraggable();
-
         levelSelector.displayNavBar();
-
-
     }
 
     public void drawSandbox(){

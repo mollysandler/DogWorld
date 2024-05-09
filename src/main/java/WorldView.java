@@ -11,14 +11,12 @@ public final class WorldView implements PropertyChangeListener {
     public final PApplet screen;
     private static final float leftPadding = 9;
     private static final float topPadding = 143;
-    private float tileWidth = 60;
-    private boolean visible;
+    private final float tileWidth = 60;
     private int numRows;
     private int bgColor;
     private int[] spider;
     private HashMap <String, ArrayList <Point>> levelMap;
     private HashMap <Point, String> tileMap;
-    private String IMAGEFOLDERPATH = "src/main/images/";
 
     public WorldView(PApplet screen) {
         this.screen = screen;
@@ -84,6 +82,7 @@ public final class WorldView implements PropertyChangeListener {
     }
 
     public void drawSpider() {
+        String IMAGEFOLDERPATH = "src/main/images/";
         String imgPath = IMAGEFOLDERPATH;
         switch ( spider[2] ) {
             case 1:
@@ -136,7 +135,7 @@ public final class WorldView implements PropertyChangeListener {
                 spider = (int[]) evt.getNewValue();
                 break;
             case "visible":
-                visible = (boolean) evt.getNewValue();
+                boolean visible = (boolean) evt.getNewValue();
                 if (visible) drawWorld();
                 break;
         }

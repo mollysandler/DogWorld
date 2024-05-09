@@ -10,7 +10,7 @@ public class DragAndDropManager {
     private PApplet screen;
     private InstructionList instructions;
     PImage closedDelete;
-    private InstructionList instructionCopies = InstructionList.getInstance();
+    private final InstructionList instructionCopies = InstructionList.getInstance();
 
     public DragAndDropManager(PApplet screen, PImage closedDelete) {
         this.closedDelete = closedDelete;
@@ -28,7 +28,6 @@ public class DragAndDropManager {
     }
 
     public void mousePressed() {
-
         //when on original blocks, will create copies and will automatically be dragging copies
         for(Instruction currInstruction: OriginalInstructions.getInstance()) {
             if (currInstruction.isMouseOver()) {

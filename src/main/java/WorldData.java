@@ -12,7 +12,8 @@ public final class WorldData extends PropertyChangeSupport {
     private int numRows;
     private HashMap <String, ArrayList <Point>> levelMap;
     private final HashMap <Point, String> tileMap;
-    private final int[] spider, bgColor;
+    private final int[] spider;
+    private final int[] bgColor;
     private int speed = 250;
     private boolean gameState;
 
