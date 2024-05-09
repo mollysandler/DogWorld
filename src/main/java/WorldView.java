@@ -58,27 +58,24 @@ public final class WorldView implements PropertyChangeListener {
     public void drawDiamonds() {
         screen.textSize( 12 );
         // draw red diamonds
-        if ( levelMap.containsKey( "red" ) ) {
-            screen.fill( screen.color( 255, 89, 94 ) );
-            for ( Point p : levelMap.get( "red" ) ) {
-                float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) - 5 );
-                float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) + 5 );
-                screen.text('◆', diamondX, diamondY );
+        for ( String colorStr : levelMap.keySet() ) {
+            switch (colorStr) {
+                case "red":
+                    screen.fill( screen.color( 255, 89, 94 ) );
+                    break;
+                case "green":
+                    screen.fill( screen.color( 138, 201, 38 ) );
+                    break;
+                case "blue":
+                    screen.fill( screen.color( 63, 166, 231 ) );
+                    break;
+                case "spider":
+                    continue;
+                default:
+                    int[] color = PaintMixer.getPaintColor(colorStr);
+                    screen.fill( screen.color( color[0], color[1], color[2] ) );
             }
-        }
-        // draw blue diamonds
-        if ( levelMap.containsKey( "blue" ) ) {
-            screen.fill( screen.color( 63, 166, 231 ) );
-            for ( Point p : levelMap.get( "blue" ) ) {
-                float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) - 5 );
-                float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) + 5 );
-                screen.text('◆', diamondX, diamondY );
-            }
-        }
-        // draw green diamonds
-        if ( levelMap.containsKey( "green" ) ) {
-            screen.fill( screen.color( 138, 201, 38 ) );
-            for ( Point p : levelMap.get( "green" ) ) {
+            for ( Point p : levelMap.get(colorStr)) {
                 float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) - 5 );
                 float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) + 5 );
                 screen.text('◆', diamondX, diamondY );

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class ScoreChecker {
@@ -8,6 +9,9 @@ public class ScoreChecker {
         HashMap<String, ArrayList<Point>> levelMap = WorldData.getWorldData().getLevelMap();
         int[] bgColor = WorldData.getWorldData().getBgColor();
         for ( String colorStr : levelMap.keySet() ) {
+            if ( colorStr.charAt(0) != 'r' && colorStr.charAt(0) != 'g' && colorStr.charAt(0) != 'b') {
+                continue;
+            }
             int[] goalColor = new int[]{0, 0, 0};
             switch (colorStr) {
                 case "red":
@@ -26,15 +30,18 @@ public class ScoreChecker {
                     goalColor[2] = 231;
                     break;
                 default:
-                    continue;
+                    goalColor = PaintMixer.getPaintColor(colorStr);
             }
             for ( Point p : levelMap.get(colorStr)) {
                 if ( !WorldData.getWorldData().getTileMap().containsKey(p) ) {
+                    System.out.println( colorStr + " Point (" + p.getX() + ", " + p.getY() + "): -> " + scores[0]);
                     return new int[]{0,0};
                 }
                 int[] paintColor = PaintMixer.getPaintColor( p );
                 scores[0] += scoreColor(goalColor, paintColor, bgColor);
                 colorCount += 1;
+                System.out.println( colorStr + " Point (" + p.getX() + ", " + p.getY() + "): " +
+                        Arrays.toString(paintColor) + " -> " + scores[0]);
             }
         }
         scores[0] = scores[0] / colorCount;

@@ -51,9 +51,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("b", bluePoints);
+        map.put("r", redPoints);
+        map.put("g", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
