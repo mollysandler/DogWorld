@@ -11,8 +11,8 @@ public final class WorldData extends PropertyChangeSupport {
     private static WorldData worldData;
     private int numRows;
     private HashMap <String, ArrayList <Point>> levelMap;
-    private HashMap <Point, String> tileMap;
-    private int[] spider, bgColor;
+    private final HashMap <Point, String> tileMap;
+    private final int[] spider, bgColor;
     private int speed = 250;
     private boolean gameState;
 
@@ -22,7 +22,6 @@ public final class WorldData extends PropertyChangeSupport {
         tileMap = new HashMap<>();
         spider = new int[]{0, 0, 0};
         bgColor = new int[]{0, 0, 0};
-        PaintMixer.setTileMap( tileMap );
     }
 
     public static WorldData getWorldData() {
@@ -62,11 +61,15 @@ public final class WorldData extends PropertyChangeSupport {
         return spider;
     }
 
+    public int[] getBgColor() {
+        return bgColor;
+    }
+
     /**
      * @param rot: 0 = east, 1 = north, 2 = west, 3 = south
      */
     public void moveSpider( int x, int y, int rot ) {
-        if ( x > numRows || y > numRows || x < 0 || y < 0 ) {
+        if ( x >= numRows || y >= numRows || x < 0 || y < 0 ) {
             throw new RuntimeException( "Spider Out of Bounds" );
         } else {
             this.spider[0] = x;

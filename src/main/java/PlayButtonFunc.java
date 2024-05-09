@@ -19,7 +19,7 @@ public class PlayButtonFunc implements Runnable{
         List<Instruction> instructions = instructionList.getSortedInstructions();
 
 
-        int[] dataSpider = myData.getSpider();
+//        int[] dataSpider = myData.getSpider();
         List<String> commands = new ArrayList<>();
 
         //per instruction send each instruction to their respective function
@@ -33,7 +33,7 @@ public class PlayButtonFunc implements Runnable{
             instruction.runAction();
         }
 
-
+        ScoreChecker.logScore( instructions.size() );
 
         commands.add("perform");
         commands.add("rest");

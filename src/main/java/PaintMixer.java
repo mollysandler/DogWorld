@@ -7,13 +7,8 @@ import java.util.Objects;
 
 public class PaintMixer {
 
-    private static HashMap<Point, String> tileMap;
-
-    public static void setTileMap(HashMap<Point, String> tileMap) {
-        PaintMixer.tileMap = tileMap;
-    }
-
     public static void addPaint( int x, int y, String newColor ) {
+        HashMap<Point, String> tileMap = WorldData.getWorldData().getTileMap();
         Point p = new Point( x, y );
         if ( Objects.equals(newColor, "erase") ) {
             tileMap.remove( p );
@@ -30,7 +25,12 @@ public class PaintMixer {
     }
 
     public static int[] getPaintColor( Point p ) {
-        String colorStr = tileMap.get(p);
+        HashMap<Point, String> tileMap = WorldData.getWorldData().getTileMap();
+        if ( !tileMap.containsKey(p) ) return WorldData.getWorldData().getBgColor();
+        return getPaintColor( tileMap.get(p) );
+    }
+
+    public static int[] getPaintColor( String colorStr ) {
         int[] color = new int[]{0, 0, 0};
         switch ( colorStr.charAt(0) ) {
             case 'r':
