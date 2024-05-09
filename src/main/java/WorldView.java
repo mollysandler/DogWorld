@@ -55,7 +55,6 @@ public final class WorldView implements PropertyChangeListener {
 
     public void drawDiamonds() {
         screen.textSize( 12 );
-        // draw red diamonds
         for ( String colorStr : levelMap.keySet() ) {
             switch (colorStr) {
                 case "red":
