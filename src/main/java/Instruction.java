@@ -8,12 +8,12 @@ public abstract class Instruction implements Draggable, Cloneable {
     protected PApplet screen;
     private int xPos;
     private int yPos;
-    private int width;
-    private int height;
+    private final int width;
+    private final int height;
     private boolean isDragging;
     private int xOffset;
     private int yOffset;
-    private String skill;
+    private final String skill;
 
 
     public Instruction(PApplet screen, int xPos, int yPos, PImage img, String skill){
@@ -43,8 +43,7 @@ public abstract class Instruction implements Draggable, Cloneable {
 
     public void changeColor(String newColor) {
         final String url = "src/main/images/paint_" + newColor + ".png";
-        PImage newImage = screen.loadImage(url);
-        img = newImage;
+        img = screen.loadImage(url);
     }
 
     public boolean toSnap(Instruction b) {
@@ -85,15 +84,12 @@ public abstract class Instruction implements Draggable, Cloneable {
     public String toString() {
         return "instruction\n";
     }
-
     public void setIsDragging(boolean newIsDragging) {
         this.isDragging = newIsDragging;
     }
-
     public String getSkill() {
         return this.skill;
     }
-
     public abstract void runAction();
 }
 

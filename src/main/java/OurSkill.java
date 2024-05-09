@@ -1,9 +1,6 @@
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-/**
- * @author Molly Sandler, Andy Duong
- */
 
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
@@ -12,11 +9,11 @@ import com.fazecast.jSerialComm.SerialPortEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
-
+/**
+ * @author Molly Sandler, Andy Duong
+ */
 public class OurSkill {
-
-    private static final Map<String, String> skillMap = new HashMap();
-
+    private static final Map<String, String> skillMap = new HashMap<>();
     public OurSkill() {
     }
 
@@ -31,7 +28,6 @@ public class OurSkill {
         SerialPort robotConnection = SerialPort.getCommPort("COM4"); //port to which robot is communicating
 
         robotConnection.openPort();
-
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
@@ -51,7 +47,6 @@ public class OurSkill {
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
 
             if (command.equalsIgnoreCase("exit")) { //if an exit is called close the serial port
-
 //                robotConnection.closePort();
                 return; //loops until an exit is called
             }
@@ -72,7 +67,6 @@ public class OurSkill {
             else{
 
                 skillSet.add(commandSerial); //adds the command serial to the skill set
-
                 System.out.println("Current skill map:"); //prints the current set of instructions
                 for (String skill : skillSet) {
                     System.out.print(skill + ", ");
@@ -89,7 +83,6 @@ public class OurSkill {
         OutputStream outputStream = robotConnection.getOutputStream(); //creates an output stream to the serial port
         long duration = 5000L;
         long startTime = System.currentTimeMillis();
-
             while(System.currentTimeMillis() - startTime < duration) {
                 Iterator queuedSkills = skillSet.iterator();
 
