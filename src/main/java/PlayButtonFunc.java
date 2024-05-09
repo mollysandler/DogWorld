@@ -27,6 +27,9 @@ public class PlayButtonFunc implements Runnable{
             if(instruction.getSkill() .equals( "turn")){
                 commands.add(instruction.getSkill());
                 commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
+                commands.add(instruction.getSkill());
             }
             commands.add(instruction.getSkill());
 
@@ -37,7 +40,6 @@ public class PlayButtonFunc implements Runnable{
             }
             instruction.runAction();
         }
-
         commands.add("perform");
         commands.add("rest");
         commands.add("perform");
