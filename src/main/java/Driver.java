@@ -14,6 +14,7 @@ public class Driver extends PApplet{
     private WorldData worldData;
     private final WorldView worldView = new WorldView(this);
     private StepInstruction stepBlock;
+    private Diamond diamondRed;
     private TurnInstruction turnBlock;
     private PaintInstruction paintBlock;
     private EraseInstruction eraseBlock;
@@ -23,6 +24,7 @@ public class Driver extends PApplet{
 
     private LevelSelector levelSelector;
 
+    ArrayList<Diamond> diamondList = new ArrayList<Diamond>();
     private GPanel blockPanel;
     private GImageButton btnPlay;
 
@@ -55,6 +57,11 @@ public class Driver extends PApplet{
         paintBlock = new PaintInstruction(this, 1000, 450, paintLightBlockImage, "light");
         PImage eraseBlockImage = loadImage("src/main/images/erase.png");
         eraseBlock = new EraseInstruction(this, 1000, 550, eraseBlockImage);
+
+        // Draw diamonds?!
+        PImage diamondBlueImage = loadImage("src/main/images/blue-diamond.png");
+        diamondBlueImage.resize(50, 50);
+        diamondRed = new Diamond(this, 350, 250, diamondBlueImage);
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
@@ -110,13 +117,14 @@ public class Driver extends PApplet{
                 stepBlock,
                 turnBlock,
                 paintBlock,
-                eraseBlock
+                eraseBlock,
+                diamondRed
         });
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         levelSelector.displayButtons();
 
-//        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
+        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
     }
 
@@ -158,6 +166,8 @@ public class Driver extends PApplet{
     public void drawMain() {
         background(40,52,68);
         mainWorldBtn.setVisible(false);
+        diamondRed.setVisible(false);
+
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
@@ -187,9 +197,16 @@ public class Driver extends PApplet{
 
     public void drawSandbox(){
         background(190, 164, 132);
+        diamondRed.setVisible(true);
         worldView.drawSandGrid();
+        stepBlock.display();   // Display the step block button
+        turnBlock.display();   // Display the turn block button
+        paintBlock.display();  // Display the paint block button
+        eraseBlock.display();  // Optionally, display the erase block button
         mainWorldBtn.setVisible(true);
         levelSelector.hideButtons();
+
+
         PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
         textFont(font);
         textAlign(CENTER, TOP);
