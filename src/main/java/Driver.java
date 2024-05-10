@@ -15,13 +15,14 @@ public class Driver extends PApplet{
     private final WorldView worldView = new WorldView(this);
     private StepInstruction stepBlock;
     private Diamond diamondRed;
+    private Diamond diamondBlue;
+    private Diamond diamondGreen;
     private TurnInstruction turnBlock;
     private PaintInstruction paintBlock;
     private EraseInstruction eraseBlock;
     private PImage closedDelete;
     private PImage openedDelete;
 //    private InstructionList instructionCopies = InstructionList.getInstance();
-
     private LevelSelector levelSelector;
 
     ArrayList<Diamond> diamondList = new ArrayList<Diamond>();
@@ -59,9 +60,21 @@ public class Driver extends PApplet{
         eraseBlock = new EraseInstruction(this, 1000, 550, eraseBlockImage);
 
         // Draw diamonds?!
+        PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
+        diamondRedImage.resize(50, 50);
+        diamondRed = new Diamond(this, 350, 250, diamondRedImage);
+
         PImage diamondBlueImage = loadImage("src/main/images/blue-diamond.png");
         diamondBlueImage.resize(50, 50);
-        diamondRed = new Diamond(this, 350, 250, diamondBlueImage);
+        diamondBlue = new Diamond(this, 350, 350, diamondBlueImage);
+
+        PImage diamondGreenImage = loadImage("src/main/images/green-diamond.png");
+        diamondGreenImage.resize(50, 50);
+        diamondGreen = new Diamond(this, 350, 150, diamondGreenImage);
+
+
+
+
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
@@ -118,8 +131,11 @@ public class Driver extends PApplet{
                 turnBlock,
                 paintBlock,
                 eraseBlock,
-                diamondRed
+                diamondRed,
+                diamondBlue,
+                diamondGreen
         });
+
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         levelSelector.displayButtons();
@@ -197,7 +213,9 @@ public class Driver extends PApplet{
 
     public void drawSandbox(){
         background(190, 164, 132);
-        diamondRed.setVisible(true);
+        diamondRed.display();
+        diamondGreen.display();;
+        diamondBlue.display();
         worldView.drawSandGrid();
         stepBlock.display();   // Display the step block button
         turnBlock.display();   // Display the turn block button
