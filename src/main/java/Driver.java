@@ -73,9 +73,6 @@ public class Driver extends PApplet{
         diamondGreen = new Diamond(this, 350, 150, diamondGreenImage);
 
 
-
-
-
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
         closedDelete.resize(100, 150);
@@ -131,10 +128,9 @@ public class Driver extends PApplet{
                 turnBlock,
                 paintBlock,
                 eraseBlock,
-                diamondRed,
-                diamondBlue,
-                diamondGreen
         });
+
+
 
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
