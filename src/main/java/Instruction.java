@@ -92,6 +92,7 @@ public abstract class Instruction implements Draggable, Cloneable {
         return this.skill;
     }
     public abstract void runAction();
+
 }
 
 
