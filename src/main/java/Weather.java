@@ -15,7 +15,7 @@ public class Weather extends JPanel {
     // key: qdUL9O9zA0UD9fo5vdJ5A6aWAJ2ibkXF
     //      XGUyxtVpHGGAcGuYqKsT9vPDAzLVRiXG
 
-    public static double getTemperature(String location) throws Exception {
+    public static JSONObject getTemperature(String location) throws Exception {
         FileInputStream apiKeyFile = new FileInputStream(apiKeyPath);
         String apiKey = new String(apiKeyFile.readAllBytes());
 
@@ -30,21 +30,28 @@ public class Weather extends JPanel {
         InputStream inputStream = connection.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
-        StringBuilder response = new StringBuilder();
+        String response = "";
         String inputLine;
         while ((inputLine = reader.readLine()) != null) {
-            response.append(inputLine);
+            response += inputLine;
         }
 
+        System.out.println(response);
         inputStream.close();
-        return parse(response.toString());
+        return parse(response);
     }
 
-    private static double parse(String response) {
+    private static JSONObject parse(String response) {
         JSONArray jsonResponse = new JSONArray(response);
         JSONObject currentWeather = jsonResponse.getJSONObject(0);
-        JSONObject temperatureObj = currentWeather.getJSONObject("Temperature");
-        JSONObject metricObj = temperatureObj.getJSONObject("Metric");
-        return metricObj.getDouble("Value");
+        return currentWeather;
+//        JSONObject temperatureObj = currentWeather.getJSONObject("Temperature");
+//
+//        Object prep = currentWeather.get ("PrecipitationType");
+//        if (prep != null) {
+//            System.out.println(prep + "hello");
+//        }
+//        JSONObject metricObj = temperatureObj.getJSONObject("Metric");
+//        return metricObj.getDouble("Value");
     }
 }

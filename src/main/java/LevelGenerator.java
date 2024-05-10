@@ -1,5 +1,8 @@
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * @author Aayush Joshi
@@ -28,7 +31,7 @@ public class LevelGenerator {
         level20();
     }
 
-    public static void level1() throws Exception {
+    public static String level1() throws Exception {
         LoadLevels lvl = new LoadLevels(1);
 
         // Create points
@@ -51,9 +54,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("b", bluePoints);
-        map.put("r", redPoints);
-        map.put("g", greenPoints);
+        map.put("blue", bluePoints);
+        map.put("red", redPoints);
+        map.put("green", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
@@ -66,16 +69,21 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("331999");
+        JSONObject json = Weather.getTemperature("331999");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+        return categorize_temp(wea, null);
     }
 
-    public static void level2() throws Exception {
+    public static String level2() throws Exception {
         LoadLevels lvl = new LoadLevels(2);
 
         // Create points
@@ -113,15 +121,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("3569851");
+        JSONObject json = Weather.getTemperature("3569851");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level3() throws Exception {
+    public static String level3() throws Exception {
         LoadLevels lvl = new LoadLevels(3);
 
         // Create points
@@ -162,15 +175,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("1113517");
+        JSONObject json = Weather.getTemperature("1113517");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level4() throws Exception {
+    public static String level4() throws Exception {
         LoadLevels lvl = new LoadLevels(4);
 
         // Create points
@@ -207,15 +225,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("110286");
+        JSONObject json = Weather.getTemperature("110286");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level5() throws Exception {
+    public static String level5() throws Exception {
         LoadLevels lvl = new LoadLevels(5);
 
         // Create points
@@ -254,15 +277,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("9598");
+        JSONObject json = Weather.getTemperature("9598");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level6() throws Exception {
+    public static String level6() throws Exception {
         LoadLevels lvl = new LoadLevels(6);
 
         // Create points
@@ -308,15 +336,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("227856");
+        JSONObject json = Weather.getTemperature("227856");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level7() throws Exception {
+    public static String level7() throws Exception {
         LoadLevels lvl = new LoadLevels(7);
 
         // Create points
@@ -349,15 +382,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("299904");
+        JSONObject json = Weather.getTemperature("299904");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level8() throws Exception {
+    public static String level8() throws Exception {
         LoadLevels lvl = new LoadLevels(8);
 
         // Create points
@@ -397,15 +435,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("232837");
+        JSONObject json = Weather.getTemperature("232837");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level9() throws Exception {
+    public static String level9() throws Exception {
         LoadLevels lvl = new LoadLevels(9);
 
         // Create points
@@ -454,15 +497,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("303868");
+        JSONObject json = Weather.getTemperature("303868");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level10() throws Exception {
+    public static String level10() throws Exception {
         LoadLevels lvl = new LoadLevels(10);
 
         // Create points
@@ -501,15 +549,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("866679");
+        JSONObject json = Weather.getTemperature("866679");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level11() throws Exception {
+    public static String level11() throws Exception {
         LoadLevels lvl = new LoadLevels(11);
 
         // Create points
@@ -556,15 +609,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("163530");
+        JSONObject json = Weather.getTemperature("163530");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level12() throws Exception {
+    public static String level12() throws Exception {
         LoadLevels lvl = new LoadLevels(12);
 
         // Create points
@@ -605,15 +663,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("1551040");
+        JSONObject json = Weather.getTemperature("1551040");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level13() throws Exception {
+    public static String level13() throws Exception {
         LoadLevels lvl = new LoadLevels(13);
 
         // Create points
@@ -672,15 +735,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("1390076");
+        JSONObject json = Weather.getTemperature("1390076");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level14() throws Exception {
+    public static String level14() throws Exception {
         LoadLevels lvl = new LoadLevels(14);
 
         // Create points
@@ -731,15 +799,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("714090");
+        JSONObject json = Weather.getTemperature("714090");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level15() throws Exception {
+    public static String level15() throws Exception {
         LoadLevels lvl = new LoadLevels(15);
 
         // Create points
@@ -794,15 +867,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("2653518");
+        JSONObject json = Weather.getTemperature("2653518");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level16() throws Exception {
+    public static String level16() throws Exception {
         LoadLevels lvl = new LoadLevels(16);
 
         // Create points
@@ -843,15 +921,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("696611");
+        JSONObject json = Weather.getTemperature("696611");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level17() throws Exception {
+    public static String level17() throws Exception {
         LoadLevels lvl = new LoadLevels(17);
 
         // Create points
@@ -892,15 +975,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("58079");
+        JSONObject json = Weather.getTemperature("58079");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level18() throws Exception {
+    public static String level18() throws Exception {
         LoadLevels lvl = new LoadLevels(18);
 
         // Create points
@@ -939,15 +1027,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("1876241");
+        JSONObject json = Weather.getTemperature("1876241");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level19() throws Exception {
+    public static String level19() throws Exception {
         LoadLevels lvl = new LoadLevels(19);
 
         // Create points
@@ -988,15 +1081,20 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("3494974");
+        JSONObject json = Weather.getTemperature("3494974");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
     }
-    public static void level20() throws Exception {
+    public static String level20() throws Exception {
         LoadLevels lvl = new LoadLevels(20);
 
         // Create points
@@ -1037,12 +1135,53 @@ public class LevelGenerator {
         logXlats.add(logXlat);
         map.put("location", logXlats);
 
-        double wea = Weather.getTemperature("1507716");
+        JSONObject json = Weather.getTemperature("1507716");
+//        Object prec = json.get("PrecipitationType");
+        double wea = json.getJSONObject("Temperature").getJSONObject("Metric").getDouble("Value");
+
         Point weather = new Point(wea, 0);
         ArrayList<Point> weathersX = new ArrayList<>();
         weathersX.add(weather);
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
+
+        return categorize_temp(wea, null);
+    }
+
+    public static String categorize_temp(double temp, Object prec) {
+        if (prec != null) {
+            return "rainy";
+        }
+        if (temp <= 0) {
+            return "snow";
+        } else if (temp > 0 & temp <= 25) {
+            return "hot";
+        } else {
+            return "very hot";
+        }
+    }
+
+    public ArrayList<Point> random_obstacles(int height, int width) {
+        ArrayList<Point> obstacles = new ArrayList<>();
+        Random rand = new Random();
+        int totalCells = height * width;
+        int numObstacles = (int) (totalCells * 0.2);
+
+        for (int i = 0; i < numObstacles; i++) {
+            int x = rand.nextInt(width);
+            int y = rand.nextInt(height);
+            Point obstacle = new Point(x, y);
+
+            while (obstacles.contains(obstacle)) {
+                x = rand.nextInt(width);
+                y = rand.nextInt(height);
+                obstacle = new Point(x, y);
+            }
+
+            obstacles.add(obstacle);
+        }
+
+        return obstacles;
     }
 }
