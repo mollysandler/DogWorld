@@ -23,11 +23,8 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>19</source>
-                    <target>19</target>
-                </configuration>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
             </plugin>
         </plugins>
     </build>
@@ -50,6 +47,11 @@
             <artifactId>json</artifactId>
             <version>20240303</version>
         </dependency>
+<!--         <dependency>
+            <groupId>quarks-place</groupId>
+            <artifactId>GUI-for-processing-jar</artifactId>
+            <version>4.3.9</version>
+        </dependency> -->
     </dependencies>         
 
     <properties>
