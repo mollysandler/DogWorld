@@ -25,8 +25,8 @@ public class OurSkill {
         List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
 
         /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
-        SerialPort robotConnection = SerialPort.getCommPort("COM4"); //port to which robot is communicating
-
+        SerialPort robotConnection = SerialPort.getCommPort("COM5"); //port to which robot is communicating
+        //make new class for this and turn it into a thread :)
         robotConnection.openPort();
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
@@ -47,7 +47,7 @@ public class OurSkill {
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
 
             if (command.equalsIgnoreCase("exit")) { //if an exit is called close the serial port
-//                robotConnection.closePort();
+                robotConnection.closePort();
                 return; //loops until an exit is called
             }
 //            else if (command.equalsIgnoreCase("camera")){

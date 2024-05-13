@@ -15,7 +15,7 @@ public class PlayButtonFunc implements Runnable{
 
         WorldData myData = WorldData.getWorldData();
         InstructionList instructionList = InstructionList.getInstance();
-
+        OurSkill sk = new OurSkill();
         List<Instruction> instructions = instructionList.getSortedInstructions();
 
 
@@ -32,6 +32,17 @@ public class PlayButtonFunc implements Runnable{
                 commands.add(instruction.getSkill());
             }
             commands.add(instruction.getSkill());
+            commands.add("rest");
+            commands.add("perform");
+            commands.add("exit");
+
+            try {
+                sk.RobotSkillSet(commands);
+            } catch (IOException | InterruptedException e) {
+                System.out.println("BBL Drizzy");
+            }
+
+            commands.clear();
 
             try {
                 Thread.sleep(myData.getSpeed());
@@ -42,17 +53,6 @@ public class PlayButtonFunc implements Runnable{
         }
 
         ScoreChecker.logScore( instructions.size() );
-
-        commands.add("perform");
-        commands.add("rest");
-        commands.add("perform");
-        commands.add("exit");
-        OurSkill sk = new OurSkill();
-        try {
-            sk.RobotSkillSet(commands);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         WorldData.getWorldData().setGameState(false);
     }
 }

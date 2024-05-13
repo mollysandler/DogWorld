@@ -5,7 +5,7 @@ import processing.core.PImage;
  */
 public class EraseInstruction extends Instruction{
     public EraseInstruction(PApplet screen, int xPos, int yPos, PImage img) {
-        super(screen, xPos, yPos, img, "sit");
+        super(screen, xPos, yPos, img, "butt_up");
     }
     @Override
     public EraseInstruction clone() throws CloneNotSupportedException {
