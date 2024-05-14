@@ -72,7 +72,7 @@ public final class WorldView implements PropertyChangeListener {
                     int[] color = PaintMixer.getPaintColor(colorStr);
                     screen.fill( screen.color( color[0], color[1], color[2] ) );
             }
-            for ( Point p : levelMap.get(colorStr)) {
+            for ( Point p : levelMap.get(keyStr)) {
                 float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) - 5 );
                 float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) + 5 );
                 screen.text('◆', diamondX, diamondY );
