@@ -13,16 +13,11 @@ public class Driver extends PApplet{
 
     private WorldData worldData;
     private final WorldView worldView = new WorldView(this);
-    private StepInstruction stepBlock;
     private Diamond diamondRed;
     private Diamond diamondBlue;
     private Diamond diamondGreen;
-    private TurnInstruction turnBlock;
-    private PaintInstruction paintBlock;
-    private EraseInstruction eraseBlock;
     private PImage closedDelete;
     private PImage openedDelete;
-//    private InstructionList instructionCopies = InstructionList.getInstance();
     private LevelSelector levelSelector;
 
     ArrayList<Diamond> diamondList = new ArrayList<Diamond>();
@@ -49,16 +44,6 @@ public class Driver extends PApplet{
     }
 
     public void buttonDisplay() {
-        //displaying all buttons
-        PImage stepBlockImage = loadImage("src/main/images/step.png");
-        stepBlock = new StepInstruction(this, 1000, 250, stepBlockImage);
-        PImage turnBlockImage = loadImage("src/main/images/turn.png");
-        turnBlock = new TurnInstruction(this, 1000, 350, turnBlockImage);
-        PImage paintLightBlockImage = loadImage("src/main/images/paint_light.png");
-        paintBlock = new PaintInstruction(this, 1000, 450, paintLightBlockImage, "light");
-        PImage eraseBlockImage = loadImage("src/main/images/erase.png");
-        eraseBlock = new EraseInstruction(this, 1000, 550, eraseBlockImage);
-
         // Draw diamonds?!
         PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
         diamondRedImage.resize(50, 50);
@@ -102,6 +87,18 @@ public class Driver extends PApplet{
         speedSlider.addEventHandler(this, "handleSliderEvents");
     }
 
+    public Instruction[] instructionDisplay() {
+        Instruction stepBlock = new StepInstruction(this, 1000, 250,
+                loadImage("src/main/images/step.png"));
+        Instruction turnBlock = new TurnInstruction(this, 1000, 350,
+                loadImage("src/main/images/turn.png"));
+        Instruction paintBlock = new PaintInstruction(this, 1000, 450,
+                loadImage("src/main/images/paint_light.png"), "light");
+        Instruction eraseBlock = new EraseInstruction(this, 1000, 550,
+                loadImage("src/main/images/erase.png"));
+        return new Instruction[]{ stepBlock, turnBlock, paintBlock, eraseBlock };
+    }
+
     @Override
     public void setup(){
         worldData = WorldData.getWorldData();
@@ -123,12 +120,7 @@ public class Driver extends PApplet{
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
 
-        OriginalInstructions originalInstructions = new OriginalInstructions(new Instruction[]{
-                stepBlock,
-                turnBlock,
-                paintBlock,
-                eraseBlock,
-        });
+        OriginalInstructions.setInstructionImages(this);
 
 
 
@@ -210,13 +202,11 @@ public class Driver extends PApplet{
     public void drawSandbox(){
         background(190, 164, 132);
         diamondRed.display();
-        diamondGreen.display();;
+        diamondGreen.display();
         diamondBlue.display();
         worldView.drawSandGrid();
-        stepBlock.display();   // Display the step block button
-        turnBlock.display();   // Display the turn block button
-        paintBlock.display();  // Display the paint block button
-        eraseBlock.display();  // Optionally, display the erase block button
+        for ( Instruction inst : OriginalInstructions.getInstance() ) inst.display();
+        // to edit the sandbox instruction images make a new setup method in OriginalInstructions
         mainWorldBtn.setVisible(true);
         levelSelector.hideButtons();
 

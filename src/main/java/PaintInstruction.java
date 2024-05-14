@@ -37,7 +37,8 @@ public class PaintInstruction extends Instruction {
                 s.mouseY > y && s.mouseY < y + w && s.mousePressed) {
             color = value;
             colorValue = colorValues[Arrays.asList(colors).indexOf(value)];
-            super.changeColor(value);
+            String url = "src/main/images/paint_" + value + ".png";
+            super.img = screen.loadImage(url);
         }
     }
     private void drawDropdown() {
@@ -76,9 +77,9 @@ public class PaintInstruction extends Instruction {
     public String toString(){
         return "paint " + this.color;
     }
-    public String getColor() {
-        return this.color;
-    }
+//    public String getColor() {
+//        return this.color;
+//    }
 
     private int getDropdownX() {
         return getxPos() + 100;

@@ -54,9 +54,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("b", bluePoints);
-        map.put("r", redPoints);
-        map.put("g", greenPoints);
+        map.put("diamond_b", bluePoints);
+        map.put("diamond_r", redPoints);
+        map.put("diamond_g", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
@@ -106,9 +106,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
@@ -160,9 +160,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
@@ -210,9 +210,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
@@ -262,9 +262,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
@@ -321,9 +321,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
 
         Point rowsXcols = new Point(5, 5);
@@ -371,9 +371,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -424,9 +424,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -486,9 +486,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -538,9 +538,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -598,9 +598,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -652,9 +652,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -724,9 +724,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -788,9 +788,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -856,9 +856,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -910,9 +910,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -964,9 +964,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -1016,9 +1016,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -1070,9 +1070,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 
@@ -1124,9 +1124,9 @@ public class LevelGenerator {
 
         // Create map and add ArrayLists
         HashMap<String, ArrayList<Point>> map = new HashMap<>();
-        map.put("blue", bluePoints);
-        map.put("red", redPoints);
-        map.put("green", greenPoints);
+        map.put("diamond_blue", bluePoints);
+        map.put("diamond_red", redPoints);
+        map.put("diamond_green", greenPoints);
         map.put("spider", spider);
         map.put("dimensions", dimensions);
 

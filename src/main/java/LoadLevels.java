@@ -31,6 +31,12 @@ class LoadLevels {
         try (FileInputStream fis = new FileInputStream(fileName);
              ObjectInputStream ois = new ObjectInputStream(fis)) {
             map = (HashMap<String, ArrayList<Point>>) ois.readObject();
+//        } catch (FileNotFoundException e) {
+//            try {
+//                LevelGenerator.makeLevels();
+//            } catch (Exception ex) {
+//                throw new RuntimeException(ex);
+//            }
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

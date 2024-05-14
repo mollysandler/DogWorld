@@ -4,7 +4,7 @@ import processing.core.PImage;
  * @author Riya Badadare
  */
 public abstract class Instruction implements Draggable, Cloneable {
-    PImage img;
+    protected PImage img;
     protected PApplet screen;
     private int xPos;
     private int yPos;
@@ -42,10 +42,10 @@ public abstract class Instruction implements Draggable, Cloneable {
         return (Instruction) super.clone();
     }
 
-    public void changeColor(String newColor) {
-        final String url = "src/main/images/paint_" + newColor + ".png";
-        img = screen.loadImage(url);
-    }
+//    public void changeColor(String newColor) {
+//        final String url = "src/main/images/paint_" + newColor + ".png";
+//        img = screen.loadImage(url);
+//    }
 
     public boolean toSnap(Instruction b) {
         double xDiff = Math.abs(this.xPos - b.xPos);

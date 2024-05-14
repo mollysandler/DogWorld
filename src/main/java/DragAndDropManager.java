@@ -49,10 +49,10 @@ public class DragAndDropManager {
         }
 
 
-        //lets you drag around copies that you've dropped
-        for (Instruction copy : InstructionList.getInstance().getSortedInstructions()) {
-            copy.mousePressed();
-        }
+//        //lets you drag around copies that you've dropped
+//        for (Instruction copy : InstructionList.getInstance().getSortedInstructions()) {
+//            copy.mousePressed();
+//        }
 
     }
 
