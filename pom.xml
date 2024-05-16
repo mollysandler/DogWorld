@@ -47,19 +47,13 @@
             <artifactId>json</artifactId>
             <version>20240303</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>quarks-place</groupId>-->
-<!--            <artifactId>GUI-for-processing-jar</artifactId>-->
-<!--            <version>4.3.9</version>-->
-<!--        </dependency>-->
+       <dependency>
+           <groupId>quarks-place</groupId>
+           <artifactId>GUI-for-processing-jar</artifactId>
+           <version>4.3.9</version>
+       </dependency>
 
-        <dependency>
-            <groupId>quarks-place</groupId>
-            <artifactId>GUI-for-processing-jar</artifactId>
-            <version>4.3.9</version>
-            <scope>system</scope>
-            <systemPath>C:\Users\andyd\Documents\CSC 308\csc309project\src\main\lib\G4P\library\G4P.jar</systemPath>
-        </dependency>
+
     </dependencies>         
 
     <properties>
