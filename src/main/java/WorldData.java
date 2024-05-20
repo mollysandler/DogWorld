@@ -1,6 +1,5 @@
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 
 import static processing.core.PApplet.println;
 
@@ -16,6 +15,7 @@ public final class WorldData extends PropertyChangeSupport {
     private final int[] bgColor;
     private int speed = 250;
     private boolean gameState;
+    private List<String> commands;
 
     private WorldData() {
         super( new Object() );
@@ -37,6 +37,11 @@ public final class WorldData extends PropertyChangeSupport {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public void setCommands(List<String> commandsInput){
+        commands = commandsInput;
+        firePropertyChange("commands", null, commands);
     }
 
     public void setLevel( HashMap <String, ArrayList<Point>> level ) {
@@ -102,7 +107,7 @@ public final class WorldData extends PropertyChangeSupport {
 
     public void resetWorld() {
         tileMap.clear();
-        firePropertyChange( "tileMap", null, tileMap );
+        firePropertyChange( "tileMap", null, tileMap);
         try {
             Point pos = levelMap.get("spider").get(0);
             Point rot = levelMap.get("spider").get(1);

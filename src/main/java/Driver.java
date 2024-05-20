@@ -130,6 +130,11 @@ public class Driver extends PApplet{
 
         blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
+        OurSkill robotSkill = new OurSkill();
+        robotSkill.connectBluetooth();
+        worldData.addPropertyChangeListener(robotSkill);
+        Thread robotThread = new Thread(robotSkill);
+        robotThread.start();
 
 
     }
@@ -196,7 +201,7 @@ public class Driver extends PApplet{
         speedSlider.setEnabled(true);
         speedSlider.setVisible(true);
 
-        btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
+        btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable();
         levelSelector.displayNavBar();
     }
@@ -223,7 +228,7 @@ public class Driver extends PApplet{
     public void handleButtonEvents(GImageButton imagebutton, GEvent event){
         if (imagebutton == btnPlay && event == GEvent.CLICKED){
             WorldData.getWorldData().resetWorld();
-            WorldData.getWorldData().setGameState(true);
+            WorldData.getWorldData().setGameState(false);
             PlayButtonFunc playButtonFunc = new PlayButtonFunc();
             Thread t1 = new Thread(playButtonFunc);
             t1.start();

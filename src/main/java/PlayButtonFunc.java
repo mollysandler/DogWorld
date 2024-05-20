@@ -9,9 +9,9 @@ import java.util.List;
 /**
  * @author Andy Duong
  */
-public class PlayButtonFunc extends PropertyChangeSupport implements Runnable{
+public class PlayButtonFunc implements Runnable{
     public PlayButtonFunc(){
-        super(new Object());
+
     }
     @Override
     public void run() {
@@ -20,6 +20,10 @@ public class PlayButtonFunc extends PropertyChangeSupport implements Runnable{
         InstructionList instructionList = InstructionList.getInstance();
 
         List<Instruction> instructions = instructionList.getSortedInstructions();
+
+        if(instructions.isEmpty()){
+            return;
+        }
 
 
 //        int[] dataSpider = myData.getSpider();
@@ -49,14 +53,8 @@ public class PlayButtonFunc extends PropertyChangeSupport implements Runnable{
         commands.add("perform");
         commands.add("rest");
         commands.add("perform");
-        
-        OurSkill sk = new OurSkill();
-        sk.connectBluetooth();
-        try {
-            sk.RobotSkillSet(commands);
-        } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        WorldData.getWorldData().setGameState(false);
+        WorldData.getWorldData().setCommands(commands);
+
+//        WorldData.getWorldData().setGameState(false);
     }
 }

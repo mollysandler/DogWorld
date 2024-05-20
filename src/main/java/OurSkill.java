@@ -14,10 +14,10 @@ import java.util.*;
 /**
  * @author Molly Sandler, Andy Duong
  */
-public class OurSkill implements PropertyChangeListener {
+public class OurSkill implements PropertyChangeListener, Runnable {
     private static final Map<String, String> skillMap = new HashMap<>();
     private SerialPort robotConnection;
-    private Queue<String> commandQueue;
+    private Queue<String> commandQueue = new LinkedList<>();
     public OurSkill() {
     }
 
@@ -26,9 +26,13 @@ public class OurSkill implements PropertyChangeListener {
     }
 
     public void connectBluetooth(){
-        robotConnection = SerialPort.getCommPort("COM8"); //port to which robot is communicating
+        robotConnection = SerialPort.getCommPort("COM5"); //port to which robot is communicating
 
         robotConnection.openPort();
+    }
+
+    @Override
+    public void run() {
 
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
@@ -45,16 +49,17 @@ public class OurSkill implements PropertyChangeListener {
                 System.out.println("Read " + numRead + " bytes.");
             }
         });
-    }
-
-    public void RobotSkillSet(List<String> commands) throws IOException, InterruptedException {
         List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
 
         /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
 
-        Thread.sleep(4000);
 
         while(true){
+
+            if (commandQueue.isEmpty()) {
+                WorldData.getWorldData().setGameState(true);
+                continue;
+            }
             String command = commandQueue.poll();
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
 
@@ -71,10 +76,20 @@ public class OurSkill implements PropertyChangeListener {
 //                robotCamera.readCamera();
 //            }
             else if (command.equalsIgnoreCase("perform")){ //performs the tasks and clears the skill set
-                PerformSkills(skillSet, robotConnection);
+                try {
+                    PerformSkills(skillSet, robotConnection);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                commandQueue.clear();
                 skillSet.clear();
                 printAllSkills();
-                Thread.sleep(4000);
+                WorldData.getWorldData().setGameState(true);
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
             else if (commandSerial == null){ //if a command is not found let the user know
@@ -145,8 +160,13 @@ public class OurSkill implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
-        commandQueue = WorldData.getWorldData().getGameState();
+        switch ( evt.getPropertyName() ){
+            case "commands":
+                List<String> commands = (List<String>) evt.getNewValue();
+                commandQueue.addAll(commands);
+                System.out.println(evt.getNewValue());
+                this.run();
+        }
     }
 }
 
