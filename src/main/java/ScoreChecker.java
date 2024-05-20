@@ -44,7 +44,7 @@ public class ScoreChecker {
                         Arrays.toString(paintColor) + " -> " + scores[0]);
             }
         }
-        scores[0] = scores[0] / colorCount;
+//        scores[0] = scores[0] / colorCount;
         scores[1] = 25 + (int) (Math.round(100/(4.0/3 + Math.exp((double) loc /4 - 6))));
         return scores;
     }

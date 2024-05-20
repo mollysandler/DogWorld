@@ -38,6 +38,8 @@ public class Driver extends PApplet{
     ScreenState currentState = ScreenState.MAIN;
     DragAndDropManager dragAndDropManager;
 
+    private OurSkill RobotSkill;;
+
     @Override
     public void settings(){
         size(1200, 900);
@@ -123,12 +125,18 @@ public class Driver extends PApplet{
         OriginalInstructions.setInstructionImages(this);
 
 
-
-
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         levelSelector.displayButtons();
 
         blockPanel = new BlockPanel(this, 100, 100, 600, 900);
+
+//        OurSkill robotSkill = new OurSkill();
+//        robotSkill.connectBluetooth();
+//        worldData.addPropertyChangeListener(robotSkill);
+//        Thread robotThread = new Thread(robotSkill);
+//        robotThread.start();
+        //uncomment if using dog
+
 
     }
 
@@ -194,7 +202,7 @@ public class Driver extends PApplet{
         speedSlider.setEnabled(true);
         speedSlider.setVisible(true);
 
-        btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
+        btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable();
         levelSelector.displayNavBar();
     }
@@ -221,7 +229,7 @@ public class Driver extends PApplet{
     public void handleButtonEvents(GImageButton imagebutton, GEvent event){
         if (imagebutton == btnPlay && event == GEvent.CLICKED){
             WorldData.getWorldData().resetWorld();
-            WorldData.getWorldData().setGameState(true);
+            WorldData.getWorldData().setGameState(false);
             PlayButtonFunc playButtonFunc = new PlayButtonFunc();
             Thread t1 = new Thread(playButtonFunc);
             t1.start();
@@ -256,6 +264,7 @@ public class Driver extends PApplet{
         sandboxBtn.setVisible(false);
         sandboxBtn.setEnabled(false);
         speedSlider.setVisible(false);
+
     }
 
 
@@ -274,5 +283,6 @@ public class Driver extends PApplet{
         String[] processingArgs = {"Driver"};
         Driver running = new Driver();
         PApplet.runSketch(processingArgs, running);
+
     }
 }
