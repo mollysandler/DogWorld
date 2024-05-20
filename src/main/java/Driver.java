@@ -130,11 +130,12 @@ public class Driver extends PApplet{
 
         blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
-        OurSkill robotSkill = new OurSkill();
-        robotSkill.connectBluetooth();
-        worldData.addPropertyChangeListener(robotSkill);
-        Thread robotThread = new Thread(robotSkill);
-        robotThread.start();
+//        OurSkill robotSkill = new OurSkill();
+//        robotSkill.connectBluetooth();
+//        worldData.addPropertyChangeListener(robotSkill);
+//        Thread robotThread = new Thread(robotSkill);
+//        robotThread.start();
+        //uncomment if using dog
 
 
     }

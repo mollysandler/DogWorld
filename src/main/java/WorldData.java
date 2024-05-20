@@ -14,7 +14,7 @@ public final class WorldData extends PropertyChangeSupport {
     private final int[] spider;
     private final int[] bgColor;
     private int speed = 250;
-    private boolean gameState;
+    private boolean gameState = true;
     private List<String> commands;
 
     private WorldData() {

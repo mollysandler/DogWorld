@@ -164,7 +164,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
             case "commands":
                 List<String> commands = (List<String>) evt.getNewValue();
                 commandQueue.addAll(commands);
-                System.out.println(evt.getNewValue());
                 this.run();
         }
     }

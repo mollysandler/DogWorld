@@ -25,7 +25,6 @@ public class PlayButtonFunc implements Runnable{
             return;
         }
 
-
 //        int[] dataSpider = myData.getSpider();
         List<String> commands = new ArrayList<>();
 
@@ -55,6 +54,6 @@ public class PlayButtonFunc implements Runnable{
         commands.add("perform");
         WorldData.getWorldData().setCommands(commands);
 
-//        WorldData.getWorldData().setGameState(false);
+        WorldData.getWorldData().setGameState(true);//comment out if using dog
     }
 }
