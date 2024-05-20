@@ -1,5 +1,6 @@
 import Dog.Skill;
 
+import java.beans.PropertyChangeSupport;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,8 +9,10 @@ import java.util.List;
 /**
  * @author Andy Duong
  */
-public class PlayButtonFunc implements Runnable{
-    public PlayButtonFunc(){}
+public class PlayButtonFunc extends PropertyChangeSupport implements Runnable{
+    public PlayButtonFunc(){
+        super(new Object());
+    }
     @Override
     public void run() {
 
@@ -46,8 +49,9 @@ public class PlayButtonFunc implements Runnable{
         commands.add("perform");
         commands.add("rest");
         commands.add("perform");
-        commands.add("exit");
+        
         OurSkill sk = new OurSkill();
+        sk.connectBluetooth();
         try {
             sk.RobotSkillSet(commands);
         } catch (IOException | InterruptedException e) {

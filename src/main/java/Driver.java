@@ -38,6 +38,8 @@ public class Driver extends PApplet{
     ScreenState currentState = ScreenState.MAIN;
     DragAndDropManager dragAndDropManager;
 
+    private OurSkill RobotSkill;;
+
     @Override
     public void settings(){
         size(1200, 900);
@@ -123,12 +125,12 @@ public class Driver extends PApplet{
         OriginalInstructions.setInstructionImages(this);
 
 
-
-
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         levelSelector.displayButtons();
 
         blockPanel = new BlockPanel(this, 100, 100, 600, 900);
+
+
 
     }
 
@@ -256,6 +258,7 @@ public class Driver extends PApplet{
         sandboxBtn.setVisible(false);
         sandboxBtn.setEnabled(false);
         speedSlider.setVisible(false);
+
     }
 
 
@@ -274,5 +277,6 @@ public class Driver extends PApplet{
         String[] processingArgs = {"Driver"};
         Driver running = new Driver();
         PApplet.runSketch(processingArgs, running);
+
     }
 }

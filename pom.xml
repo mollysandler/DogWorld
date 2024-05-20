@@ -58,7 +58,7 @@
             <artifactId>GUI-for-processing-jar</artifactId>
             <version>4.3.9</version>
             <scope>system</scope>
-            <systemPath>C:\Users\andyd\Documents\CSC 308\csc309project\src\main\lib\G4P\library\G4P.jar</systemPath>
+            <systemPath>C:\Users\Andy\Documents\CSC 308\csc309project\src\main\lib\G4P\library\G4P.jar</systemPath>
         </dependency>
     </dependencies>         
 

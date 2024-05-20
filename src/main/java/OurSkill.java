@@ -6,14 +6,18 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 /**
  * @author Molly Sandler, Andy Duong
  */
-public class OurSkill {
+public class OurSkill implements PropertyChangeListener {
     private static final Map<String, String> skillMap = new HashMap<>();
+    private SerialPort robotConnection;
+    private Queue<String> commandQueue;
     public OurSkill() {
     }
 
@@ -21,33 +25,45 @@ public class OurSkill {
         return (String)skillMap.get(skillKey);
     }
 
-    public void RobotSkillSet(List<String> commands) throws IOException, InterruptedException {
-        List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
-
-        /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
-        SerialPort robotConnection = SerialPort.getCommPort("COM4"); //port to which robot is communicating
+    public void connectBluetooth(){
+        robotConnection = SerialPort.getCommPort("COM8"); //port to which robot is communicating
 
         robotConnection.openPort();
+
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
             @Override
             public void serialEvent(SerialPortEvent event)
             {
-                if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
+                if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+                    System.out.println("close");
                     return;
+                }
                 byte[] newData = new byte[robotConnection.bytesAvailable()];
                 int numRead = robotConnection.readBytes(newData, newData.length);
                 System.out.println("Read " + numRead + " bytes.");
             }
         });
+    }
+
+    public void RobotSkillSet(List<String> commands) throws IOException, InterruptedException {
+        List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
+
+        /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
+
         Thread.sleep(4000);
 
-        for(String command : commands){
+        while(true){
+            String command = commandQueue.poll();
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
 
+            if(command == null){
+                continue;
+            }
+
             if (command.equalsIgnoreCase("exit")) { //if an exit is called close the serial port
-//                robotConnection.closePort();
+                robotConnection.closePort();
                 return; //loops until an exit is called
             }
 //            else if (command.equalsIgnoreCase("camera")){
@@ -125,6 +141,12 @@ public class OurSkill {
         skillMap.put("wave", "khi");
         skillMap.put("handstand", "khds");
         skillMap.put("look_around", "kck");
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+
+        commandQueue = WorldData.getWorldData().getGameState();
     }
 }
 
