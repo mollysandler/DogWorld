@@ -11,23 +11,51 @@ public class DragAndDropManager {
     private InstructionList instructions;
     PImage closedDelete;
     private final InstructionList instructionCopies = InstructionList.getInstance();
+    public List<Diamond> initialDiamonds = new ArrayList<>();
+    public List<Diamond> addedDiamonds = new ArrayList<>();
+    private Diamond currentDiamond = null;
+
+    Diamond[][] diamondGrid = new Diamond[5][5];
+
+    private int sandGrid = 5;
+    private int sandCell = 70;
+    private int sandX = 300;
+    private int sandY = 250;
 
     public DragAndDropManager(PApplet screen, PImage closedDelete) {
         this.closedDelete = closedDelete;
     }
 
-    public void makeDraggable() {
+    public void makeDraggable(boolean isSandbox) {
+        // Instruction sidebar
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.drag();
             currInstruction.display();
         }
+        // Instructions you dragged
         for (Instruction currInstruction : InstructionList.getInstance().getSortedInstructions()) {
             currInstruction.drag();
             currInstruction.display();
         }
+
+        // TODO: Go through diamond sidebar
+
+        // TODO: GO through diamonds you dragged
+        if (isSandbox) {
+            for (Diamond diamond : initialDiamonds) {
+                diamond.drag();
+                diamond.display();
+            }
+            for (Diamond diamond : addedDiamonds) {
+                diamond.drag();
+                diamond.display();
+            }
+        }
+
+
     }
 
-    public void mousePressed() {
+    public void mousePressed(boolean isSandbox) {
         //when on original blocks, will create copies and will automatically be dragging copies
         for(Instruction currInstruction: OriginalInstructions.getInstance()) {
             if (currInstruction.isMouseOver()) {
@@ -49,14 +77,41 @@ public class DragAndDropManager {
         }
 
 
-        //lets you drag around copies that you've dropped
-        for (Instruction copy : InstructionList.getInstance().getSortedInstructions()) {
-            copy.mousePressed();
+//        //lets you drag around copies that you've dropped
+//        for (Instruction copy : InstructionList.getInstance().getSortedInstructions()) {
+//            copy.mousePressed();
+//        }
+
+        // Handle diamond dragging in sandbox mode
+        if (isSandbox) {
+            for (Diamond diamond : initialDiamonds) {
+                if (diamond.isMouseOver()) {
+                    try {
+                        currentDiamond = diamond.clone();
+                        currentDiamond.setxPos(diamond.getxPos());
+                        currentDiamond.setyPos(diamond.getyPos());
+                        currentDiamond.mousePressed();
+                        //initialDiamonds.add(currentDiamond);
+                        addedDiamonds.add(currentDiamond);
+                        //System.out.println("Added diamond to both lists");
+                    } catch (CloneNotSupportedException e) {
+                        throw new RuntimeException(e);
+                    }
+                    break;
+                }
+            }
+            for (Diamond diamond : addedDiamonds) {
+                if (diamond.isMouseOver()) {
+                    currentDiamond = diamond;
+                    currentDiamond.mousePressed();
+                    break;
+                }
+            }
         }
 
     }
 
-    public void mouseReleased() {
+    public void mouseReleased(boolean isSandbox) {
         List<Instruction> instructions = instructionCopies.getSortedInstructions();
         List<Instruction> newInstructions = new ArrayList<>(instructions);
 
@@ -91,5 +146,31 @@ public class DragAndDropManager {
                 }
             }
         }
+
+        // TODO : Add snapping to grid
+        // Handle diamond releasing in sandbox mode
+        if (isSandbox && currentDiamond != null) {
+            currentDiamond.mouseReleased();
+            // Calculate grid position
+            int gridX = Math.round((currentDiamond.getxPos() - sandX) / sandCell);
+            int gridY = Math.round((currentDiamond.getyPos() - sandY) / sandCell);
+            // Snap to grid
+            if (0 <= gridX && gridX < 5 && 0 <= gridY && gridY < 5) {
+                currentDiamond.snapToGrid(gridX, gridY, sandCell);
+                diamondGrid[gridX][gridY] = currentDiamond;
+            } else {
+
+                    currentDiamond.setVisible(false);
+                    //initialDiamonds.remove(currentDiamond);
+                    addedDiamonds.remove(currentDiamond);
+                }
+            currentDiamond.setIsDragging(false);
+            currentDiamond = null;
+            System.out.println(gridX + " " + gridY);
+
+
+        }
+
+
     }
 }

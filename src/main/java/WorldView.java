@@ -13,6 +13,11 @@ public final class WorldView implements PropertyChangeListener {
     private static final float topPadding = 143;
     private final float tileWidth = 60;
     private int numRows;
+
+    private int sandGrid = 5;
+    private int sandCell = 70;
+    private int sandX = 300;
+    private int sandY = 250;
     private int bgColor;
     private int[] spider;
     private HashMap <String, ArrayList <Point>> levelMap;
@@ -38,18 +43,17 @@ public final class WorldView implements PropertyChangeListener {
     }
 
     public void drawSandGrid(){
+
         screen.color(50, 50, 50);
-        screen.fill(211, 211, 210);
-        screen.stroke(0, 0, 250);
-        screen.rect( leftPadding, topPadding, tileWidth * numRows, tileWidth * numRows );
-        for ( int row = 1; row < numRows; row++ ) {
-            screen.line( leftPadding, topPadding + tileWidth * row,
-                    leftPadding + tileWidth * numRows, topPadding + tileWidth * row );
+        for (int i = 0; i < sandGrid; i++) {
+            for (int j = 0; j < sandGrid; j++) {
+                screen.stroke(0);
+                screen.fill(211, 211, 210);
+                screen.rect(sandX + i * sandCell, sandY + j * sandCell, sandCell, sandCell);
+            }
+
         }
-        for ( int col = 1; col < numRows; col++ ) {
-            screen.line( leftPadding + tileWidth * col, topPadding,
-                    leftPadding + tileWidth * col, topPadding + tileWidth * numRows );
-        }
+
 
     }
 
@@ -139,4 +143,6 @@ public final class WorldView implements PropertyChangeListener {
                 break;
         }
     }
+
+
 }

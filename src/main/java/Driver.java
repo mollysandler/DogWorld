@@ -5,6 +5,7 @@ import processing.core.PImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Molly Sandler
@@ -25,7 +26,10 @@ public class Driver extends PApplet{
 //    private InstructionList instructionCopies = InstructionList.getInstance();
     private LevelSelector levelSelector;
 
-    ArrayList<Diamond> diamondList = new ArrayList<Diamond>();
+    public List<Diamond> diamondList = new ArrayList<>();
+
+    private List<Diamond> addedDiamond = new ArrayList<>();
+
     private GPanel blockPanel;
     private GImageButton btnPlay;
 
@@ -34,6 +38,8 @@ public class Driver extends PApplet{
     private GImageButton mainWorldBtn;
 
     private GSlider speedSlider;
+
+    private GImageButton resetBtn;
 
     enum ScreenState {
         MAIN,
@@ -46,6 +52,10 @@ public class Driver extends PApplet{
     @Override
     public void settings(){
         size(1200, 900);
+    }
+
+    private boolean isSandboxMode() {
+        return currentState == ScreenState.SANDBOX;
     }
 
     public void buttonDisplay() {
@@ -62,15 +72,20 @@ public class Driver extends PApplet{
         // Draw diamonds?!
         PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
         diamondRedImage.resize(50, 50);
-        diamondRed = new Diamond(this, 350, 250, diamondRedImage);
+        diamondRed = new Diamond(this, 200, 250, diamondRedImage, "red");
 
         PImage diamondBlueImage = loadImage("src/main/images/blue-diamond.png");
         diamondBlueImage.resize(50, 50);
-        diamondBlue = new Diamond(this, 350, 350, diamondBlueImage);
+        diamondBlue = new Diamond(this, 200, 350, diamondBlueImage, "blue");
 
         PImage diamondGreenImage = loadImage("src/main/images/green-diamond.png");
         diamondGreenImage.resize(50, 50);
-        diamondGreen = new Diamond(this, 350, 150, diamondGreenImage);
+        diamondGreen = new Diamond(this, 200, 450, diamondGreenImage, "green");
+
+        String[] resetImage = {"src/main/images/reset.png"};
+        resetBtn = new GImageButton(this, 450, 625, 100, 100, resetImage);
+        resetBtn.setVisible(false);
+        resetBtn.addEventHandler(this, "handleResetButtonEvents");
 
 
         //drawing the trashcan images over the background
@@ -130,10 +145,14 @@ public class Driver extends PApplet{
                 eraseBlock,
         });
 
+        diamondList.add(diamondRed);
+        diamondList.add(diamondGreen);
+        diamondList.add(diamondBlue);
 
 
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
+        dragAndDropManager.initialDiamonds = diamondList;// Pass diamondList
         levelSelector.displayButtons();
 
         blockPanel = new BlockPanel(this, 100, 100, 600, 900);
@@ -179,6 +198,7 @@ public class Driver extends PApplet{
         background(40,52,68);
         mainWorldBtn.setVisible(false);
         diamondRed.setVisible(false);
+        resetBtn.setVisible(false);
 
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
@@ -203,22 +223,42 @@ public class Driver extends PApplet{
         speedSlider.setVisible(true);
 
         btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
-        dragAndDropManager.makeDraggable();
+        dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
     }
 
     public void drawSandbox(){
         background(190, 164, 132);
-        diamondRed.display();
-        diamondGreen.display();;
-        diamondBlue.display();
+        // reset diamonds
+
+        for (Diamond diamond : diamondList){
+            diamond.display();
+        }
+
+
+        // Enable diamonds?
+
         worldView.drawSandGrid();
+        resetBtn.setVisible(true);
+        resetBtn.setEnabled(true);
         stepBlock.display();   // Display the step block button
         turnBlock.display();   // Display the turn block button
         paintBlock.display();  // Display the paint block button
         eraseBlock.display();  // Optionally, display the erase block button
         mainWorldBtn.setVisible(true);
         levelSelector.hideButtons();
+
+        //if the mouse is over the trashcan, display the opened can
+        if (mouseX > 100 && mouseX < 100 + closedDelete.width && mouseY > 600 && mouseY < 600 + closedDelete.height) {
+            image(openedDelete, 60, 600); //display the open trash can
+        }
+        else {
+            //otherwise display the closed trashcan
+            image(closedDelete, 60, 600);
+        }
+
+
+        dragAndDropManager.makeDraggable(true);
 
 
         PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
@@ -253,9 +293,18 @@ public class Driver extends PApplet{
 
     public void handleMainWorldButtonEvents(GImageButton mainButton, GEvent event){
         if (mainButton == mainWorldBtn && event == GEvent.CLICKED){
+            cleanUpSand();
             currentState = ScreenState.MAIN;
             levelSelector.showButtons();
             // Clean up Sandbox
+        }
+    }
+
+    public void handleResetButtonEvents(GImageButton reset, GEvent event){
+        if (reset == resetBtn && event == GEvent.CLICKED){
+            dragAndDropManager.addedDiamonds.clear();
+            diamondList.removeAll(dragAndDropManager.addedDiamonds);
+            dragAndDropManager.diamondGrid = new Diamond[5][5];
         }
     }
 
@@ -268,15 +317,22 @@ public class Driver extends PApplet{
         speedSlider.setVisible(false);
     }
 
+    public void cleanUpSand(){
+        dragAndDropManager.addedDiamonds.clear();
+        diamondList.removeAll(dragAndDropManager.addedDiamonds);
+        dragAndDropManager.diamondGrid = new Diamond[5][5];
+    }
+
 
     @Override
     public void mousePressed() {
-        dragAndDropManager.mousePressed();
+        dragAndDropManager.mousePressed(isSandboxMode());
+
     }
 
     @Override
     public void mouseReleased() {
-        dragAndDropManager.mouseReleased();
+        dragAndDropManager.mouseReleased(isSandboxMode());
     }
 
 
