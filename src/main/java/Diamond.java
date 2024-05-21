@@ -101,4 +101,18 @@ public class Diamond implements Draggable, Cloneable {
 
     public void mouseReleased() {
     }
+
+    public String serialize(){
+        return xPos + "," + yPos + "," + color;
+    }
+
+    public static Diamond deserialize(String data, PApplet screen, PImage img){
+        String[] parts = data.split(",");
+        int xPos = Integer.parseInt(parts[0]);
+        int yPos = Integer.parseInt(parts[1]);
+        String color = parts[3];
+        // Probably match image here
+        return new Diamond(screen, xPos, yPos, img, color);
+    }
+
 }

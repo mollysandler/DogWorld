@@ -319,18 +319,24 @@ public class Driver extends PApplet{
     }
 
     public void handleSaveButtonEvents(GImageButton save, GEvent event){
-        if (save == saveBtn && event == GEvent.CLICKED){
-            System.out.println("Dude new level Radical");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("createdLevels"))) {
+        if (save == saveBtn && event == GEvent.CLICKED) {
+            System.out.println("Saving current level...");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/Levels/createdLevels.txt"))) {
                 for (Diamond[] row : dragAndDropManager.diamondGrid) {
                     for (int col = 0; col < row.length; col++) {
-                        writer.write(String.valueOf(row[col]));
+                        Diamond diamond = row[col];
+                        if (diamond != null) {
+                            writer.write(diamond.serialize());
+                        } else {
+                            writer.write("null");
+                        }
                         if (col < row.length - 1) {
                             writer.write(" "); // Use a space to separate elements
                         }
                     }
                     writer.newLine(); // New line for the next row
                 }
+                System.out.println("Level saved successfully.");
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
