@@ -6,6 +6,9 @@ import processing.core.PImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * @author Molly Sandler
@@ -29,7 +32,6 @@ public class Driver extends PApplet{
     public List<Diamond> diamondList = new ArrayList<>();
 
     private List<Diamond> addedDiamond = new ArrayList<>();
-
     private GPanel blockPanel;
     private GImageButton btnPlay;
 
@@ -40,6 +42,7 @@ public class Driver extends PApplet{
     private GSlider speedSlider;
 
     private GImageButton resetBtn;
+    private GImageButton saveBtn;
 
     enum ScreenState {
         MAIN,
@@ -48,7 +51,6 @@ public class Driver extends PApplet{
 
     ScreenState currentState = ScreenState.MAIN;
     DragAndDropManager dragAndDropManager;
-
     @Override
     public void settings(){
         size(1200, 900);
@@ -83,9 +85,14 @@ public class Driver extends PApplet{
         diamondGreen = new Diamond(this, 200, 450, diamondGreenImage, "green");
 
         String[] resetImage = {"src/main/images/reset.png"};
-        resetBtn = new GImageButton(this, 450, 625, 100, 100, resetImage);
+        resetBtn = new GImageButton(this, 500, 625, 100, 100, resetImage);
         resetBtn.setVisible(false);
         resetBtn.addEventHandler(this, "handleResetButtonEvents");
+
+        String[] saveImage = {"src/main/images/save.png"};
+        saveBtn = new GImageButton(this, 350, 625, 100, 100, saveImage);
+        saveBtn.setVisible(false);
+        saveBtn.addEventHandler(this, "handleSaveButtonEvents");
 
 
         //drawing the trashcan images over the background
@@ -199,6 +206,7 @@ public class Driver extends PApplet{
         mainWorldBtn.setVisible(false);
         diamondRed.setVisible(false);
         resetBtn.setVisible(false);
+        saveBtn.setVisible(false);
 
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
@@ -239,6 +247,8 @@ public class Driver extends PApplet{
         // Enable diamonds?
 
         worldView.drawSandGrid();
+        saveBtn.setEnabled(true);
+        saveBtn.setVisible(true);
         resetBtn.setVisible(true);
         resetBtn.setEnabled(true);
         stepBlock.display();   // Display the step block button
@@ -306,6 +316,26 @@ public class Driver extends PApplet{
             diamondList.removeAll(dragAndDropManager.addedDiamonds);
             dragAndDropManager.diamondGrid = new Diamond[5][5];
         }
+    }
+
+    public void handleSaveButtonEvents(GImageButton save, GEvent event){
+        if (save == saveBtn && event == GEvent.CLICKED){
+            System.out.println("Dude new level Radical");
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("createdLevels"))) {
+                for (Diamond[] row : dragAndDropManager.diamondGrid) {
+                    for (int col = 0; col < row.length; col++) {
+                        writer.write(String.valueOf(row[col]));
+                        if (col < row.length - 1) {
+                            writer.write(" "); // Use a space to separate elements
+                        }
+                    }
+                    writer.newLine(); // New line for the next row
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
     public void cleanUpMain(){
