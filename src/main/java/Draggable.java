@@ -6,4 +6,5 @@ public interface Draggable {
     int getxPos();
     int getyPos();
     void setIsDragging(boolean isDragging);
+    void drag();
 }

@@ -7,7 +7,7 @@ public final class OriginalInstructions {
 
     private static Instruction[] instance;
 
-    private OriginalInstructions() {}
+    OriginalInstructions() {}
 
     public static Instruction[] getInstance() {
         return instance;
