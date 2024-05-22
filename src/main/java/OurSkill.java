@@ -54,13 +54,7 @@ public class OurSkill implements PropertyChangeListener, Runnable {
         /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
 
 
-        while(true){
-
-            if (commandQueue.isEmpty()) {
-                WorldData.getWorldData().setGameState(true);
-                continue;
-            }
-            String command = commandQueue.poll();
+        for(String command : commandQueue){
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
 
             if(command == null){
@@ -164,6 +158,7 @@ public class OurSkill implements PropertyChangeListener, Runnable {
             case "commands":
                 List<String> commands = (List<String>) evt.getNewValue();
                 commandQueue.addAll(commands);
+                System.out.println(commandQueue);
                 this.run();
         }
     }

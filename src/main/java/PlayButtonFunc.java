@@ -10,6 +10,8 @@ import java.util.List;
  * @author Andy Duong
  */
 public class PlayButtonFunc implements Runnable{
+
+    private boolean waiting = true;
     public PlayButtonFunc(){
 
     }
@@ -30,6 +32,7 @@ public class PlayButtonFunc implements Runnable{
 
         //per instruction send each instruction to their respective function
         for(Instruction instruction:instructions) {
+
             if(instruction.getSkill() .equals( "turn")){
                 commands.add(instruction.getSkill());
                 commands.add(instruction.getSkill());
@@ -38,6 +41,8 @@ public class PlayButtonFunc implements Runnable{
                 commands.add(instruction.getSkill());
             }
             commands.add(instruction.getSkill());
+            commands.add("perform");
+            WorldData.getWorldData().setCommands(commands);
 
             try {
                 Thread.sleep(myData.getSpeed());
@@ -45,15 +50,14 @@ public class PlayButtonFunc implements Runnable{
                 throw new RuntimeException(e);
             }
             instruction.runAction();
+            commands.clear();
         }
 
         ScoreChecker.logScore( instructions.size() );
-
-        commands.add("perform");
         commands.add("rest");
         commands.add("perform");
         WorldData.getWorldData().setCommands(commands);
 
-        WorldData.getWorldData().setGameState(true);//comment out if using dog
+//        WorldData.getWorldData().setGameState(true);//comment out if using dog
     }
 }
