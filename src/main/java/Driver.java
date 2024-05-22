@@ -2,7 +2,6 @@ import g4p_controls.*;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,16 +16,11 @@ public class Driver extends PApplet{
 
     private WorldData worldData;
     private final WorldView worldView = new WorldView(this);
-    private StepInstruction stepBlock;
     private Diamond diamondRed;
     private Diamond diamondBlue;
     private Diamond diamondGreen;
-    private TurnInstruction turnBlock;
-    private PaintInstruction paintBlock;
-    private EraseInstruction eraseBlock;
     private PImage closedDelete;
     private PImage openedDelete;
-//    private InstructionList instructionCopies = InstructionList.getInstance();
     private LevelSelector levelSelector;
 
     public List<Diamond> diamondList = new ArrayList<>();
@@ -51,6 +45,9 @@ public class Driver extends PApplet{
 
     ScreenState currentState = ScreenState.MAIN;
     DragAndDropManager dragAndDropManager;
+
+    private OurSkill RobotSkill;;
+
     @Override
     public void settings(){
         size(1200, 900);
@@ -61,16 +58,6 @@ public class Driver extends PApplet{
     }
 
     public void buttonDisplay() {
-        //displaying all buttons
-        PImage stepBlockImage = loadImage("src/main/images/step.png");
-        stepBlock = new StepInstruction(this, 1000, 250, stepBlockImage);
-        PImage turnBlockImage = loadImage("src/main/images/turn.png");
-        turnBlock = new TurnInstruction(this, 1000, 350, turnBlockImage);
-        PImage paintLightBlockImage = loadImage("src/main/images/paint_light.png");
-        paintBlock = new PaintInstruction(this, 1000, 450, paintLightBlockImage, "light");
-        PImage eraseBlockImage = loadImage("src/main/images/erase.png");
-        eraseBlock = new EraseInstruction(this, 1000, 550, eraseBlockImage);
-
         // Draw diamonds?!
         PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
         diamondRedImage.resize(50, 50);
@@ -124,6 +111,18 @@ public class Driver extends PApplet{
         speedSlider.addEventHandler(this, "handleSliderEvents");
     }
 
+//    public Instruction[] instructionDisplay() {
+//        Instruction stepBlock = new StepInstruction(this, 1000, 250,
+//                loadImage("src/main/images/step.png"));
+//        Instruction turnBlock = new TurnInstruction(this, 1000, 350,
+//                loadImage("src/main/images/turn.png"));
+//        Instruction paintBlock = new PaintInstruction(this, 1000, 450,
+//                loadImage("src/main/images/paint_light.png"), "light");
+//        Instruction eraseBlock = new EraseInstruction(this, 1000, 550,
+//                loadImage("src/main/images/erase.png"));
+//        return new Instruction[]{ stepBlock, turnBlock, paintBlock, eraseBlock };
+//    }
+
     @Override
     public void setup(){
         worldData = WorldData.getWorldData();
@@ -145,17 +144,13 @@ public class Driver extends PApplet{
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
 
-        OriginalInstructions originalInstructions = new OriginalInstructions(new Instruction[]{
-                stepBlock,
-                turnBlock,
-                paintBlock,
-                eraseBlock,
-        });
+        OriginalInstructions originalInstructions = new OriginalInstructions();
 
         diamondList.add(diamondRed);
         diamondList.add(diamondGreen);
         diamondList.add(diamondBlue);
 
+        OriginalInstructions.setInstructionImages(this);
 
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
@@ -163,6 +158,14 @@ public class Driver extends PApplet{
         levelSelector.displayButtons();
 
         blockPanel = new BlockPanel(this, 100, 100, 600, 900);
+
+//        OurSkill robotSkill = new OurSkill();
+//        robotSkill.connectBluetooth();
+//        worldData.addPropertyChangeListener(robotSkill);
+//        Thread robotThread = new Thread(robotSkill);
+//        robotThread.start();
+        //uncomment if using dog
+
 
     }
 
@@ -230,19 +233,20 @@ public class Driver extends PApplet{
         speedSlider.setEnabled(true);
         speedSlider.setVisible(true);
 
-        btnPlay.setEnabled(!WorldData.getWorldData().getGameState());
+        btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
     }
 
     public void drawSandbox(){
         background(190, 164, 132);
+
+
         // reset diamonds
 
         for (Diamond diamond : diamondList){
             diamond.display();
         }
-
 
         // Enable diamonds?
 
@@ -251,10 +255,19 @@ public class Driver extends PApplet{
         saveBtn.setVisible(true);
         resetBtn.setVisible(true);
         resetBtn.setEnabled(true);
-        stepBlock.display();   // Display the step block button
-        turnBlock.display();   // Display the turn block button
-        paintBlock.display();  // Display the paint block button
-        eraseBlock.display();  // Optionally, display the erase block button
+//        stepBlock.display();   // Display the step block button
+//        turnBlock.display();   // Display the turn block button
+//        paintBlock.display();  // Display the paint block button
+//        eraseBlock.display();  // Optionally, display the erase block button
+        for (int i=0; i<OriginalInstructions.getInstance().length -1; i++) {
+            (OriginalInstructions.getInstance()[i]).display();
+        }
+        diamondRed.display();
+        diamondGreen.display();
+        diamondBlue.display();
+//        worldView.drawSandGrid();
+        for ( Instruction inst : OriginalInstructions.getInstance() ) inst.display();
+        // to edit the sandbox instruction images make a new setup method in OriginalInstructions
         mainWorldBtn.setVisible(true);
         levelSelector.hideButtons();
 
@@ -281,7 +294,7 @@ public class Driver extends PApplet{
     public void handleButtonEvents(GImageButton imagebutton, GEvent event){
         if (imagebutton == btnPlay && event == GEvent.CLICKED){
             WorldData.getWorldData().resetWorld();
-            WorldData.getWorldData().setGameState(true);
+            WorldData.getWorldData().setGameState(false);
             PlayButtonFunc playButtonFunc = new PlayButtonFunc();
             Thread t1 = new Thread(playButtonFunc);
             t1.start();
@@ -351,6 +364,7 @@ public class Driver extends PApplet{
         sandboxBtn.setVisible(false);
         sandboxBtn.setEnabled(false);
         speedSlider.setVisible(false);
+
     }
 
     public void cleanUpSand(){
@@ -376,5 +390,6 @@ public class Driver extends PApplet{
         String[] processingArgs = {"Driver"};
         Driver running = new Driver();
         PApplet.runSketch(processingArgs, running);
+
     }
 }

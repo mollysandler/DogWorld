@@ -108,7 +108,6 @@ public class DragAndDropManager {
                 }
             }
         }
-
     }
 
     public void mouseReleased(boolean isSandbox) {
@@ -167,10 +166,6 @@ public class DragAndDropManager {
             currentDiamond.setIsDragging(false);
             currentDiamond = null;
             System.out.println(gridX + " " + gridY);
-
-
         }
-
-
     }
 }

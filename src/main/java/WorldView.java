@@ -59,7 +59,9 @@ public final class WorldView implements PropertyChangeListener {
 
     public void drawDiamonds() {
         screen.textSize( 12 );
-        for ( String colorStr : levelMap.keySet() ) {
+        for ( String keyStr : levelMap.keySet() ) {
+            if ( !keyStr.startsWith("diamond_") ) { continue; }
+            String colorStr = keyStr.substring(8);
             switch (colorStr) {
                 case "red":
                     screen.fill( screen.color( 255, 89, 94 ) );
@@ -70,13 +72,11 @@ public final class WorldView implements PropertyChangeListener {
                 case "blue":
                     screen.fill( screen.color( 63, 166, 231 ) );
                     break;
-                case "spider":
-                    continue;
                 default:
                     int[] color = PaintMixer.getPaintColor(colorStr);
                     screen.fill( screen.color( color[0], color[1], color[2] ) );
             }
-            for ( Point p : levelMap.get(colorStr)) {
+            for ( Point p : levelMap.get(keyStr)) {
                 float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) - 5 );
                 float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) + 5 );
                 screen.text('◆', diamondX, diamondY );

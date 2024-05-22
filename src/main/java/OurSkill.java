@@ -6,14 +6,18 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 /**
  * @author Molly Sandler, Andy Duong
  */
-public class OurSkill {
+public class OurSkill implements PropertyChangeListener, Runnable {
     private static final Map<String, String> skillMap = new HashMap<>();
+    private SerialPort robotConnection;
+    private Queue<String> commandQueue = new LinkedList<>();
     public OurSkill() {
     }
 
@@ -21,33 +25,50 @@ public class OurSkill {
         return (String)skillMap.get(skillKey);
     }
 
-    public void RobotSkillSet(List<String> commands) throws IOException, InterruptedException {
-        List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
-
-        /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
-        SerialPort robotConnection = SerialPort.getCommPort("COM4"); //port to which robot is communicating
+    public void connectBluetooth(){
+        robotConnection = SerialPort.getCommPort("COM5"); //port to which robot is communicating
 
         robotConnection.openPort();
+    }
+
+    @Override
+    public void run() {
+
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
             @Override
             public void serialEvent(SerialPortEvent event)
             {
-                if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE)
+                if (event.getEventType() != SerialPort.LISTENING_EVENT_DATA_AVAILABLE) {
+                    System.out.println("close");
                     return;
+                }
                 byte[] newData = new byte[robotConnection.bytesAvailable()];
                 int numRead = robotConnection.readBytes(newData, newData.length);
                 System.out.println("Read " + numRead + " bytes.");
             }
         });
-        Thread.sleep(4000);
+        List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
 
-        for(String command : commands){
+        /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
+
+
+        while(true){
+
+            if (commandQueue.isEmpty()) {
+                WorldData.getWorldData().setGameState(true);
+                continue;
+            }
+            String command = commandQueue.poll();
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
 
+            if(command == null){
+                continue;
+            }
+
             if (command.equalsIgnoreCase("exit")) { //if an exit is called close the serial port
-//                robotConnection.closePort();
+                robotConnection.closePort();
                 return; //loops until an exit is called
             }
 //            else if (command.equalsIgnoreCase("camera")){
@@ -55,10 +76,20 @@ public class OurSkill {
 //                robotCamera.readCamera();
 //            }
             else if (command.equalsIgnoreCase("perform")){ //performs the tasks and clears the skill set
-                PerformSkills(skillSet, robotConnection);
+                try {
+                    PerformSkills(skillSet, robotConnection);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                commandQueue.clear();
                 skillSet.clear();
                 printAllSkills();
-                Thread.sleep(4000);
+                WorldData.getWorldData().setGameState(true);
+                try {
+                    Thread.sleep(4000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
             }
             else if (commandSerial == null){ //if a command is not found let the user know
@@ -125,6 +156,16 @@ public class OurSkill {
         skillMap.put("wave", "khi");
         skillMap.put("handstand", "khds");
         skillMap.put("look_around", "kck");
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        switch ( evt.getPropertyName() ){
+            case "commands":
+                List<String> commands = (List<String>) evt.getNewValue();
+                commandQueue.addAll(commands);
+                this.run();
+        }
     }
 }
 
