@@ -11,7 +11,6 @@ import java.util.List;
  */
 public class PlayButtonFunc implements Runnable{
 
-    private boolean waiting = true;
     public PlayButtonFunc(){
 
     }
