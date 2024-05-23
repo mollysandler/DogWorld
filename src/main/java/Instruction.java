@@ -1,5 +1,9 @@
 import processing.core.PApplet;
 import processing.core.PImage;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Riya Badadare
  */
@@ -90,6 +94,21 @@ public abstract class Instruction implements Draggable, Cloneable {
     }
     public String getSkill() {
         return this.skill;
+    }
+
+    public void checkRunAction( int control ) {
+//        System.out.println( control + ": " + this );
+        if ( control != 0 ) return;
+        List<String> commands = new ArrayList<>();
+        commands.add( getSkill() );
+        commands.add( "perform" );
+        WorldData.getWorldData().setCommands(commands);
+        try {
+            Thread.sleep(WorldData.getWorldData().getSpeed());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        runAction();
     }
     public abstract void runAction();
 
