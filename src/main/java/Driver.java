@@ -2,6 +2,8 @@ import g4p_controls.*;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +39,10 @@ public class Driver extends PApplet{
 
     private GImageButton resetBtn;
     private GImageButton saveBtn;
+    public Modal currentModal;
+
+    private GTextField levelNameField;
+    private GButton saveLevelBtnModal;
 
     enum ScreenState {
         MAIN,
@@ -46,7 +52,7 @@ public class Driver extends PApplet{
     ScreenState currentState = ScreenState.MAIN;
     DragAndDropManager dragAndDropManager;
 
-    private OurSkill RobotSkill;;
+    private OurSkill RobotSkill;
 
     @Override
     public void settings(){
@@ -192,6 +198,45 @@ public class Driver extends PApplet{
         }
     }
 
+    public void handleSaveButtonEvents(GImageButton save, GEvent event){
+        if (save == saveBtn && event == GEvent.CLICKED) {
+            currentModal = screen -> {
+                screen.fill(255);
+                screen.rect(0, 0, 600, 600, 20);
+                screen.fill(0);
+                screen.textSize(45);
+                screen.text("Save level", 0, -250);
+            };
+
+            if (levelNameField == null) {
+                levelNameField = new GTextField(this, width / 2 - 200, height / 2 - 50, 400, 60);
+                levelNameField.setPromptText("Enter level name");
+                levelNameField.setFont(new Font("Arial", Font.PLAIN, 24)); // Set text size
+                levelNameField.setLocalColorScheme(GCScheme.GOLD_SCHEME); // Set color scheme for better visibility
+            }
+            levelNameField.setVisible(true);
+
+            if (saveLevelBtnModal == null) {
+                saveLevelBtnModal = new GButton(this, width / 2 - 75, height / 2 + 80, 150, 50, "Save level");
+                saveLevelBtnModal.setFont(new Font("Arial", Font.PLAIN, 24));
+                saveLevelBtnModal.addEventHandler(this, "handleLevelSave");
+            }
+            saveLevelBtnModal.setVisible(true);
+        }
+    }
+
+    public void handleLevelSave(GButton button, GEvent event) {
+        if (event == GEvent.CLICKED) {
+            String levelName = levelNameField.getText();
+            println("Level name saved: " + levelName);
+
+            levelNameField.dispose();
+            levelNameField = null;
+            saveLevelBtnModal.dispose();
+            saveLevelBtnModal = null;
+            currentModal = null;
+        }
+    }
 
     public void draw() {
         switch (currentState) {
@@ -202,6 +247,30 @@ public class Driver extends PApplet{
                 drawSandbox();
                 break;
         }
+        if (currentModal != null) {
+            fill(0, 100);
+            rect(0, 0, width, height);
+            push();
+            translate(width / 2, height / 2);
+            rectMode(CENTER);
+            textAlign(CENTER, CENTER);
+            currentModal.display(this);
+            textAlign(CORNER, CORNER);
+            rectMode(CORNER);
+            pop();
+
+            // Modal boundaries
+            float modalX = width / 2 - 300;
+            float modalY = height / 2 - 300;
+            float modalWidth = 600;
+            float modalHeight = 600;
+
+            if (mousePressed && (mouseX < modalX || mouseX > modalX + modalWidth || mouseY < modalY || mouseY > modalY + modalHeight)) {
+                currentModal = null;
+                levelNameField.setVisible(false);
+                saveLevelBtnModal.setVisible(false);
+            }
+        }
     }
 
     public void drawMain() {
@@ -210,7 +279,6 @@ public class Driver extends PApplet{
         diamondRed.setVisible(false);
         resetBtn.setVisible(false);
         saveBtn.setVisible(false);
-
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
@@ -241,27 +309,22 @@ public class Driver extends PApplet{
     public void drawSandbox(){
         background(190, 164, 132);
 
-
         // reset diamonds
-
         for (Diamond diamond : diamondList){
             diamond.display();
         }
 
         // Enable diamonds?
-
         worldView.drawSandGrid();
-        saveBtn.setEnabled(true);
-        saveBtn.setVisible(true);
-        resetBtn.setVisible(true);
-        resetBtn.setEnabled(true);
-//        stepBlock.display();   // Display the step block button
-//        turnBlock.display();   // Display the turn block button
-//        paintBlock.display();  // Display the paint block button
-//        eraseBlock.display();  // Optionally, display the erase block button
-        for (int i=0; i<OriginalInstructions.getInstance().length -1; i++) {
+        saveBtn.setEnabled(currentModal == null);
+        saveBtn.setVisible(currentModal == null);
+        resetBtn.setVisible(currentModal == null);
+        resetBtn.setEnabled(currentModal == null);
+
+        for (int i = 0; i < OriginalInstructions.getInstance().length - 1; i++) {
             (OriginalInstructions.getInstance()[i]).display();
         }
+
         diamondRed.display();
         diamondGreen.display();
         diamondBlue.display();
@@ -280,9 +343,7 @@ public class Driver extends PApplet{
             image(closedDelete, 60, 600);
         }
 
-
         dragAndDropManager.makeDraggable(true);
-
 
         PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
         textFont(font);
@@ -331,30 +392,27 @@ public class Driver extends PApplet{
         }
     }
 
-    public void handleSaveButtonEvents(GImageButton save, GEvent event){
-        if (save == saveBtn && event == GEvent.CLICKED) {
-            System.out.println("Saving current level...");
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/Levels/createdLevels.txt"))) {
-                for (Diamond[] row : dragAndDropManager.diamondGrid) {
-                    for (int col = 0; col < row.length; col++) {
-                        Diamond diamond = row[col];
-                        if (diamond != null) {
-                            writer.write(diamond.serialize());
-                        } else {
-                            writer.write("null");
-                        }
-                        if (col < row.length - 1) {
-                            writer.write(" "); // Use a space to separate elements
-                        }
+    public void saveLevelData() {
+        System.out.println("Saving current level...");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/Levels/createdLevels.txt"))) {
+            for (Diamond[] row : dragAndDropManager.diamondGrid) {
+                for (int col = 0; col < row.length; col++) {
+                    Diamond diamond = row[col];
+                    if (diamond != null) {
+                        writer.write(diamond.serialize());
+                    } else {
+                        writer.write("null");
                     }
-                    writer.newLine(); // New line for the next row
+                    if (col < row.length - 1) {
+                        writer.write(" "); // Use a space to separate elements
+                    }
                 }
-                System.out.println("Level saved successfully.");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                writer.newLine(); // New line for the next row
             }
+            System.out.println("Level saved successfully.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
-
     }
 
     public void cleanUpMain(){
