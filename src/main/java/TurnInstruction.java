@@ -1,7 +1,9 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * @author Riya Badadare
@@ -17,6 +19,26 @@ public class TurnInstruction extends Instruction {
     @Override
     public String toString() {
         return "turn";
+    }
+
+    @Override
+    public void checkRunAction(int control ) {
+        if ( control != 0 ) return;
+        List<String> commands = new ArrayList<>();
+        commands.add(getSkill());
+        commands.add(getSkill());
+        commands.add(getSkill());
+        commands.add(getSkill());
+        commands.add(getSkill());
+        commands.add(getSkill());
+        commands.add("perform");
+        WorldData.getWorldData().setCommands(commands);
+        try {
+            Thread.sleep(WorldData.getWorldData().getSpeed());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        runAction();
     }
 
     @Override

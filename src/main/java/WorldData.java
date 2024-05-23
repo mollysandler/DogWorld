@@ -71,6 +71,10 @@ public final class WorldData extends PropertyChangeSupport {
         return bgColor;
     }
 
+    public int getNumRows() {
+        return numRows;
+    }
+
     /**
      * @param rot: 0 = east, 1 = north, 2 = west, 3 = south
      */
