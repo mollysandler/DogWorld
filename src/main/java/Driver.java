@@ -43,6 +43,9 @@ public class Driver extends PApplet{
 
     private GTextField levelNameField;
     private GButton saveLevelBtnModal;
+    private List<Diamond[][]> savedGrids = new ArrayList<>();
+    private List<String> savedLevelNames = new ArrayList<>();
+    private List<GButton> savedLevelButtons = new ArrayList<>();
 
     enum ScreenState {
         MAIN,
@@ -86,7 +89,6 @@ public class Driver extends PApplet{
         saveBtn = new GImageButton(this, 350, 625, 100, 100, saveImage);
         saveBtn.setVisible(false);
         saveBtn.addEventHandler(this, "handleSaveButtonEvents");
-
 
         //drawing the trashcan images over the background
         closedDelete = loadImage("src/main/images/trash1.png");
@@ -158,7 +160,6 @@ public class Driver extends PApplet{
 
         OriginalInstructions.setInstructionImages(this);
 
-
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         dragAndDropManager.initialDiamonds = diamondList;// Pass diamondList
         levelSelector.displayButtons();
@@ -174,6 +175,7 @@ public class Driver extends PApplet{
 
 
     }
+
 
     public void loadImages() {
         for (int i = 1; i < 21; i++) {
@@ -228,7 +230,9 @@ public class Driver extends PApplet{
     public void handleLevelSave(GButton button, GEvent event) {
         if (event == GEvent.CLICKED) {
             String levelName = levelNameField.getText();
-            println("Level name saved: " + levelName);
+            saveLevelData();
+            savedLevelNames.add(levelName);
+            System.out.println("Level name saved: " + levelName);
 
             levelNameField.dispose();
             levelNameField = null;
@@ -237,6 +241,33 @@ public class Driver extends PApplet{
             currentModal = null;
         }
     }
+
+    public void saveLevelData() {
+        Diamond[][] savedGrid = dragAndDropManager.diamondGrid.clone();
+        savedGrids.add(savedGrid);
+        System.out.println("Grid saved: " + savedGrid);
+
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/Levels/createdLevels.txt"))) {
+//            for (Diamond[] row : dragAndDropManager.diamondGrid) {
+//                for (int col = 0; col < row.length; col++) {
+//                    Diamond diamond = row[col];
+//                    if (diamond != null) {
+//                        writer.write(diamond.serialize());
+//                    } else {
+//                        writer.write("null");
+//                    }
+//                    if (col < row.length - 1) {
+//                        writer.write(" "); // Use a space to separate elements
+//                    }
+//                }
+//                writer.newLine(); // New line for the next row
+//            }
+//            System.out.println("Level saved successfully.");
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+    }
+
 
     public void draw() {
         switch (currentState) {
@@ -273,7 +304,7 @@ public class Driver extends PApplet{
         }
     }
 
-    public void drawMain() {
+    private void drawMain() {
         background(40,52,68);
         mainWorldBtn.setVisible(false);
         diamondRed.setVisible(false);
@@ -306,8 +337,42 @@ public class Driver extends PApplet{
         levelSelector.displayNavBar();
     }
 
-    public void drawSandbox(){
+    private void drawLevelButtons(float x, float y) {
+        push();
+        translate(x, y);
+        rectMode(CENTER);
+        textAlign(CENTER, CENTER);
+        float off = 0;
+        final float gap = 20;
+        final float padding = 20;
+        textSize(20);
+        for (int i = 0; i < savedLevelNames.size(); i ++) {
+            final String level = savedLevelNames.get(i);
+            final float tw = textWidth(level);
+            final float buttonWidth = tw + padding;
+            off += tw/2 + gap;
+            fill(255);
+            rect(off, 0, buttonWidth, 60);
+            fill(0);
+            text(level, off, 0);
+
+            if (abs(mouseX - (x + off)) <= buttonWidth / 2 && abs(mouseY - y) <= 30 && mousePressed) {
+                // On level selected
+                // TODO: Load level
+            }
+
+            off += tw/2 + gap;
+
+        }
+        rectMode(CORNER);
+        textAlign(CORNER, CORNER);
+        pop();
+    }
+
+    private void drawSandbox() {
         background(190, 164, 132);
+
+        drawLevelButtons(200, 200);
 
         // reset diamonds
         for (Diamond diamond : diamondList){
@@ -389,29 +454,6 @@ public class Driver extends PApplet{
             dragAndDropManager.addedDiamonds.clear();
             diamondList.removeAll(dragAndDropManager.addedDiamonds);
             dragAndDropManager.diamondGrid = new Diamond[5][5];
-        }
-    }
-
-    public void saveLevelData() {
-        System.out.println("Saving current level...");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/Levels/createdLevels.txt"))) {
-            for (Diamond[] row : dragAndDropManager.diamondGrid) {
-                for (int col = 0; col < row.length; col++) {
-                    Diamond diamond = row[col];
-                    if (diamond != null) {
-                        writer.write(diamond.serialize());
-                    } else {
-                        writer.write("null");
-                    }
-                    if (col < row.length - 1) {
-                        writer.write(" "); // Use a space to separate elements
-                    }
-                }
-                writer.newLine(); // New line for the next row
-            }
-            System.out.println("Level saved successfully.");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
     }
 
