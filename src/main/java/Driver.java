@@ -166,6 +166,7 @@ public class Driver extends PApplet{
 
         blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
+
 //        OurSkill robotSkill = new OurSkill();
 //        robotSkill.connectBluetooth();
 //        worldData.addPropertyChangeListener(robotSkill);
@@ -310,6 +311,7 @@ public class Driver extends PApplet{
         diamondRed.setVisible(false);
         resetBtn.setVisible(false);
         saveBtn.setVisible(false);
+        blockPanel.draw();
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
