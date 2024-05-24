@@ -89,16 +89,16 @@ public final class WorldView implements PropertyChangeListener {
         String imgPath = IMAGEFOLDERPATH;
         switch ( spider[2] ) {
             case 1:
-                imgPath += "spider_north.png";
+                imgPath += "dog_north.png";
                 break;
             case 2:
-                imgPath += "spider_west.png";
+                imgPath += "dog_west.png";
                 break;
             case 3:
-                imgPath += "spider_south.png";
+                imgPath += "dog_south.png";
                 break;
             default:
-                imgPath += "spider_east.png";
+                imgPath += "dog_east.png";
                 break;
         }
         screen.image( screen.loadImage( imgPath ), leftPadding + spider[0]*tileWidth, topPadding + spider[1]*tileWidth );
