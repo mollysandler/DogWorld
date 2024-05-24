@@ -16,6 +16,7 @@ public final class WorldData extends PropertyChangeSupport {
     private int speed = 250;
     private boolean gameState = true;
     private List<String> commands;
+    private boolean gameStatus;
 
     private WorldData() {
         super( new Object() );
@@ -23,6 +24,7 @@ public final class WorldData extends PropertyChangeSupport {
         tileMap = new HashMap<>();
         spider = new int[]{0, 0, 0};
         bgColor = new int[]{0, 0, 0};
+        gameStatus = true;
     }
 
     public static WorldData getWorldData() {
@@ -125,6 +127,13 @@ public final class WorldData extends PropertyChangeSupport {
         tileMap.clear();
         println("cleared");
 
+    }
+
+    public boolean getGameStatus() {
+        return gameStatus;
+    }
+    public void setPlayerWon() {
+        gameStatus = false;
     }
 }
 
