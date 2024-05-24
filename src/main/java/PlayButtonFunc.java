@@ -56,7 +56,7 @@ public class PlayButtonFunc implements Runnable{
         commands.add("perform");
         WorldData.getWorldData().setCommands(commands);
 
-//        WorldData.getWorldData().setGameState(true);//comment out if using dog
+        WorldData.getWorldData().setGameState(true);//comment out if using dog
     }
 
     public static void setControl( int c ) {
