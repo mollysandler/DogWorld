@@ -12,7 +12,7 @@ public abstract class Instruction implements Draggable, Cloneable {
     protected PApplet screen;
     private int xPos;
     private int yPos;
-    private final int width;
+    protected int width;
     private final int height;
     private boolean isDragging;
     private int xOffset;

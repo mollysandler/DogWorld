@@ -19,6 +19,7 @@ public class IfInstruction extends Instruction {
     public IfInstruction(PApplet screen, int xPos, int yPos, PImage img, Options cond) {
         super(screen, xPos, yPos, img, null);
         this.condition = cond;
+        width = img.width - 45;
         color = colorValues[ cond.ordinal() ];
     }
     private void dropdownClick() {
@@ -55,10 +56,10 @@ public class IfInstruction extends Instruction {
         super.screen.push();
         super.screen.translate(getxPos(), getyPos());
         super.screen.image(img, 0, 0);
+        super.screen.translate(110, 27);
         super.screen.noStroke();
         super.screen.fill( color[0], color[1], color[2] );
-        super.screen.circle(125, 49, 40);
-        super.screen.translate(110, 27);
+        super.screen.circle(15, 22, 40);
         super.screen.fill( 0, 0, 0 );
         super.screen.triangle(
                 8, 19,
