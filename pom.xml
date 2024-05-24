@@ -57,7 +57,7 @@
             <artifactId>GUI-for-processing-jar</artifactId>
             <version>4.3.9</version>
             <scope>system</scope>
-            <systemPath>C:\Users\andyd\Documents\CSC 308\csc309project\src\main\lib\G4P\library\G4P.jar</systemPath>
+            <systemPath>C:\Users\Andy\Documents\CSC 308\csc309project\src\main\lib\G4P\library\G4P.jar</systemPath>
         </dependency>
     </dependencies>
 
@@ -66,5 +66,4 @@
         <maven.compiler.target>20</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
 </project>

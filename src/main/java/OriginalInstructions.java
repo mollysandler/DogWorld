@@ -8,7 +8,6 @@ public final class OriginalInstructions {
     private static Instruction[] instance;
 
     OriginalInstructions() {}
- add .
     public static Instruction[] getInstance() {
         return instance;
     }

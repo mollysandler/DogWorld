@@ -152,13 +152,13 @@ public class Driver extends PApplet{
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
 
-        OriginalInstructions originalInstructions = new OriginalInstructions();
+//        OriginalInstructions originalInstructions = new OriginalInstructions();
 
         diamondList.add(diamondRed);
         diamondList.add(diamondGreen);
         diamondList.add(diamondBlue);
 
-        OriginalInstructions.setInstructionImages(this);
+//        OriginalInstructions.setInstructionImages(this);
 
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         dragAndDropManager.initialDiamonds = diamondList;// Pass diamondList
