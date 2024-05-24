@@ -48,6 +48,19 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 <artifactId>GUI-for-processing-jar</artifactId>
 <version>4.3.9</version>
 </dependency>
+<!-- AWS SDK for Java -->
+<dependency>
+<groupId>com.amazonaws</groupId>
+<artifactId>aws-java-sdk-sqs</artifactId>
+<version>1.11.1013</version> <!-- Replace with the latest version -->
+</dependency>
+
+<!-- AWS SDK Core -->
+<dependency>
+<groupId>com.amazonaws</groupId>
+<artifactId>aws-java-sdk-core</artifactId>
+<version>1.11.1013</version> <!-- Replace with the latest version -->
+</dependency>
 </dependencies>
 <properties>
 <maven.compiler.source>20</maven.compiler.source>
