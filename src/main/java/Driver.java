@@ -4,12 +4,10 @@ import processing.core.PFont;
 import processing.core.PImage;
 
 import java.awt.*;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * @author Molly Sandler
@@ -120,18 +118,6 @@ public class Driver extends PApplet{
         speedSlider.addEventHandler(this, "handleSliderEvents");
     }
 
-//    public Instruction[] instructionDisplay() {
-//        Instruction stepBlock = new StepInstruction(this, 1000, 250,
-//                loadImage("src/main/images/step.png"));
-//        Instruction turnBlock = new TurnInstruction(this, 1000, 350,
-//                loadImage("src/main/images/turn.png"));
-//        Instruction paintBlock = new PaintInstruction(this, 1000, 450,
-//                loadImage("src/main/images/paint_light.png"), "light");
-//        Instruction eraseBlock = new EraseInstruction(this, 1000, 550,
-//                loadImage("src/main/images/erase.png"));
-//        return new Instruction[]{ stepBlock, turnBlock, paintBlock, eraseBlock };
-//    }
-
     @Override
     public void setup(){
         worldData = WorldData.getWorldData();
@@ -237,7 +223,7 @@ public class Driver extends PApplet{
     public void handleLevelSave(GButton button, GEvent event) {
         if (event == GEvent.CLICKED) {
             String levelName = levelNameField.getText();
-            saveLevelData();
+            saveLevelData(levelName);
             savedLevelNames.add(levelName);
             System.out.println("Level name saved: " + levelName);
 
@@ -249,32 +235,41 @@ public class Driver extends PApplet{
         }
     }
 
-    public void saveLevelData() {
-        Diamond[][] savedGrid = dragAndDropManager.diamondGrid.clone();
+    public void saveLevelData(String levelName) {
+        Diamond[][] savedGrid = new Diamond[5][5];
+        for (int i = 0; i < dragAndDropManager.diamondGrid.length; i++) {
+            for (int j = 0; j < dragAndDropManager.diamondGrid[i].length; j++) {
+                if (dragAndDropManager.diamondGrid[i][j] != null) {
+                    try {
+                        savedGrid[i][j] = dragAndDropManager.diamondGrid[i][j].clone();
+                    } catch (CloneNotSupportedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
         savedGrids.add(savedGrid);
-        System.out.println("Grid saved: " + savedGrid);
 
-//        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/Levels/createdLevels.txt"))) {
-//            for (Diamond[] row : dragAndDropManager.diamondGrid) {
-//                for (int col = 0; col < row.length; col++) {
-//                    Diamond diamond = row[col];
-//                    if (diamond != null) {
-//                        writer.write(diamond.serialize());
-//                    } else {
-//                        writer.write("null");
-//                    }
-//                    if (col < row.length - 1) {
-//                        writer.write(" "); // Use a space to separate elements
-//                    }
-//                }
-//                writer.newLine(); // New line for the next row
-//            }
-//            System.out.println("Level saved successfully.");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("src/main/Levels/SandboxCreatedLevels/" + levelName + ".txt"))) {
+            for (Diamond[] row : savedGrid) {
+                for (int col = 0; col < row.length; col++) {
+                    Diamond diamond = row[col];
+                    if (diamond != null) {
+                        writer.write(diamond.serialize());
+                    } else {
+                        writer.write("null");
+                    }
+                    if (col < row.length - 1) {
+                        writer.write(" ");
+                    }
+                }
+                writer.newLine();
+            }
+            System.out.println("Level saved successfully.");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
 
     public void draw() {
         switch (currentState) {
@@ -366,7 +361,8 @@ public class Driver extends PApplet{
 
             if (abs(mouseX - (x + off)) <= buttonWidth / 2 && abs(mouseY - y) <= 30 && mousePressed) {
                 // On level selected
-                // TODO: Load level
+                dragAndDropManager.addedDiamonds.clear();
+                loadLevelData(savedLevelNames.get(i));
             }
 
             off += tw/2 + gap;
@@ -375,6 +371,32 @@ public class Driver extends PApplet{
         rectMode(CORNER);
         textAlign(CORNER, CORNER);
         pop();
+    }
+
+    public void loadLevelData(String levelName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader("src/main/Levels/SandboxCreatedLevels/" + levelName + ".txt"))) {
+            PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
+            PImage diamondBlueImage = loadImage("src/main/images/blue-diamond.png");
+            PImage diamondGreenImage = loadImage("src/main/images/green-diamond.png");
+            diamondRedImage.resize(50, 50);
+            diamondBlueImage.resize(50, 50);
+            diamondGreenImage.resize(50, 50);
+            String line;
+            int row = 0;
+            while ((line = reader.readLine()) != null && row < 5) {
+                System.out.println("Processing line: " + line);
+                String[] cells = line.split(" ");
+                for (int col = 0; col < cells.length && col < 5; col++) {
+                    if (!"null".equals(cells[col])) {
+                        Diamond diamond = Diamond.deserialize(cells[col], this, diamondRedImage, diamondBlueImage, diamondGreenImage);
+                        dragAndDropManager.addedDiamonds.add(diamond);
+                    }
+                }
+                row++;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void drawSandbox() {

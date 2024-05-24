@@ -115,4 +115,30 @@ public class Diamond implements Draggable, Cloneable {
         return new Diamond(screen, xPos, yPos, img, color);
     }
 
+    public static Diamond deserialize(String data, PApplet screen, PImage redImage, PImage blueImage, PImage greenImage) {
+        System.out.println("reached deserialization");
+        String[] parts = data.split(",");
+        int xPos = Integer.parseInt(parts[0]);
+        int yPos = Integer.parseInt(parts[1]);
+        String color = parts[2];
+        PImage img;
+
+        switch (color) {
+            case "red":
+                img = redImage;
+                break;
+            case "blue":
+                img = blueImage;
+                break;
+            case "green":
+                img = greenImage;
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown color: " + color);
+        }
+        Diamond diamond = new Diamond(screen, xPos, yPos, img, color);
+
+        return diamond;
+    }
+
 }
