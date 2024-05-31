@@ -154,10 +154,9 @@ public class Driver extends PApplet{
 //        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
         sqsMessenger = SQSMessenger.getInstance();
-
         new Thread(() -> {
-            while (WorldData.getWorldData().getGameState()) {
-                sqsMessenger.messageReceiver();
+            while (WorldData.getWorldData().getGameStatus() && !sqsMessenger.getiInvoked()) {
+                sqsMessenger.messageReceiver(3000);
             }
         }).start();
 

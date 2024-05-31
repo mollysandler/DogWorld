@@ -23,7 +23,6 @@ public class SQSMessenger {
     private AmazonSQS sqs;
     private WorldData game;
     private boolean iInvoked;
-    private PApplet screen;
 
     private static SQSMessenger sqsMessenger = null;
 
@@ -33,7 +32,7 @@ public class SQSMessenger {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(REGION)
                 .build();
-        this.game = WorldData.getWorldData();
+        game = WorldData.getWorldData();
         iInvoked = false;
     }
 
@@ -46,7 +45,24 @@ public class SQSMessenger {
     }
 
     public void sendScore(int paint_score, int coding_score) {
-        SQSMessenger.getInstance().messageReceiver();
+        String response = SQSMessenger.getInstance().messageReceiver(0);
+        if (!response.isEmpty()) {
+            String scores = response;
+            System.out.println(scores);
+            int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
+            scores = scores.substring(scores.indexOf(" "));
+            scores = scores.trim();
+            int received_coding_score = Integer.parseInt(scores);
+
+            if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
+                System.out.println("YOU LOST");
+            } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
+                System.out.println("YOU WIN");
+            } else {
+                System.out.println("TIE");
+            }
+        }
+        iInvoked = true;
         String s = paint_score + " " + coding_score;
         SQSMessenger.getInstance().messageSender(s);
     }
@@ -57,53 +73,37 @@ public class SQSMessenger {
                     .withQueueUrl(QUEUE_URL)
                     .withMessageBody(s);
             sqs.sendMessage(sendMessageRequest);
-            System.out.println("message sent: " + s);
         } catch (AmazonSQSException e) {
             LOGGER.log(Level.SEVERE, "Failed to send message to SQS", e);
         }
     }
 
-    public void messageReceiver() {
-        while (!iInvoked) {
-            try {
-                ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
-                        .withQueueUrl(QUEUE_URL)
-                        .withMaxNumberOfMessages(1);
-                ReceiveMessageResult receiveMessageResult = sqs.receiveMessage(receiveMessageRequest);
+    public String messageReceiver(int secs) {
+        try {
+            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
+                    .withQueueUrl(QUEUE_URL)
+                    .withMaxNumberOfMessages(1);
+            ReceiveMessageResult receiveMessageResult = sqs.receiveMessage(receiveMessageRequest);
 
-                List<Message> messages = receiveMessageResult.getMessages();
-                for (Message message : messages) {
-                    LOGGER.info("Message received: " + message.getBody());
+            List<Message> messages = receiveMessageResult.getMessages();
+            for (Message message : messages) {
+                LOGGER.info("Message received: " + message.getBody());
 
-                    // Process the message and end the game if a player won
-                    if (message.getBody().contains("Player won the game!")) {
-                        System.out.println("Another player won the game. Notifying main game.");
-                        game.setPlayerWon();
-                    }
-                    else {
-                        String scores = message.getBody();
-                        int paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
-                        scores = scores.substring(scores.indexOf(" "));
-                        scores = scores.trim();
-                        int coding_score = Integer.parseInt(scores);
+                // Delete the received message from the queue
+                String messageReceiptHandle = message.getReceiptHandle();
+                sqs.deleteMessage(new DeleteMessageRequest(QUEUE_URL, messageReceiptHandle));
 
-                        System.out.println(paint_score);
-                        System.out.println(coding_score);
-                    }
-
-                    // Delete the received message from the queue
-                    String messageReceiptHandle = message.getReceiptHandle();
-                    sqs.deleteMessage(new DeleteMessageRequest(QUEUE_URL, messageReceiptHandle));
-                }
-
-                // Check for messages every 3 seconds
-                System.out.println("Thread going to sleep");
-                sleep(3000);
-
-            } catch (AmazonSQSException | InterruptedException e) {
-                LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
+                return String.valueOf(message.getBody());
             }
+
+            // Check for messages every 3 seconds
+            System.out.println("Thread going to sleep");
+            sleep(secs);
+
+        } catch (AmazonSQSException | InterruptedException e) {
+            LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
         }
+        return "";
     }
 
     private static BasicAWSCredentials getAWSCredentials() {
@@ -130,13 +130,7 @@ public class SQSMessenger {
         }
     }
 
-//    public void drawWonButton() {
-//        screen.fill(255, 0, 0);
-//        screen.rect(370, 650, 140, 80);
-//    }
-//    public void checkIfPressed(int mouseX, int mouseY) {
-//        if (mouseX >= 370 && mouseX <= 510 && mouseY >= 650 && mouseY <= 730) {
-//            this.messageSender();
-//        };
-//    }
+    public boolean getiInvoked() {
+        return SQSMessenger.getInstance().iInvoked;
+    }
 }
