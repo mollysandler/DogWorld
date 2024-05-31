@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.Thread.sleep;
+
 public class SQSMessenger {
 
     private static final Logger LOGGER = Logger.getLogger(SQSMessenger.class.getName());
@@ -20,35 +22,53 @@ public class SQSMessenger {
     private static final String CREDENTIALS_PATH = "D:\\CalPoly\\CSC309\\sprint3\\csc309project\\.aws\\credentials";
     private AmazonSQS sqs;
     private WorldData game;
+    private boolean iInvoked;
     private PApplet screen;
 
-    public SQSMessenger(PApplet screen) {
-        BasicAWSCredentials awsCredentials = getAWSCredentials(CREDENTIALS_PATH);
+    private static SQSMessenger sqsMessenger = null;
+
+    private SQSMessenger() {
+        BasicAWSCredentials awsCredentials = getAWSCredentials();
         sqs = AmazonSQSClientBuilder.standard()
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(REGION)
                 .build();
         this.game = WorldData.getWorldData();
-        this.screen = screen;
+        iInvoked = false;
     }
 
-    public void messageSender() {
+    public static SQSMessenger getInstance() {
+        if (sqsMessenger != null) {
+            return sqsMessenger;
+        } else {
+            return new SQSMessenger();
+        }
+    }
+
+    public void sendScore(int paint_score, int coding_score) {
+        SQSMessenger.getInstance().messageReceiver();
+        String s = paint_score + " " + coding_score;
+        SQSMessenger.getInstance().messageSender(s);
+    }
+
+    public void messageSender(String s) {
         try {
             SendMessageRequest sendMessageRequest = new SendMessageRequest()
                     .withQueueUrl(QUEUE_URL)
-                    .withMessageBody("Player won the game!");
+                    .withMessageBody(s);
             sqs.sendMessage(sendMessageRequest);
+            System.out.println("message sent: " + s);
         } catch (AmazonSQSException e) {
             LOGGER.log(Level.SEVERE, "Failed to send message to SQS", e);
         }
     }
 
     public void messageReceiver() {
-        while (game.getGameStatus()) {
+        while (!iInvoked) {
             try {
                 ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
                         .withQueueUrl(QUEUE_URL)
-                        .withMaxNumberOfMessages(10);
+                        .withMaxNumberOfMessages(1);
                 ReceiveMessageResult receiveMessageResult = sqs.receiveMessage(receiveMessageRequest);
 
                 List<Message> messages = receiveMessageResult.getMessages();
@@ -59,7 +79,16 @@ public class SQSMessenger {
                     if (message.getBody().contains("Player won the game!")) {
                         System.out.println("Another player won the game. Notifying main game.");
                         game.setPlayerWon();
-                        return;
+                    }
+                    else {
+                        String scores = message.getBody();
+                        int paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
+                        scores = scores.substring(scores.indexOf(" "));
+                        scores = scores.trim();
+                        int coding_score = Integer.parseInt(scores);
+
+                        System.out.println(paint_score);
+                        System.out.println(coding_score);
                     }
 
                     // Delete the received message from the queue
@@ -67,9 +96,9 @@ public class SQSMessenger {
                     sqs.deleteMessage(new DeleteMessageRequest(QUEUE_URL, messageReceiptHandle));
                 }
 
-                // Check for messages every 5 seconds
+                // Check for messages every 3 seconds
                 System.out.println("Thread going to sleep");
-                Thread.sleep(3000);
+                sleep(3000);
 
             } catch (AmazonSQSException | InterruptedException e) {
                 LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
@@ -77,11 +106,11 @@ public class SQSMessenger {
         }
     }
 
-    private static BasicAWSCredentials getAWSCredentials(String filePath) {
+    private static BasicAWSCredentials getAWSCredentials() {
         String accessKeyId = null;
         String secretAccessKey = null;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(CREDENTIALS_PATH))) {
             String line;
             while ((line = br.readLine()) != null) {
                 if (line.startsWith("aws_access_key_id")) {
@@ -101,13 +130,13 @@ public class SQSMessenger {
         }
     }
 
-    public void drawWonButton() {
-        screen.fill(255, 0, 0);
-        screen.rect(370, 650, 140, 80);
-    }
-    public void checkIfPressed(int mouseX, int mouseY) {
-        if (mouseX >= 370 && mouseX <= 510 && mouseY >= 650 && mouseY <= 730) {
-            this.messageSender();
-        };
-    }
+//    public void drawWonButton() {
+//        screen.fill(255, 0, 0);
+//        screen.rect(370, 650, 140, 80);
+//    }
+//    public void checkIfPressed(int mouseX, int mouseY) {
+//        if (mouseX >= 370 && mouseX <= 510 && mouseY >= 650 && mouseY <= 730) {
+//            this.messageSender();
+//        };
+//    }
 }

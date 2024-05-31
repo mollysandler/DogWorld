@@ -22,7 +22,7 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private LevelSelector levelSelector;
-//    private SQSMessenger sqsMessenger;
+    private SQSMessenger sqsMessenger;
 
     public List<Diamond> diamondList = new ArrayList<>();
 
@@ -153,11 +153,13 @@ public class Driver extends PApplet{
 
 //        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
-//        sqsMessenger = new SQSMessenger(this);
-//
-//        new Thread(() -> {
-//            sqsMessenger.messageReceiver();
-//        }).start();
+        sqsMessenger = SQSMessenger.getInstance();
+
+        new Thread(() -> {
+            while (WorldData.getWorldData().getGameState()) {
+                sqsMessenger.messageReceiver();
+            }
+        }).start();
 
 //        OurSkill robotSkill = new OurSkill();
 //        robotSkill.connectBluetooth();
@@ -337,7 +339,7 @@ public class Driver extends PApplet{
         btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
-//        sqsMessenger.drawWonButton();
+        // sqsMessenger.drawWonButton();
     }
 
     private void drawLevelButtons(float x, float y) {
@@ -507,7 +509,7 @@ public class Driver extends PApplet{
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
-//        sqsMessenger.checkIfPressed(mouseX, mouseY);
+        // sqsMessenger.checkIfPressed(mouseX, mouseY);
     }
 
     @Override

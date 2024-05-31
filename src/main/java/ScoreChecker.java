@@ -53,6 +53,7 @@ public class ScoreChecker {
         int[] score = scoreSolution(loc);
         System.out.println( "Paint Accuracy Score: " + score[0] );
         System.out.println( "Coding Brevity Score: " + score[1] );
+        SQSMessenger.getInstance().sendScore(score[0], score[1]);
     }
 
     public static int scoreColor( int[] g, int[] p, int[] b ) {
