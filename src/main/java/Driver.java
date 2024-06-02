@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 /**
  * @author Molly Sandler
  */
@@ -155,8 +157,26 @@ public class Driver extends PApplet{
 
 //        sqsMessenger = SQSMessenger.getInstance();
 //        new Thread(() -> {
-//            while (WorldData.getWorldData().getGameStatus() && !sqsMessenger.getiInvoked()) {
-//                sqsMessenger.messageReceiver(3000);
+//            while (true) {
+//                while (!sqsMessenger.getiInvoked()) {
+//                    String response = sqsMessenger.messageReceiver();
+//                    if (!response.isEmpty()) {
+//                        System.out.println("OTHER PLAYER FINISHED WITH A SCORE OF " + response);
+//                    }
+//
+//                    System.out.println("Thread going to sleep");
+//                    try {
+//                        sleep(3000);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//                System.out.println("sleeping in infinite loop");
+//                try {
+//                    sleep(1000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
 //            }
 //        }).start();
 
@@ -338,7 +358,6 @@ public class Driver extends PApplet{
         btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
-//        sqsMessenger.drawWonButton();
     }
 
     private void drawLevelButtons(float x, float y) {
@@ -508,7 +527,6 @@ public class Driver extends PApplet{
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
-//        sqsMessenger.checkIfPressed(mouseX, mouseY);
     }
 
     @Override
