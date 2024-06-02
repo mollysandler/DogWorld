@@ -8,10 +8,9 @@ public class ScoreChecker {
         int colorCount = 0;
         HashMap<String, ArrayList<Point>> levelMap = WorldData.getWorldData().getLevelMap();
         int[] bgColor = WorldData.getWorldData().getBgColor();
-        for ( String colorStr : levelMap.keySet() ) {
-            if ( colorStr.charAt(0) != 'r' && colorStr.charAt(0) != 'g' && colorStr.charAt(0) != 'b') {
-                continue;
-            }
+        for ( String keyStr : levelMap.keySet() ) {
+            if ( !keyStr.startsWith("diamond_") ) { continue; }
+            String colorStr = keyStr.substring(8);
             int[] goalColor = new int[]{0, 0, 0};
             switch (colorStr) {
                 case "red":
@@ -32,7 +31,7 @@ public class ScoreChecker {
                 default:
                     goalColor = PaintMixer.getPaintColor(colorStr);
             }
-            for ( Point p : levelMap.get(colorStr)) {
+            for ( Point p : levelMap.get(keyStr)) {
                 if ( !WorldData.getWorldData().getTileMap().containsKey(p) ) {
                     System.out.println( colorStr + " Point (" + p.getX() + ", " + p.getY() + "): -> " + scores[0]);
                     return new int[]{0,0};
@@ -44,7 +43,7 @@ public class ScoreChecker {
                         Arrays.toString(paintColor) + " -> " + scores[0]);
             }
         }
-//        scores[0] = scores[0] / colorCount;
+        scores[0] = scores[0] / colorCount;
         scores[1] = 25 + (int) (Math.round(100/(4.0/3 + Math.exp((double) loc /4 - 6))));
         return scores;
     }

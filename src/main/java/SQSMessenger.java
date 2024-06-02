@@ -3,7 +3,6 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.*;
-import processing.core.PApplet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -45,23 +44,23 @@ public class SQSMessenger {
     }
 
     public void sendScore(int paint_score, int coding_score) {
-        String response = SQSMessenger.getInstance().messageReceiver(0);
-        if (!response.isEmpty()) {
-            String scores = response;
-            System.out.println(scores);
-            int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
-            scores = scores.substring(scores.indexOf(" "));
-            scores = scores.trim();
-            int received_coding_score = Integer.parseInt(scores);
-
-            if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
-                System.out.println("YOU LOST");
-            } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
-                System.out.println("YOU WIN");
-            } else {
-                System.out.println("TIE");
-            }
-        }
+        // String response = SQSMessenger.getInstance().messageReceiver(0);
+//        if (!response.isEmpty()) {
+//            String scores = response;
+//            System.out.println(scores);
+//            int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
+//            scores = scores.substring(scores.indexOf(" "));
+//            scores = scores.trim();
+//            int received_coding_score = Integer.parseInt(scores);
+//
+//            if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
+//                System.out.println("YOU LOST");
+//            } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
+//                System.out.println("YOU WIN");
+//            } else {
+//                System.out.println("TIE");
+//            }
+//        }
         iInvoked = true;
         String s = paint_score + " " + coding_score;
         SQSMessenger.getInstance().messageSender(s);
