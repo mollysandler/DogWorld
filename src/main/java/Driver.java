@@ -153,10 +153,11 @@ public class Driver extends PApplet{
 
 //        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
-//        sqsMessenger = new SQSMessenger(this);
-//
+//        sqsMessenger = SQSMessenger.getInstance();
 //        new Thread(() -> {
-//            sqsMessenger.messageReceiver();
+//            while (WorldData.getWorldData().getGameStatus() && !sqsMessenger.getiInvoked()) {
+//                sqsMessenger.messageReceiver(3000);
+//            }
 //        }).start();
 
 //        OurSkill robotSkill = new OurSkill();

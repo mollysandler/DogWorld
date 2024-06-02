@@ -132,8 +132,5 @@ public final class WorldData extends PropertyChangeSupport {
     public boolean getGameStatus() {
         return gameStatus;
     }
-    public void setPlayerWon() {
-        gameStatus = false;
-    }
 }
 
