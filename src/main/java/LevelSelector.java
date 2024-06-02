@@ -47,6 +47,7 @@ public class LevelSelector{
             LoadLevels l = new LoadLevels(level);
             WorldData.getWorldData().setLevel(l.loadHashMap());
             double temperature = l.loadHashMap().get("weather").get(0).getX();
+//            SQSMessenger.getInstance().setiInvoked(false);
         }
     }
 

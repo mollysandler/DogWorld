@@ -23,7 +23,7 @@ public class SQSMessenger {
     private WorldData game;
     private boolean iInvoked;
 
-    private static SQSMessenger sqsMessenger = null;
+    private static SQSMessenger sqsMessenger;
 
     private SQSMessenger() {
         BasicAWSCredentials awsCredentials = getAWSCredentials();
@@ -36,34 +36,33 @@ public class SQSMessenger {
     }
 
     public static SQSMessenger getInstance() {
-        if (sqsMessenger != null) {
-            return sqsMessenger;
-        } else {
-            return new SQSMessenger();
+        if (sqsMessenger == null) {
+            sqsMessenger = new SQSMessenger();
         }
+        return sqsMessenger;
     }
 
     public void sendScore(int paint_score, int coding_score) {
-        // String response = SQSMessenger.getInstance().messageReceiver(0);
-//        if (!response.isEmpty()) {
-//            String scores = response;
-//            System.out.println(scores);
-//            int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
-//            scores = scores.substring(scores.indexOf(" "));
-//            scores = scores.trim();
-//            int received_coding_score = Integer.parseInt(scores);
-//
-//            if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
-//                System.out.println("YOU LOST");
-//            } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
-//                System.out.println("YOU WIN");
-//            } else {
-//                System.out.println("TIE");
-//            }
-//        }
-        iInvoked = true;
+        String response = sqsMessenger.messageReceiver();
+        if (!response.isEmpty()) {
+            String scores = response;
+            System.out.println(scores);
+            int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
+            scores = scores.substring(scores.indexOf(" "));
+            scores = scores.trim();
+            int received_coding_score = Integer.parseInt(scores);
+
+            if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
+                System.out.println("YOU LOST");
+            } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
+                System.out.println("YOU WIN");
+            } else {
+                System.out.println("TIE");
+            }
+        }
+        sqsMessenger.setiInvoked(true);
         String s = paint_score + " " + coding_score;
-        SQSMessenger.getInstance().messageSender(s);
+        sqsMessenger.messageSender(s);
     }
 
     public void messageSender(String s) {
@@ -77,7 +76,7 @@ public class SQSMessenger {
         }
     }
 
-    public String messageReceiver(int secs) {
+    public String messageReceiver() {
         try {
             ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
                     .withQueueUrl(QUEUE_URL)
@@ -95,11 +94,7 @@ public class SQSMessenger {
                 return String.valueOf(message.getBody());
             }
 
-            // Check for messages every 3 seconds
-            System.out.println("Thread going to sleep");
-            sleep(secs);
-
-        } catch (AmazonSQSException | InterruptedException e) {
+        } catch (AmazonSQSException e) {
             LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
         }
         return "";
@@ -130,6 +125,9 @@ public class SQSMessenger {
     }
 
     public boolean getiInvoked() {
-        return SQSMessenger.getInstance().iInvoked;
+        return iInvoked;
+    }
+    public void setiInvoked(boolean t) {
+        iInvoked = t;
     }
 }
