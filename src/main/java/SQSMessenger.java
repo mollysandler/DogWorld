@@ -3,6 +3,7 @@ import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.*;
+import processing.core.PApplet;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,6 +24,12 @@ public class SQSMessenger {
     private WorldData game;
     private boolean iInvoked;
 
+    private PApplet parent;
+    private boolean showTextBox;
+    private String inputText;
+    private int startTime;
+    private final int displayDuration;
+
     private static SQSMessenger sqsMessenger;
 
     private SQSMessenger() {
@@ -31,8 +38,11 @@ public class SQSMessenger {
                 .withCredentials(new AWSStaticCredentialsProvider(awsCredentials))
                 .withRegion(REGION)
                 .build();
-        game = WorldData.getWorldData();
+
         iInvoked = false;
+        showTextBox = false;
+        inputText = "";
+        displayDuration = 3000;
     }
 
     public static SQSMessenger getInstance() {
@@ -52,13 +62,18 @@ public class SQSMessenger {
             scores = scores.trim();
             int received_coding_score = Integer.parseInt(scores);
 
+            String input;
             if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
                 System.out.println("YOU LOST");
+                input = "YOU LOST\n" + "OPPONENT SCORE: " + response;
             } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
                 System.out.println("YOU WIN");
+                input = "YOU WIN\n" + "OPPONENT SCORE: " + response;
             } else {
                 System.out.println("TIE");
+                input = "TIE\n" + "OPPONENT SCORE: " + response;
             }
+            show(input);
         }
         sqsMessenger.setiInvoked(true);
         String s = paint_score + " " + coding_score;
@@ -122,6 +137,28 @@ public class SQSMessenger {
         } else {
             throw new RuntimeException("Failed to read AWS credentials from file.");
         }
+    }
+
+    public void show(String input) {
+        showTextBox = true;
+        inputText = input;
+        startTime = parent.millis();
+    }
+
+    public void update() {
+        if (showTextBox) {
+            drawTextBox();
+            if (parent.millis() - startTime > displayDuration) {
+                showTextBox = false;
+            }
+        }
+    }
+
+    private void drawTextBox() {
+        parent.fill(200);
+        parent.rect(200, 200, 200, 200);
+//        parent.fill(0);
+//        parent.text(inputText, x + 10, y + h / 2 + 5);
     }
 
     public boolean getiInvoked() {
