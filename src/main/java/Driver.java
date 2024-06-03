@@ -48,6 +48,9 @@ public class Driver extends PApplet{
     private List<String> savedLevelNames = new ArrayList<>();
     private List<GButton> savedLevelButtons = new ArrayList<>();
 
+    GButton showPanelButton;
+    CoinPanel coinPanel;
+
     enum ScreenState {
         MAIN,
         SANDBOX
@@ -111,6 +114,9 @@ public class Driver extends PApplet{
         mainWorldBtn = new GImageButton(this, 1000, 100, 100, 100, homeButtonImage);
         mainWorldBtn.addEventHandler(this, "handleMainWorldButtonEvents");
         mainWorldBtn.setVisible(false);
+
+        showPanelButton = new GButton(this, 600, 300, 100, 30, "Show Panel");
+        showPanelButton.addEventHandler(this, "handleButtonClick");
 
         speedSlider = new GSlider(this, 25, 475, 275, 100, 30);
         speedSlider.setLimits(50, 0, 100); // initial, left, right
@@ -187,7 +193,22 @@ public class Driver extends PApplet{
 //        robotThread.start();
         //uncomment if using dog
 
+        // Create a button to show the panel
 
+        // Initialize the panel but keep it hidden initially
+        coinPanel = new CoinPanel(this, 600, 700, 300, 200);
+        coinPanel.setVisible(false);
+        worldData.addPropertyChangeListener(coinPanel);
+
+
+
+    }
+    public void handleButtonClick(GButton button, GEvent event) {
+        System.out.println("hio");
+        if (button == showPanelButton) {
+            // Show the panel when the button is clicked
+            coinPanel.setVisible(true);
+        }
     }
 
 
@@ -527,6 +548,7 @@ public class Driver extends PApplet{
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
+        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override
