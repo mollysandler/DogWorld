@@ -18,6 +18,9 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
+      - name: Install local JAR
+        run: mvn install:install-file -Dfile="src/main/lib/G4P/library/G4P.jar" -DgroupId="quarks-place" -DartifactId=GUI-for-processing-jar -Dversion="4.3.9" -Dpackaging=jar
+
       - name: Step 02. Build with Maven
         run: mvn clean package
 
