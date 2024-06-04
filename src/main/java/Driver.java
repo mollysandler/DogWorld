@@ -70,15 +70,15 @@ public class Driver extends PApplet{
     public void buttonDisplay() {
         // Draw diamonds?!
         PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
-        diamondRedImage.resize(50, 50);
+        diamondRedImage.resize(40, 40);
         diamondRed = new Diamond(this, 200, 250, diamondRedImage, "red");
 
         PImage diamondBlueImage = loadImage("src/main/images/blue-diamond.png");
-        diamondBlueImage.resize(50, 50);
+        diamondBlueImage.resize(40, 40);
         diamondBlue = new Diamond(this, 200, 350, diamondBlueImage, "blue");
 
         PImage diamondGreenImage = loadImage("src/main/images/green-diamond.png");
-        diamondGreenImage.resize(50, 50);
+        diamondGreenImage.resize(40, 40);
         diamondGreen = new Diamond(this, 200, 450, diamondGreenImage, "green");
 
         String[] resetImage = {"src/main/images/reset.png"};
@@ -539,6 +539,5 @@ public class Driver extends PApplet{
         String[] processingArgs = {"Driver"};
         Driver running = new Driver();
         PApplet.runSketch(processingArgs, running);
-
     }
 }
