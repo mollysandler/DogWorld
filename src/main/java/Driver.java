@@ -4,6 +4,7 @@ import processing.core.PFont;
 import processing.core.PImage;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,23 +26,17 @@ public class Driver extends PApplet{
     private PImage openedDelete;
     private LevelSelector levelSelector;
 //    private SQSMessenger sqsMessenger;
-
     public List<Diamond> diamondList = new ArrayList<>();
-
     private List<Diamond> addedDiamond = new ArrayList<>();
     private GPanel blockPanel;
     private GImageButton btnPlay;
-
     private GImageButton sandboxBtn;
-
     private GImageButton mainWorldBtn;
-
     private GSlider speedSlider;
-
     private GImageButton resetBtn;
     private GImageButton saveBtn;
     public Modal currentModal;
-
+    public static int keyDown = -1;
     private GTextField levelNameField;
     private GButton saveLevelBtnModal;
     private List<Diamond[][]> savedGrids = new ArrayList<>();
@@ -119,6 +114,13 @@ public class Driver extends PApplet{
         speedSlider.setLocalColorScheme(GConstants.ORANGE_SCHEME);
         speedSlider.addEventHandler(this, "handleSliderEvents");
     }
+
+    @Override
+    public void keyPressed(processing.event.KeyEvent event) {
+        keyDown = event.getKeyCode();
+        super.keyPressed(event);
+    }
+
 
     @Override
     public void setup(){
@@ -325,6 +327,7 @@ public class Driver extends PApplet{
                 saveLevelBtnModal.setVisible(false);
             }
         }
+        keyDown = -1;
     }
 
     private void drawMain() {

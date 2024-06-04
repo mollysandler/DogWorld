@@ -1,4 +1,5 @@
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 
 import java.util.ArrayList;
@@ -10,10 +11,10 @@ public class IfInstruction extends Instruction {
     public enum Options {Edge, Diamond, R, G, B, D, L }
     private Options condition;
     private final int[][] colorValues = {
-            {40, 52, 68}, {240, 240, 128}, {255, 0, 0}, {0, 255, 0}, {0, 0, 255},
+            {60, 72, 88}, {240, 240, 128}, {240, 80, 80}, {30, 180, 30}, {75, 150, 255},
             {20, 20, 20}, {240, 240, 240}
     };
-    private final int dropdownW = 40;
+    private final int dropdownW = 35;
     private boolean showDropdown = false;
 
     public IfInstruction(PApplet screen, int xPos, int yPos, PImage img, Options cond) {
@@ -25,27 +26,35 @@ public class IfInstruction extends Instruction {
     private void dropdownClick() {
         var s = super.screen;
         if (s.mousePressed) {
-            int dropdownH = 46;
-            showDropdown = s.mouseX > getDropdownX() && s.mouseX < getDropdownX() + dropdownW &&
-                    s.mouseY > getDropdownY() && s.mouseY < getDropdownY() + dropdownH;
+            showDropdown = Math.abs(s.mouseX - getDropdownX()) <= ((float) dropdownW) / 2  &&
+                    Math.abs(s.mouseY - getDropdownY()) <= ((float) dropdownW) / 2;
         }
     }
     private void colorOptionClicked(int x, int y, int w, Options value) {
         var s = super.screen;
-        if (s.mouseX > x && s.mouseX < x + w &&
-                s.mouseY > y && s.mouseY < y + w && s.mousePressed) {
+        int[] c = colorValues[ value.ordinal() ];
+        int dx = (s.mouseX - x); int dy = (s.mouseY - y);
+        if ((dx*dx + dy*dy) <= w*w/4  && s.mousePressed) {
             condition = value;
-            color = colorValues[ value.ordinal() ];
+            color = c;
         }
+        super.screen.push();
+        super.screen.translate(x, y);
+        super.screen.noStroke();
+        super.screen.fill( c[0], c[1], c[2] );
+        super.screen.circle(0, 0, w);
+        super.screen.fill(255);
+        super.screen.textSize(18);
+        super.screen.textAlign(PConstants.CORNER, PConstants.CENTER);
+        if (value == Options.Edge) super.screen.text("Wall", 25, 0);
+        if (value == Options.Diamond) super.screen.text("Diamond", 25, 0);
+        super.screen.pop();
     }
     private void drawDropdown() {
         int i = 0;
         for ( Options o : Options.values() ) {
-            super.screen.stroke( 204, 204, 204 );
-            super.screen.fill( colorValues[i][0], colorValues[i][1], colorValues[i][2] );
-            super.screen.circle(dropdownW + 25, 25 + (i * 45), 40);
             colorOptionClicked(
-                    getDropdownX() + dropdownW,
+                    getDropdownX() + dropdownW + 15,
                     getDropdownY() + (i * 45),
                     40, o);
             i++;
@@ -56,19 +65,19 @@ public class IfInstruction extends Instruction {
         super.screen.push();
         super.screen.translate(getxPos(), getyPos());
         super.screen.image(img, 0, 0);
-        super.screen.translate(110, 27);
+        super.screen.translate(getDropdownX() - getxPos(), getDropdownY() - getyPos());
         super.screen.noStroke();
         super.screen.fill( color[0], color[1], color[2] );
-        super.screen.circle(15, 22, 40);
-        super.screen.fill( 0, 0, 0 );
+        super.screen.circle(0, 0, dropdownW);
+        super.screen.fill(condition == Options.L || condition == Options.Diamond ? 0 : 255);
         super.screen.triangle(
-                8, 19,
-                22, 19,
-                15, 27
+                -7, -4,
+                7, -4,
+                0, 4
         );
+        super.screen.pop();
         if (showDropdown) drawDropdown();
         dropdownClick();
-        super.screen.pop();
     }
     @Override
     public IfInstruction clone() throws CloneNotSupportedException {
@@ -80,11 +89,11 @@ public class IfInstruction extends Instruction {
     }
 
     private int getDropdownX() {
-        return getxPos() + 100;
+        return getxPos() + 128;
     }
 
     private int getDropdownY() {
-        return getyPos() + 26;
+        return getyPos() + 50;
     }
 
     @Override
