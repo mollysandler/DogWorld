@@ -18,6 +18,7 @@ public final class WorldData extends PropertyChangeSupport {
     private List<String> commands;
     private boolean gameStatus;
     private int userScore;
+    private int coins;
 
     private WorldData() {
         super( new Object() );
@@ -40,6 +41,13 @@ public final class WorldData extends PropertyChangeSupport {
 
     public int getSpeed() {
         return speed;
+    }
+
+    public void addCoins(int value){
+        coins += value;
+    }
+    public int getCoins() {
+        return coins;
     }
 
     public void setCommands(List<String> commandsInput){
