@@ -91,30 +91,6 @@ public class SQSMessenger {
         }
     }
 
-    public String messageReceiver() {
-        try {
-            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
-                    .withQueueUrl(QUEUE_URL)
-                    .withMaxNumberOfMessages(1);
-            ReceiveMessageResult receiveMessageResult = sqs.receiveMessage(receiveMessageRequest);
-
-            List<Message> messages = receiveMessageResult.getMessages();
-            for (Message message : messages) {
-                LOGGER.info("Message received: " + message.getBody());
-
-                // Delete the received message from the queue
-                String messageReceiptHandle = message.getReceiptHandle();
-                sqs.deleteMessage(new DeleteMessageRequest(QUEUE_URL, messageReceiptHandle));
-
-                return String.valueOf(message.getBody());
-            }
-
-        } catch (AmazonSQSException e) {
-            LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
-        }
-        return "";
-    }
-
     private static BasicAWSCredentials getAWSCredentials() {
         String accessKeyId = null;
         String secretAccessKey = null;
@@ -137,6 +113,30 @@ public class SQSMessenger {
         } else {
             throw new RuntimeException("Failed to read AWS credentials from file.");
         }
+    }
+
+    public String messageReceiver() {
+        try {
+            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
+                    .withQueueUrl(QUEUE_URL)
+                    .withMaxNumberOfMessages(1);
+            ReceiveMessageResult receiveMessageResult = sqs.receiveMessage(receiveMessageRequest);
+
+            List<Message> messages = receiveMessageResult.getMessages();
+            for (Message message : messages) {
+                LOGGER.info("Message received: " + message.getBody());
+
+                // Delete the received message from the queue
+                String messageReceiptHandle = message.getReceiptHandle();
+                sqs.deleteMessage(new DeleteMessageRequest(QUEUE_URL, messageReceiptHandle));
+
+                return String.valueOf(message.getBody());
+            }
+
+        } catch (AmazonSQSException e) {
+            LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
+        }
+        return "";
     }
 
     public void show(String input) {
