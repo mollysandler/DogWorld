@@ -14,7 +14,6 @@ public class PlayButtonFunc implements Runnable{
     @Override
     public void run() {
 
-        WorldData myData = WorldData.getWorldData();
         InstructionList instructionList = InstructionList.getInstance();
         control = 0;
 
@@ -25,31 +24,12 @@ public class PlayButtonFunc implements Runnable{
             return;
         }
 
-//        int[] dataSpider = myData.getSpider();
         List<String> commands = new ArrayList<>();
 
         //per instruction send each instruction to their respective function
         for(Instruction instruction : instructions) {
             instruction.checkRunAction( control );
 
-//            if(instruction.getSkill() .equals( "turn")){
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//            }
-//            commands.add(instruction.getSkill());
-//            commands.add("perform");
-//            WorldData.getWorldData().setCommands(commands);
-//
-//            try {
-//                Thread.sleep(myData.getSpeed());
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            instruction.runAction();
-//            commands.clear();
         }
 
         ScoreChecker.logScore( instructions.size() );

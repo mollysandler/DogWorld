@@ -192,11 +192,9 @@ public class Driver extends PApplet{
         // Create a button to show the panel
 
         // Initialize the panel but keep it hidden initially
-        coinPanel = new CoinPanel(this, 600, 700, 300, 200);
+        coinPanel = new CoinPanel(this, 480, 315, 300, 200);
         coinPanel.setVisible(false);
         worldData.addPropertyChangeListener(coinPanel);
-
-
 
     }
 

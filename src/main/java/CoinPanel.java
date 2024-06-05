@@ -8,15 +8,17 @@ import javax.swing.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
+import java.util.Random;
 
 public class CoinPanel extends GPanel implements PropertyChangeListener {
     GLabel label;
     GButton closeButton;
+    PApplet myPap;
     public CoinPanel(PApplet pApplet, float v, float v1, float v2, float v3) {
         super(pApplet, v, v1, v2, v3, "CoinPanel");
-        // Add a label to the panel
-        label = new GLabel(pApplet, 20, 40, 260, 20, "This is a custom panel.");
-        this.addControl(label);
+
+        myPap = pApplet;
+
 
         // Add a close button to the panel
         closeButton = new GButton(pApplet, 20, 80, 80, 30, "Close");
@@ -38,7 +40,12 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                 if (evt.getNewValue() instanceof Integer) {
                     int score = (Integer) evt.getNewValue();
                     if (score == 0) {
+                        Random rand = new Random();
+                        label = new GLabel(myPap, 20, 40, 260, 20, "You won " + rand.nextInt(10, 20) + " coins!");
+
+                        this.addControl(label);
                         this.setVisible(true);
+
                     }
                 }
 
