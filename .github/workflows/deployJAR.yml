@@ -26,11 +26,18 @@ jobs:
       - name: Step 02. Build with Maven
         run: mvn clean package
         
-      - name: LS
-        run: ls -al target && ls -al staging
+      - name: LS before Deploy
+        run: ls -al target
         
       - name: Step 3. Deploy
         run: mkdir staging && cp target/*.jar staging
+                
+      - name: LS After Deploy
+        run: ls -al target 
+
+                
+      - name: LS Staging
+        run: ls -al staging
 
       - name: Step 5. Upload JAR to GitHub Release
         uses: actions/upload-release-asset@v1
