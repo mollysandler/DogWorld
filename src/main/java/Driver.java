@@ -48,7 +48,6 @@ public class Driver extends PApplet{
     private List<String> savedLevelNames = new ArrayList<>();
     private List<GButton> savedLevelButtons = new ArrayList<>();
 
-    GButton showPanelButton;
     CoinPanel coinPanel;
 
     enum ScreenState {
@@ -114,9 +113,6 @@ public class Driver extends PApplet{
         mainWorldBtn = new GImageButton(this, 1000, 100, 100, 100, homeButtonImage);
         mainWorldBtn.addEventHandler(this, "handleMainWorldButtonEvents");
         mainWorldBtn.setVisible(false);
-
-        showPanelButton = new GButton(this, 600, 300, 100, 30, "Show Panel");
-        showPanelButton.addEventHandler(this, "handleButtonClick");
 
         speedSlider = new GSlider(this, 25, 475, 275, 100, 30);
         speedSlider.setLimits(50, 0, 100); // initial, left, right
@@ -203,14 +199,6 @@ public class Driver extends PApplet{
 
 
     }
-    public void handleButtonClick(GButton button, GEvent event) {
-        System.out.println("hio");
-        if (button == showPanelButton) {
-            // Show the panel when the button is clicked
-            coinPanel.setVisible(true);
-        }
-    }
-
 
     public void loadImages() {
         for (int i = 1; i < 21; i++) {

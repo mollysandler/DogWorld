@@ -35,10 +35,11 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
     public void propertyChange(PropertyChangeEvent evt) {
         switch ( evt.getPropertyName() ){
             case "score":
-                System.out.println("dee");
                 if (evt.getNewValue() instanceof Integer) {
                     int score = (Integer) evt.getNewValue();
-                    label.setText("Score: " + score);
+                    if (score == 0) {
+                        this.setVisible(true);
+                    }
                 }
 
         }
