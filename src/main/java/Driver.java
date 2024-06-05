@@ -43,6 +43,8 @@ public class Driver extends PApplet{
     private List<String> savedLevelNames = new ArrayList<>();
     private List<GButton> savedLevelButtons = new ArrayList<>();
 
+    CoinPanel coinPanel;
+
     enum ScreenState {
         MAIN,
         SANDBOX
@@ -188,9 +190,16 @@ public class Driver extends PApplet{
 //        robotThread.start();
         //uncomment if using dog
 
+        // Create a button to show the panel
+
+        // Initialize the panel but keep it hidden initially
+        coinPanel = new CoinPanel(this, 600, 700, 300, 200);
+        coinPanel.setVisible(false);
+        worldData.addPropertyChangeListener(coinPanel);
+
+
 
     }
-
 
     public void loadImages() {
         for (int i = 1; i < 21; i++) {
@@ -551,6 +560,7 @@ public class Driver extends PApplet{
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
+        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override

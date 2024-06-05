@@ -22,6 +22,7 @@ public class PlayButtonFunc implements Runnable{
         List<Instruction> instructions = instructionList.getSortedInstructions();
 
         if(instructions.isEmpty()){
+            WorldData.getWorldData().setGameState(true);
             return;
         }
 
@@ -82,7 +83,7 @@ public class PlayButtonFunc implements Runnable{
         commands.add("rest");
         commands.add("perform");
         WorldData.getWorldData().setCommands(commands);
-
+        System.out.println("balls");
         WorldData.getWorldData().setGameState(true);//comment out if using dog
     }
 
