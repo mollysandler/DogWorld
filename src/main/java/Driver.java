@@ -4,6 +4,7 @@ import processing.core.PFont;
 import processing.core.PImage;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,29 +25,25 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private LevelSelector levelSelector;
-    private SQSMessenger sqsMessenger;
-
+//    private SQSMessenger sqsMessenger;
     public List<Diamond> diamondList = new ArrayList<>();
-
     private List<Diamond> addedDiamond = new ArrayList<>();
     private GPanel blockPanel;
     private GImageButton btnPlay;
-
     private GImageButton sandboxBtn;
-
     private GImageButton mainWorldBtn;
-
     private GSlider speedSlider;
-
     private GImageButton resetBtn;
     private GImageButton saveBtn;
     public Modal currentModal;
-
+    public static int keyDown = -1;
     private GTextField levelNameField;
     private GButton saveLevelBtnModal;
     private List<Diamond[][]> savedGrids = new ArrayList<>();
     private List<String> savedLevelNames = new ArrayList<>();
     private List<GButton> savedLevelButtons = new ArrayList<>();
+
+    CoinPanel coinPanel;
 
     enum ScreenState {
         MAIN,
@@ -70,15 +67,15 @@ public class Driver extends PApplet{
     public void buttonDisplay() {
         // Draw diamonds?!
         PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
-        diamondRedImage.resize(50, 50);
+        diamondRedImage.resize(40, 40);
         diamondRed = new Diamond(this, 200, 250, diamondRedImage, "red");
 
         PImage diamondBlueImage = loadImage("src/main/images/blue-diamond.png");
-        diamondBlueImage.resize(50, 50);
+        diamondBlueImage.resize(40, 40);
         diamondBlue = new Diamond(this, 200, 350, diamondBlueImage, "blue");
 
         PImage diamondGreenImage = loadImage("src/main/images/green-diamond.png");
-        diamondGreenImage.resize(50, 50);
+        diamondGreenImage.resize(40, 40);
         diamondGreen = new Diamond(this, 200, 450, diamondGreenImage, "green");
 
         String[] resetImage = {"src/main/images/reset.png"};
@@ -121,6 +118,12 @@ public class Driver extends PApplet{
     }
 
     @Override
+    public void keyPressed(processing.event.KeyEvent event) {
+        keyDown = event.getKeyCode();
+        super.keyPressed(event);
+    }
+
+    @Override
     public void setup(){
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
@@ -155,30 +158,30 @@ public class Driver extends PApplet{
 
 //        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
-        sqsMessenger = SQSMessenger.getInstance();
-        new Thread(() -> {
-            while (true) {
-                while (!sqsMessenger.getiInvoked()) {
-                    String response = sqsMessenger.messageReceiver();
-                    if (!response.isEmpty()) {
-                        System.out.println("OTHER PLAYER FINISHED WITH A SCORE OF " + response);
-                    }
-
-                    System.out.println("Thread going to sleep");
-                    try {
-                        sleep(3000);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                System.out.println("sleeping in infinite loop");
-                try {
-                    sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }).start();
+//        sqsMessenger = SQSMessenger.getInstance();
+//        new Thread(() -> {
+//            while (true) {
+//                while (!sqsMessenger.getiInvoked()) {
+//                    String response = sqsMessenger.messageReceiver();
+//                    if (!response.isEmpty()) {
+//                        System.out.println("OTHER PLAYER FINISHED WITH A SCORE OF " + response);
+//                    }
+//
+//                    System.out.println("Thread going to sleep");
+//                    try {
+//                        sleep(3000);
+//                    } catch (InterruptedException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                }
+//                System.out.println("sleeping in infinite loop");
+//                try {
+//                    sleep(1000);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+//            }
+//        }).start();
 
 //        OurSkill robotSkill = new OurSkill();
 //        robotSkill.connectBluetooth();
@@ -187,9 +190,16 @@ public class Driver extends PApplet{
 //        robotThread.start();
         //uncomment if using dog
 
+        // Create a button to show the panel
+
+        // Initialize the panel but keep it hidden initially
+        coinPanel = new CoinPanel(this, 600, 700, 300, 200);
+        coinPanel.setVisible(false);
+        worldData.addPropertyChangeListener(coinPanel);
+
+
 
     }
-
 
     public void loadImages() {
         for (int i = 1; i < 21; i++) {
@@ -325,6 +335,7 @@ public class Driver extends PApplet{
                 saveLevelBtnModal.setVisible(false);
             }
         }
+        keyDown = -1;
     }
 
     private void drawMain() {
@@ -333,6 +344,17 @@ public class Driver extends PApplet{
         diamondRed.setVisible(false);
         resetBtn.setVisible(false);
         saveBtn.setVisible(false);
+
+        noStroke();
+        fill(28, 37, 48);
+        rect(350, 140, 600, 700, 20);
+        noStroke();
+        fill(255, 80);
+        for (int i = 370; i < 950; i += 40) {
+            for (int j = 170; j < 840; j += 40) {
+                circle(i, j, 2);
+            }
+        }
 
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
@@ -358,7 +380,7 @@ public class Driver extends PApplet{
         btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
-        sqsMessenger.update();
+//        sqsMessenger.update();
     }
 
     private void drawLevelButtons(float x, float y) {
@@ -422,6 +444,17 @@ public class Driver extends PApplet{
 
     private void drawSandbox() {
         background(190, 164, 132);
+
+        noStroke();
+        fill(0, 20);
+        rect(680, 140, 300, 700, 20);
+        noStroke();
+        fill(255, 150);
+        for (int i = 710; i < 980; i += 40) {
+            for (int j = 170; j < 840; j += 40) {
+                circle(i, j, 2);
+            }
+        }
 
         drawLevelButtons(200, 200);
 
@@ -528,6 +561,7 @@ public class Driver extends PApplet{
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
+        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override

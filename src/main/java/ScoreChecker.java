@@ -50,6 +50,8 @@ public class ScoreChecker {
 
     public static void logScore( int loc ) {
         int[] score = scoreSolution(loc);
+        WorldData worldData = WorldData.getWorldData();
+        worldData.setScore(score[0]);
         System.out.println( "Paint Accuracy Score: " + score[0] );
         System.out.println( "Coding Brevity Score: " + score[1] );
 //        SQSMessenger.getInstance().sendScore(score[0], score[1]);

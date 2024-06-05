@@ -17,6 +17,7 @@ public final class WorldData extends PropertyChangeSupport {
     private boolean gameState = true;
     private List<String> commands;
     private boolean gameStatus;
+    private int userScore;
 
     private WorldData() {
         super( new Object() );
@@ -44,6 +45,10 @@ public final class WorldData extends PropertyChangeSupport {
     public void setCommands(List<String> commandsInput){
         commands = commandsInput;
         firePropertyChange("commands", null, commands);
+    }
+    public void setScore(int score){
+        userScore = score;
+        firePropertyChange("score", null, userScore);
     }
 
     public void setLevel( HashMap <String, ArrayList<Point>> level ) {

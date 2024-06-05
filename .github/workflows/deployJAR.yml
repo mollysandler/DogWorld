@@ -20,12 +20,15 @@ jobs:
 
       - name: Install local JAR
         run: mvn install:install-file -Dfile="src/main/lib/G4P/library/G4P.jar" -DgroupId="quarks-place" -DartifactId=GUI-for-processing-jar -Dversion="4.3.9" -Dpackaging=jar
+      
 
+        
       - name: Step 02. Build with Maven
         run: mvn clean package
-
+      
       - name: Step 3. Deploy
         run: mkdir staging && cp target/*.jar staging
+                
 
       - name: Step 5. Upload JAR to GitHub Release
         uses: actions/upload-release-asset@v1
@@ -33,7 +36,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: "target/spiderworld-1.0.jar"
-          asset_name: "spiderworld-1.0.jar"
+          asset_path: "target/spiderworld-1.0-SNAPSHOT.jar"
+          asset_name: "spiderworld-1.0-SNAPSHOT.jar"
           asset_content_type: "application/java-archive"
       
