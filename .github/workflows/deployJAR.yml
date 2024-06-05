@@ -25,19 +25,10 @@ jobs:
         
       - name: Step 02. Build with Maven
         run: mvn clean package
-        
-      - name: LS before Deploy
-        run: ls -al target
-        
+      
       - name: Step 3. Deploy
         run: mkdir staging && cp target/*.jar staging
                 
-      - name: LS After Deploy
-        run: ls -al target 
-
-                
-      - name: LS Staging
-        run: ls -al staging
 
       - name: Step 5. Upload JAR to GitHub Release
         uses: actions/upload-release-asset@v1
@@ -45,7 +36,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: "target/spiderworld-1.0.jar"
-          asset_name: "spiderworld-1.0.jar"
+          asset_path: "target/spiderworld-1.0-SNAPSHOT.jar"
+          asset_name: "spiderworld-1.0-SNAPSHOT.jar"
           asset_content_type: "application/java-archive"
       
