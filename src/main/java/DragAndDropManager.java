@@ -114,14 +114,19 @@ public class DragAndDropManager {
         List<Instruction> instructions = instructionCopies.getSortedInstructions();
         List<Instruction> newInstructions = new ArrayList<>(instructions);
 
-        //dealing with release of instruction over trash can
         for (Instruction currInstruction : instructions) {
             currInstruction.setIsDragging(false);
-            if(currInstruction.getxPos() < 100 + closedDelete.width && currInstruction.getxPos() + 100 > 100
-                    && currInstruction.getyPos() < 600 + closedDelete.height && currInstruction.getyPos() + 60 > 600
-                    && currInstruction.isMouseOver()){
+
+            if (!isSandbox && (currInstruction.getxPos() < 350 || currInstruction.getxPos() > 950
+                    || currInstruction.getyPos() < 100 || currInstruction.getyPos() > 800)) {
                 newInstructions.remove(currInstruction);
             }
+
+            if (isSandbox && (currInstruction.getxPos() < 680 || currInstruction.getxPos() > 980
+                    || currInstruction.getyPos() < 100 || currInstruction.getyPos() > 800)) {
+                newInstructions.remove(currInstruction);
+            }
+
         }
 
         instructionCopies.setInstructions(newInstructions);

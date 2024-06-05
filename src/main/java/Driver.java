@@ -121,7 +121,6 @@ public class Driver extends PApplet{
         super.keyPressed(event);
     }
 
-
     @Override
     public void setup(){
         worldData = WorldData.getWorldData();
@@ -337,6 +336,17 @@ public class Driver extends PApplet{
         resetBtn.setVisible(false);
         saveBtn.setVisible(false);
 
+        noStroke();
+        fill(28, 37, 48);
+        rect(350, 140, 600, 700, 20);
+        noStroke();
+        fill(255, 80);
+        for (int i = 370; i < 950; i += 40) {
+            for (int j = 170; j < 840; j += 40) {
+                circle(i, j, 2);
+            }
+        }
+
         for (Instruction currInstruction : OriginalInstructions.getInstance()) {
             currInstruction.display();
         }
@@ -424,6 +434,17 @@ public class Driver extends PApplet{
 
     private void drawSandbox() {
         background(190, 164, 132);
+
+        noStroke();
+        fill(0, 20);
+        rect(680, 140, 300, 700, 20);
+        noStroke();
+        fill(255, 150);
+        for (int i = 710; i < 980; i += 40) {
+            for (int j = 170; j < 840; j += 40) {
+                circle(i, j, 2);
+            }
+        }
 
         drawLevelButtons(200, 200);
 
