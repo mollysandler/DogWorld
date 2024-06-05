@@ -380,6 +380,7 @@ public class Driver extends PApplet{
         btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
+//        sqsMessenger.update();
     }
 
     private void drawLevelButtons(float x, float y) {
@@ -560,7 +561,7 @@ public class Driver extends PApplet{
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
-        System.out.println(mouseX + ", " + mouseY);
+//        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override
@@ -573,5 +574,6 @@ public class Driver extends PApplet{
         String[] processingArgs = {"Driver"};
         Driver running = new Driver();
         PApplet.runSketch(processingArgs, running);
+
     }
 }
