@@ -12,8 +12,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.lang.Thread.sleep;
-
 public class SQSMessenger {
 
     private static final Logger LOGGER = Logger.getLogger(SQSMessenger.class.getName());

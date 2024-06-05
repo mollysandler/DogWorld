@@ -25,7 +25,7 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private LevelSelector levelSelector;
-//    private SQSMessenger sqsMessenger;
+    private SQSMessenger sqsMessenger;
     public List<Diamond> diamondList = new ArrayList<>();
     private List<Diamond> addedDiamond = new ArrayList<>();
     private GPanel blockPanel;
@@ -158,30 +158,30 @@ public class Driver extends PApplet{
 
 //        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
-//        sqsMessenger = SQSMessenger.getInstance();
-//        new Thread(() -> {
-//            while (true) {
-//                while (!sqsMessenger.getiInvoked()) {
-//                    String response = sqsMessenger.messageReceiver();
-//                    if (!response.isEmpty()) {
-//                        System.out.println("OTHER PLAYER FINISHED WITH A SCORE OF " + response);
-//                    }
-//
-//                    System.out.println("Thread going to sleep");
-//                    try {
-//                        sleep(3000);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//                System.out.println("sleeping in infinite loop");
-//                try {
-//                    sleep(1000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }).start();
+        sqsMessenger = SQSMessenger.getInstance();
+        new Thread(() -> {
+            while (true) {
+                while (!sqsMessenger.getiInvoked()) {
+                    String response = sqsMessenger.messageReceiver();
+                    if (!response.isEmpty()) {
+                        System.out.println("OTHER PLAYER FINISHED WITH A SCORE OF " + response);
+                    }
+
+                    System.out.println("Thread going to sleep");
+                    try {
+                        sleep(3000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                System.out.println("sleeping in infinite loop");
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
 
 //        OurSkill robotSkill = new OurSkill();
 //        robotSkill.connectBluetooth();
@@ -561,7 +561,7 @@ public class Driver extends PApplet{
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
-        System.out.println(mouseX + ", " + mouseY);
+//        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override
