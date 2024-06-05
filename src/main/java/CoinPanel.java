@@ -1,10 +1,8 @@
-import g4p_controls.GButton;
-import g4p_controls.GEvent;
-import g4p_controls.GLabel;
-import g4p_controls.GPanel;
+import g4p_controls.*;
 import processing.core.PApplet;
 
 import javax.swing.*;
+import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.List;
@@ -12,21 +10,23 @@ import java.util.Random;
 
 public class CoinPanel extends GPanel implements PropertyChangeListener {
     GLabel label;
-    GButton closeButton;
+    GImageButton closeButton;
     PApplet myPap;
+    Font font = new Font("Comic Sans MS", Font.PLAIN, 24);
     public CoinPanel(PApplet pApplet, float v, float v1, float v2, float v3) {
         super(pApplet, v, v1, v2, v3, "CoinPanel");
 
         myPap = pApplet;
 
 
+        String[] closeButtonImg ={"src/main/images/closePopUp.png"};
         // Add a close button to the panel
-        closeButton = new GButton(pApplet, 20, 80, 80, 30, "Close");
+        closeButton = new GImageButton(pApplet, 250, 0, 80, 30, closeButtonImg);
         closeButton.addEventHandler(this, "handleCloseButtonClick");
         this.addControl(closeButton);
     }
     // Event handler for the close button
-    public void handleCloseButtonClick(GButton button, GEvent event) {
+    public void handleCloseButtonClick(GImageButton button, GEvent event) {
         if (button == closeButton) {
             // Hide the panel when the close button is clicked
             this.setVisible(false);
@@ -39,13 +39,20 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
             case "score":
                 if (evt.getNewValue() instanceof Integer) {
                     int score = (Integer) evt.getNewValue();
-                    if (score == 0) {
+                    if (score == 1) {
                         Random rand = new Random();
-                        label = new GLabel(myPap, 20, 40, 260, 20, "You won " + rand.nextInt(10, 20) + " coins!");
-
+                        int num = rand.nextInt(10, 20);
+                        WorldData.getWorldData().addCoins(num);
+                        label = new GLabel(myPap, 20, 40, 260, 80, "You won " + num + " coins!");
+                        label.setFont(font);
                         this.addControl(label);
                         this.setVisible(true);
 
+                    }else{
+                        label = new GLabel(myPap, 20, 40, 300, 200, "This is your score: " + score + "." + "\nGet full points to get coins!");
+                        label.setFont(font);
+                        this.addControl(label);
+                        this.setVisible(true);
                     }
                 }
 
