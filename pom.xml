@@ -30,7 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>src.main.java.Driver.class</mainClass>
+                            <mainClass>src/main/java/Driver/</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
