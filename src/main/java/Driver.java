@@ -39,6 +39,8 @@ public class Driver extends PApplet{
     public static int keyDown = -1;
     private GTextField levelNameField;
     private GButton saveLevelBtnModal;
+    private Spider sandSpider;
+
     private List<Diamond[][]> savedGrids = new ArrayList<>();
     private List<String> savedLevelNames = new ArrayList<>();
     private List<GButton> savedLevelButtons = new ArrayList<>();
@@ -113,6 +115,13 @@ public class Driver extends PApplet{
         speedSlider.setShowTicks(true);
         speedSlider.setLocalColorScheme(GConstants.ORANGE_SCHEME);
         speedSlider.addEventHandler(this, "handleSliderEvents");
+        PImage spiderImage = loadImage("src/main/images/spider_north.png");
+
+        sandSpider = new Spider(this, 100, 500, spiderImage);
+        sandSpider.setVisible(false);
+
+
+
     }
 
     @Override
@@ -434,6 +443,7 @@ public class Driver extends PApplet{
 
     private void drawSandbox() {
         background(190, 164, 132);
+        dragAndDropManager.setSpider(sandSpider);
 
         noStroke();
         fill(0, 20);
@@ -454,6 +464,8 @@ public class Driver extends PApplet{
         }
 
         // Enable diamonds?
+        sandSpider.setVisible(true);
+        sandSpider.display();
         worldView.drawSandGrid();
         saveBtn.setEnabled(currentModal == null);
         saveBtn.setVisible(currentModal == null);
@@ -545,6 +557,7 @@ public class Driver extends PApplet{
         dragAndDropManager.addedDiamonds.clear();
         diamondList.removeAll(dragAndDropManager.addedDiamonds);
         dragAndDropManager.diamondGrid = new Diamond[5][5];
+        sandSpider.setVisible(false);
     }
 
 
