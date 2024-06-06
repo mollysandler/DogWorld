@@ -13,15 +13,15 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
     GImageButton closeButton;
     PApplet myPap;
     Font font = new Font("Comic Sans MS", Font.PLAIN, 24);
+
     public CoinPanel(PApplet pApplet, float v, float v1, float v2, float v3) {
         super(pApplet, v, v1, v2, v3, "CoinPanel");
 
         myPap = pApplet;
 
-
         String[] closeButtonImg ={"src/main/images/closePopUp.png"};
         // Add a close button to the panel
-        closeButton = new GImageButton(pApplet, 250, 0, 80, 30, closeButtonImg);
+        closeButton = new GImageButton(pApplet, 270, 0, 30, 30, closeButtonImg);
         closeButton.addEventHandler(this, "handleCloseButtonClick");
         this.addControl(closeButton);
     }
@@ -44,6 +44,7 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                         int num = rand.nextInt(10, 20);
                         WorldData.getWorldData().addCoins(num);
                         label = new GLabel(myPap, 20, 40, 260, 80, "You won " + num + " coins!");
+                        GIcon coinImage = new GIcon(myPap, "src/main/images/coin.jpeg", 1, 1);
                         label.setFont(font);
                         this.addControl(label);
                         this.setVisible(true);
