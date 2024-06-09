@@ -19,6 +19,9 @@ public final class WorldData extends PropertyChangeSupport {
     private boolean gameStatus;
     private int userScore;
     private int coins;
+    private HashMap <String, Integer> lockedAvatars = new HashMap<>();
+    private ArrayList<String> unlockedAvatars = new ArrayList<>();
+    private String currentChar = "dog";
 
     private WorldData() {
         super( new Object() );
@@ -27,6 +30,8 @@ public final class WorldData extends PropertyChangeSupport {
         spider = new int[]{0, 0, 0};
         bgColor = new int[]{0, 0, 0};
         gameStatus = true;
+        lockedAvatars.put("spider", 15);
+        unlockedAvatars.add("dog");
     }
 
     public static WorldData getWorldData() {
@@ -48,6 +53,26 @@ public final class WorldData extends PropertyChangeSupport {
     }
     public int getCoins() {
         return coins;
+    }
+
+    public void buyAvatar(String avatar){
+        avatar = avatar.toLowerCase();
+
+        if (coins > lockedAvatars.get(avatar)) {
+            unlockedAvatars.add(avatar);
+            coins -= lockedAvatars.get(avatar);
+        }
+
+    }
+    public void setAvatar(String avatar){
+        currentChar = avatar.toLowerCase();
+    }
+    public String getAvatar(){
+        return currentChar;
+    }
+
+    public ArrayList<String> getUnlockedAvatars(){
+        return unlockedAvatars;
     }
 
     public void setCommands(List<String> commandsInput){

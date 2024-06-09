@@ -84,21 +84,22 @@ public final class WorldView implements PropertyChangeListener {
         }
     }
 
-    public void drawSpider() {
+    public void drawAvatar() {
         String IMAGEFOLDERPATH = "src/main/images/";
         String imgPath = IMAGEFOLDERPATH;
+        String currentAvatar = WorldData.getWorldData().getAvatar();
         switch ( spider[2] ) {
             case 1:
-                imgPath += "dog_north.png";
+                imgPath += currentAvatar + "_north.png";
                 break;
             case 2:
-                imgPath += "dog_west.png";
+                imgPath += currentAvatar + "_west.png";
                 break;
             case 3:
-                imgPath += "dog_south.png";
+                imgPath += currentAvatar + "_south.png";
                 break;
             default:
-                imgPath += "dog_east.png";
+                imgPath += currentAvatar + "_east.png";
                 break;
         }
         screen.image( screen.loadImage( imgPath ), leftPadding + spider[0]*tileWidth, topPadding + spider[1]*tileWidth );
@@ -116,7 +117,7 @@ public final class WorldView implements PropertyChangeListener {
         drawGrid();
         drawPaint();
         drawDiamonds();
-        drawSpider();
+        drawAvatar();
     }
 
     @Override
