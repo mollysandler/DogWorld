@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,6 @@ public abstract class Instruction implements Draggable, Cloneable {
     private int yOffset;
     private final String skill;
 
-
     public Instruction(PApplet screen, int xPos, int yPos, PImage img, String skill){
         this.screen = screen;
         this.xPos = xPos;
@@ -30,7 +28,6 @@ public abstract class Instruction implements Draggable, Cloneable {
         width = img.width;
         height = img.height;
     }
-
 
     public void display(){
         screen.image(img, xPos, yPos);
@@ -77,15 +74,12 @@ public abstract class Instruction implements Draggable, Cloneable {
     public int getxPos() {
         return this.xPos;
     }
-
     public void setyPos(int newyPos) {
         this.yPos = newyPos;
     }
-
     public void setxPos(int newxPos) {
         this.xPos = newxPos;
     }
-
     public String toString() {
         return "instruction\n";
     }

@@ -1,5 +1,4 @@
 import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -452,14 +451,14 @@ public class LevelGenerator {
         LoadLevels lvl = new LoadLevels(9);
 
         // Create points
-        Point bluePoint1 = new Point(1, 5);
+//        Point bluePoint1 = new Point(1, 5);
         Point bluePoint2 = new Point(2, 4);
         Point bluePoint3 = new Point(3, 3);
         Point bluePoint4 = new Point(4, 2);
-        Point bluePoint5 = new Point(5, 1);
+//        Point bluePoint5 = new Point(5, 1);
 
-        Point redPoint1 = new Point(6, 0);
-        Point redPoint2 = new Point(0, 6);
+//        Point redPoint1 = new Point(6, 0);
+//        Point redPoint2 = new Point(0, 6);
 
         Point spiderLoc = new Point(0, 0);
         Point spiderDirection = new Point(3, 0);
@@ -467,15 +466,15 @@ public class LevelGenerator {
 
         // Create ArrayLists and add points
         ArrayList<Point> bluePoints = new ArrayList<>();
-        bluePoints.add(bluePoint1);
+//        bluePoints.add(bluePoint1);
         bluePoints.add(bluePoint2);
         bluePoints.add(bluePoint3);
         bluePoints.add(bluePoint4);
-        bluePoints.add(bluePoint5);
+//        bluePoints.add(bluePoint5);
 
         ArrayList<Point> redPoints = new ArrayList<>();
-        redPoints.add(redPoint1);
-        redPoints.add(redPoint2);
+//        redPoints.add(redPoint1);
+//        redPoints.add(redPoint2);
 
         ArrayList<Point> greenPoints = new ArrayList<>();
         ArrayList<Point> spider = new ArrayList<>();
@@ -507,7 +506,6 @@ public class LevelGenerator {
         map.put("weather", weathersX);
 
         lvl.saveHashMap(map);
-
         return categorize_temp(wea, null);
     }
     public static String level10() throws Exception {

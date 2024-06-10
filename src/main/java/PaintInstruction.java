@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import java.util.Arrays;
 
 /**
@@ -84,7 +83,6 @@ public class PaintInstruction extends Instruction {
     private int getDropdownX() {
         return getxPos() + 100;
     }
-
     private int getDropdownY() {
         return getyPos() + 26;
     }

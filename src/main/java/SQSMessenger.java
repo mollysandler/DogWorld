@@ -4,13 +4,16 @@ import com.amazonaws.services.sqs.AmazonSQS;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 import com.amazonaws.services.sqs.model.*;
 import processing.core.PApplet;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+/**
+ * @author Aayush Joshi
+ */
 
 public class SQSMessenger {
 
@@ -19,7 +22,7 @@ public class SQSMessenger {
     private static final String QUEUE_URL = "https://sqs.us-west-1.amazonaws.com/450835264782/SpiderWorldQueue";
     private static final String CREDENTIALS_PATH = "D:\\CalPoly\\CSC309\\sprint3\\csc309project\\.aws\\credentials";
     private AmazonSQS sqs;
-    private WorldData game;
+//    private WorldData game;
     private boolean iInvoked;
 
     private PApplet parent;
@@ -27,7 +30,6 @@ public class SQSMessenger {
     private String inputText;
     private int startTime;
     private final int displayDuration;
-
     private static SQSMessenger sqsMessenger;
 
     private SQSMessenger() {
@@ -159,9 +161,9 @@ public class SQSMessenger {
 //        parent.text(inputText, x + 10, y + h / 2 + 5);
     }
 
-    public boolean getiInvoked() {
-        return iInvoked;
-    }
+//    public boolean getiInvoked() {
+//        return iInvoked;
+//    }
     public void setiInvoked(boolean t) {
         iInvoked = t;
     }

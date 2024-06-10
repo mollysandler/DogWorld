@@ -2,10 +2,9 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
 
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+/**
+ * @author Riya Badadere
+ */
 
 public class RepeatInstruction extends Instruction {
     public int iterations = 0;

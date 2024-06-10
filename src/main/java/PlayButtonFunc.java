@@ -6,12 +6,8 @@ import java.util.Stack;
  * @author Andy Duong
  */
 public class PlayButtonFunc implements Runnable{
-
     private static int control;
-
-    public PlayButtonFunc(){
-
-    }
+    public PlayButtonFunc(){}
     @Override
     public void run() {
 
@@ -34,7 +30,6 @@ public class PlayButtonFunc implements Runnable{
         //per instruction send each instruction to their respective function
         int instructionIndex = 0;
         Stack<Integer> repeatStack = new Stack();
-
         while (instructionIndex < instructions.size()) {
             Instruction instruction = instructions.get(instructionIndex);
 
@@ -53,20 +48,15 @@ public class PlayButtonFunc implements Runnable{
                 else instructionIndex = repeatStack.peek();
                 System.out.println(ri.iterations);
             }
-
             instruction.checkRunAction( control );
             instructionIndex ++;
-
         }
-
         ScoreChecker.logScore( instructions.size() );
         commands.add("rest");
         commands.add("perform");
         WorldData.getWorldData().setCommands(commands);
-        System.out.println("balls");
         WorldData.getWorldData().setGameState(true);//comment out if using dog
     }
-
     public static void setControl( int c ) {
         control = c;
     }

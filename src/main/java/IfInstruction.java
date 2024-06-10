@@ -1,10 +1,13 @@
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
+
+/**
+ * @author Jemma Arona
+ */
 
 public class IfInstruction extends Instruction {
     private int[] color;

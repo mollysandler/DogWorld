@@ -27,7 +27,6 @@ public final class WorldView implements PropertyChangeListener {
         this.screen = screen;
     }
 
-
     public void drawGrid() {
         screen.fill( bgColor );
         screen.stroke( 204, 204, 204 );
@@ -53,8 +52,6 @@ public final class WorldView implements PropertyChangeListener {
             }
 
         }
-
-
     }
 
     public void drawDiamonds() {
@@ -85,8 +82,7 @@ public final class WorldView implements PropertyChangeListener {
     }
 
     public void drawAvatar() {
-        String IMAGEFOLDERPATH = "src/main/images/";
-        String imgPath = IMAGEFOLDERPATH;
+        String imgPath = "src/main/images/";
         String currentAvatar = WorldData.getWorldData().getAvatar();
         switch ( spider[2] ) {
             case 1:
@@ -144,6 +140,4 @@ public final class WorldView implements PropertyChangeListener {
                 break;
         }
     }
-
-
 }

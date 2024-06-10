@@ -1,13 +1,13 @@
 import g4p_controls.*;
 import processing.core.PApplet;
-import processing.core.PImage;
-
-import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.List;
 import java.util.Random;
+
+/**
+ * @author Andy Duong
+ */
 
 public class CoinPanel extends GPanel implements PropertyChangeListener {
     private GLabel label;
@@ -51,11 +51,9 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                         int num = rand.nextInt(10, 20);
                         WorldData.getWorldData().addCoins(num);
                         label.setText("You won " + num + " coins!");
-
-
                         this.setVisible(true);
-
-                    }else{
+                    }
+                    else{
 //                        label = new GLabel(myPap, 20, 40, 300, 200, );
                         label.setText("This is your score: " + score + "." + "\nGet full points to get coins!");
                         label.setFont(font);
@@ -63,8 +61,6 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                         this.setVisible(true);
                     }
                 }
-
         }
     }
-
 }

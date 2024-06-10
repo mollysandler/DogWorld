@@ -1,23 +1,20 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import java.util.ArrayList;
 import java.util.List;
 /**
  * @author Riya Badadare
  */
 public class DragAndDropManager {
-    private PApplet screen;
-    private InstructionList instructions;
+//    private PApplet screen;
+//    private InstructionList instructions;
     PImage closedDelete;
     private final InstructionList instructionCopies = InstructionList.getInstance();
     public List<Diamond> initialDiamonds = new ArrayList<>();
     public List<Diamond> addedDiamonds = new ArrayList<>();
     private Diamond currentDiamond = null;
-
     Diamond[][] diamondGrid = new Diamond[5][5];
-
-    private int sandGrid = 5;
+//    private int sandGrid = 5;
     private int sandCell = 70;
     private int sandX = 300;
     private int sandY = 250;
@@ -51,8 +48,6 @@ public class DragAndDropManager {
                 diamond.display();
             }
         }
-
-
     }
 
     public void mousePressed(boolean isSandbox) {
@@ -70,7 +65,6 @@ public class DragAndDropManager {
                 break;
             }
         }
-
         //lets you drag around copies that you've dropped
         for (Instruction copy : InstructionList.getInstance().getSortedInstructions()) {
             copy.mousePressed();
@@ -126,7 +120,6 @@ public class DragAndDropManager {
                     || currInstruction.getyPos() < 100 || currInstruction.getyPos() > 800)) {
                 newInstructions.remove(currInstruction);
             }
-
         }
 
         instructionCopies.setInstructions(newInstructions);

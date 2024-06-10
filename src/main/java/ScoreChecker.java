@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * @author Jemma Arona
+ */
+
 public class ScoreChecker {
     public static int[] scoreSolution( int loc ) {
         int[] scores = new int[]{0,0};

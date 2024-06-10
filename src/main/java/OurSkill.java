@@ -5,21 +5,20 @@
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 /**
- * @author Molly Sandler, Andy Duong
+ * @author Molly Sandler, Andy Duong, Ivan Martinez.
  */
 public class OurSkill implements PropertyChangeListener, Runnable {
     private static final Map<String, String> skillMap = new HashMap<>();
     private SerialPort robotConnection;
     private Queue<String> commandQueue = new LinkedList<>();
-    public OurSkill() {
-    }
+//    public OurSkill() {
+//    }
 
     public static String getSkillValue(String skillKey) {
         return (String)skillMap.get(skillKey);
@@ -27,7 +26,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
 
     public void connectBluetooth(){
         robotConnection = SerialPort.getCommPort("COM5"); //port to which robot is communicating
-
         robotConnection.openPort();
     }
 
@@ -52,7 +50,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
         List<String> skillSet = new ArrayList<String>(); //array list where the chosen skills are stored
 
         /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
-
 
         for(String command : commandQueue){
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
@@ -84,7 +81,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
             }
             else if (commandSerial == null){ //if a command is not found let the user know
                 System.out.println("Not a real skill!");
@@ -100,7 +96,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
             }
         }
     }
-
 
     //send all the desired skills in the skillSet to the robot to be performed
     public void PerformSkills(List<String> skillSet, SerialPort robotConnection) throws IOException {

@@ -1,3 +1,6 @@
+/**
+ * @author Andy Duong
+ */
 public interface Draggable {
     void display();
     boolean isMouseOver();

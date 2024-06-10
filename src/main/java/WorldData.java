@@ -1,6 +1,5 @@
 import java.beans.PropertyChangeSupport;
 import java.util.*;
-
 import static processing.core.PApplet.println;
 
 /**
@@ -106,11 +105,9 @@ public final class WorldData extends PropertyChangeSupport {
     public int[] getSpider() {
         return spider;
     }
-
     public int[] getBgColor() {
         return bgColor;
     }
-
     public int getNumRows() {
         return numRows;
     }
@@ -164,7 +161,6 @@ public final class WorldData extends PropertyChangeSupport {
     public void sandboxWorld(){
         tileMap.clear();
         println("cleared");
-
     }
 
     public boolean getGameStatus() {

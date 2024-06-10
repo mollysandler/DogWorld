@@ -2,7 +2,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author Riya Badadare
@@ -26,9 +25,8 @@ public class InstructionList {
     public void addInstruction(Instruction instruction) {
         instructions.add(instruction);
     }
-
     public void setInstructions(List<Instruction> instructions) {
-        this.instructions = instructions;
+        InstructionList.instructions = instructions;
     }
 
     public List<Instruction> getSortedInstructions() {
@@ -37,4 +35,3 @@ public class InstructionList {
                 .collect(Collectors.toCollection(ArrayList::new));
     }
 }
-

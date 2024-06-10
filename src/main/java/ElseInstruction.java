@@ -1,6 +1,10 @@
 import processing.core.PApplet;
 import processing.core.PImage;
 
+/**
+ * @author Jemma Arona
+ */
+
 public class ElseInstruction extends Instruction{
     public ElseInstruction(PApplet screen, int xPos, int yPos, PImage img) {
         super(screen, xPos, yPos, img, null);
