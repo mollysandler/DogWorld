@@ -87,7 +87,11 @@ public final class WorldData extends PropertyChangeSupport {
         firePropertyChange("opponent-score", null, score);
     }
 
-    public void setLevel( HashMap <String, ArrayList<Point>> level ) {
+    public int getUserScore() {
+        return userScore;
+    }
+
+    public void setLevel(HashMap <String, ArrayList<Point>> level ) {
         setLevel( level, 5, 26, 26, 26 );
     }
 

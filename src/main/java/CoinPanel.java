@@ -51,8 +51,6 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                         int num = rand.nextInt(10, 20);
                         WorldData.getWorldData().addCoins(num);
                         label.setText("You won " + num + " coins!");
-
-
                         this.setVisible(true);
 
                     }else{
@@ -62,6 +60,14 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                         this.addControl(label);
                         this.setVisible(true);
                     }
+                }
+            case "opponent-score":
+                if (evt.getNewValue() instanceof Integer){
+                    int score = (Integer) evt.getNewValue();
+                    label.setText("You lost!\nOpponent's Score: " + score + "." + "\nYour Score: " + WorldData.getWorldData().getUserScore());
+                    label.setFont(font);
+                    this.addControl(label);
+                    this.setVisible(true);
                 }
 
         }
