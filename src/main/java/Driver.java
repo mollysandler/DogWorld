@@ -229,47 +229,47 @@ public class Driver extends PApplet{
         }
     }
 
-//    public void handleSaveButtonEvents(GImageButton save, GEvent event){
-//        if (save == saveBtn && event == GEvent.CLICKED) {
-//            currentModal = screen -> {
-//                screen.fill(255);
-//                screen.rect(0, 0, 600, 600, 20);
-//                screen.fill(0);
-//                screen.textSize(45);
-//                screen.text("Save level", 0, -250);
-//            };
-//
-//            if (levelNameField == null) {
-//                levelNameField = new GTextField(this, width / 2 - 200, height / 2 - 50, 400, 60);
-//                levelNameField.setPromptText("Enter level name");
-//                levelNameField.setFont(new Font("Arial", Font.PLAIN, 24)); // Set text size
-//                levelNameField.setLocalColorScheme(GCScheme.GOLD_SCHEME); // Set color scheme for better visibility
-//            }
-//            levelNameField.setVisible(true);
-//
-//            if (saveLevelBtnModal == null) {
-//                saveLevelBtnModal = new GButton(this, width / 2 - 75, height / 2 + 80, 150, 50, "Save level");
-//                saveLevelBtnModal.setFont(new Font("Arial", Font.PLAIN, 24));
-//                saveLevelBtnModal.addEventHandler(this, "handleLevelSave");
-//            }
-//            saveLevelBtnModal.setVisible(true);
-//        }
-//    }
+    public void handleSaveButtonEvents(GImageButton save, GEvent event){
+        if (save == saveBtn && event == GEvent.CLICKED) {
+            currentModal = screen -> {
+                screen.fill(255);
+                screen.rect(0, 0, 600, 600, 20);
+                screen.fill(0);
+                screen.textSize(45);
+                screen.text("Save level", 0, -250);
+            };
 
-//    public void handleLevelSave(GButton button, GEvent event) {
-//        if (event == GEvent.CLICKED) {
-//            String levelName = levelNameField.getText();
-//            saveLevelData(levelName);
-//            savedLevelNames.add(levelName);
-//            System.out.println("Level name saved: " + levelName);
-//
-//            levelNameField.dispose();
-//            levelNameField = null;
-//            saveLevelBtnModal.dispose();
-//            saveLevelBtnModal = null;
-//            currentModal = null;
-//        }
-//    }
+            if (levelNameField == null) {
+                levelNameField = new GTextField(this, width / 2 - 200, height / 2 - 50, 400, 60);
+                levelNameField.setPromptText("Enter level name");
+                levelNameField.setFont(new Font("Arial", Font.PLAIN, 24)); // Set text size
+                levelNameField.setLocalColorScheme(GCScheme.GOLD_SCHEME); // Set color scheme for better visibility
+            }
+            levelNameField.setVisible(true);
+
+            if (saveLevelBtnModal == null) {
+                saveLevelBtnModal = new GButton(this, width / 2 - 75, height / 2 + 80, 150, 50, "Save level");
+                saveLevelBtnModal.setFont(new Font("Arial", Font.PLAIN, 24));
+                saveLevelBtnModal.addEventHandler(this, "handleLevelSave");
+            }
+            saveLevelBtnModal.setVisible(true);
+        }
+    }
+
+    public void handleLevelSave(GButton button, GEvent event) {
+        if (event == GEvent.CLICKED) {
+            String levelName = levelNameField.getText();
+            saveLevelData(levelName);
+            savedLevelNames.add(levelName);
+            System.out.println("Level name saved: " + levelName);
+
+            levelNameField.dispose();
+            levelNameField = null;
+            saveLevelBtnModal.dispose();
+            saveLevelBtnModal = null;
+            currentModal = null;
+        }
+    }
 
     public void saveLevelData(String levelName) {
         Diamond[][] savedGrid = new Diamond[5][5];
