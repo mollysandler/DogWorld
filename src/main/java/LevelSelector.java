@@ -44,14 +44,12 @@ public class LevelSelector{
             LoadLevels l = new LoadLevels(level);
             WorldData.getWorldData().setLevel(l.loadHashMap());
             double temperature = l.loadHashMap().get("weather").get(0).getX();
-//            SQSMessenger.getInstance().setiInvoked(false);
         }
     }
 
     public void addToImg(PImage image) {
         imgs.add(image);
     }
-
     public void displayNavBar() {
         screen.fill(200, 200, 200);
         screen.rect(xPos - 25, yPos - 10, 1130, 60);

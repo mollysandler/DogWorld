@@ -14,12 +14,10 @@ public final class WorldData extends PropertyChangeSupport {
     private final int[] bgColor;
     private int speed = 250;
     private boolean gameState = true;
-    private List<String> commands;
-    private boolean gameStatus;
-    private int userScore;
+    private final boolean gameStatus;
     private int coins;
-    private HashMap <String, Integer> lockedAvatars = new HashMap<>();
-    private ArrayList<String> unlockedAvatars = new ArrayList<>();
+    private final HashMap <String, Integer> lockedAvatars = new HashMap<>();
+    private final ArrayList<String> unlockedAvatars = new ArrayList<>();
     private String currentChar = "dog";
 
     private WorldData() {
@@ -42,11 +40,9 @@ public final class WorldData extends PropertyChangeSupport {
     public void setSpeed(int speed) {
         this.speed = speed * 5;
     }
-
     public int getSpeed() {
         return speed;
     }
-
     public void addCoins(int value){
         coins += value;
     }
@@ -56,12 +52,10 @@ public final class WorldData extends PropertyChangeSupport {
 
     public void buyAvatar(String avatar){
         avatar = avatar.toLowerCase();
-
         if (coins > lockedAvatars.get(avatar)) {
             unlockedAvatars.add(avatar);
             coins -= lockedAvatars.get(avatar);
         }
-
     }
     public void setAvatar(String avatar){
         currentChar = avatar.toLowerCase();
@@ -75,18 +69,15 @@ public final class WorldData extends PropertyChangeSupport {
     }
 
     public void setCommands(List<String> commandsInput){
-        commands = commandsInput;
-        firePropertyChange("commands", null, commands);
+        firePropertyChange("commands", null, commandsInput);
     }
     public void setScore(int score){
-        userScore = score;
-        firePropertyChange("score", null, userScore);
+        firePropertyChange("score", null, score);
     }
 
     public void setLevel( HashMap <String, ArrayList<Point>> level ) {
         setLevel( level, 5, 26, 26, 26 );
     }
-
     public void setLevel( HashMap <String, ArrayList<Point>> level, int rows, int r, int g, int b ) {
         levelMap = level;
         if ( levelMap == null ) {
@@ -158,13 +149,13 @@ public final class WorldData extends PropertyChangeSupport {
         }
     }
 
-    public void sandboxWorld(){
-        tileMap.clear();
-        println("cleared");
-    }
+//    public void sandboxWorld(){
+//        tileMap.clear();
+//        println("cleared");
+//    }
 
-    public boolean getGameStatus() {
-        return gameStatus;
-    }
+//    public boolean getGameStatus() {
+//        return gameStatus;
+//    }
 }
 

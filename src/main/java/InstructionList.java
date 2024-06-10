@@ -10,7 +10,6 @@ import java.util.stream.Collectors;
 public class InstructionList {
     private static InstructionList instance;
     private static List<Instruction> instructions;
-
     private InstructionList() {
         instructions = new ArrayList<>();
     }

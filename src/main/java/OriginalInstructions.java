@@ -4,7 +4,6 @@ import processing.core.PApplet;
  * @author Riya Badadare
  */
 public final class OriginalInstructions {
-
     private static Instruction[] instance;
 
     OriginalInstructions() {}
@@ -12,7 +11,6 @@ public final class OriginalInstructions {
     public static Instruction[] getInstance() {
         return instance;
     }
-
     public static void setInstructionImages( PApplet screen ) {
         Instruction stepBlock = new StepInstruction(screen, 1000, 225,
                 screen.loadImage("src/main/images/step.png"));

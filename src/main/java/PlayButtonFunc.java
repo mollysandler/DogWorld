@@ -10,19 +10,16 @@ public class PlayButtonFunc implements Runnable{
     public PlayButtonFunc(){}
     @Override
     public void run() {
-
         InstructionList instructionList = InstructionList.getInstance();
         control = 0;
 
         List<Instruction> instructions = instructionList.getSortedInstructions();
-
         if(instructions.isEmpty()){
             WorldData.getWorldData().setGameState(true);
             return;
         }
 
         List<String> commands = new ArrayList<>();
-
         for (Instruction instruction : instructions) {
             if (instruction instanceof RepeatInstruction) ((RepeatInstruction) instruction).iterations = 0;
         }

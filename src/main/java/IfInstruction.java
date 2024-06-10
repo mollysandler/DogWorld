@@ -13,12 +13,12 @@ public class IfInstruction extends Instruction {
     private int[] color;
     public enum Options {Edge, Diamond, R, G, B, D, L }
     private Options condition;
+    private final int dropdownW = 35;
+    private boolean showDropdown = false;
     private final int[][] colorValues = {
             {60, 72, 88}, {240, 240, 128}, {240, 80, 80}, {30, 180, 30}, {75, 150, 255},
             {20, 20, 20}, {240, 240, 240}
     };
-    private final int dropdownW = 35;
-    private boolean showDropdown = false;
 
     public IfInstruction(PApplet screen, int xPos, int yPos, PImage img, Options cond) {
         super(screen, xPos, yPos, img, null);
@@ -90,11 +90,9 @@ public class IfInstruction extends Instruction {
     public String toString(){
         return "if touching " + this.condition + " {";
     }
-
     private int getDropdownX() {
         return getxPos() + 128;
     }
-
     private int getDropdownY() {
         return getyPos() + 50;
     }

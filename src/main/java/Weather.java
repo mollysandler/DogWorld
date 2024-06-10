@@ -22,32 +22,28 @@ public class Weather extends JPanel {
         FileInputStream apiKeyFile = new FileInputStream(apiKeyPath);
         String apiKey = new String(apiKeyFile.readAllBytes());
 
-        String locationKey = location;
-        System.out.println(locationKey);
+        System.out.println(location);
 
         String urlStr = "http://dataservice.accuweather.com/currentconditions/v1/"
-                + locationKey + "?apikey=" + apiKey;
+                + location + "?apikey=" + apiKey;
 
         URL url = new URL(urlStr);
         URLConnection connection = url.openConnection();
         InputStream inputStream = connection.getInputStream();
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
-        String response = "";
+        StringBuilder response = new StringBuilder();
         String inputLine;
         while ((inputLine = reader.readLine()) != null) {
-            response += inputLine;
+            response.append(inputLine);
         }
-
         System.out.println(response);
         inputStream.close();
-        return parse(response);
+        return parse(response.toString());
     }
 
     private static JSONObject parse(String response) {
         JSONArray jsonResponse = new JSONArray(response);
-        JSONObject currentWeather = jsonResponse.getJSONObject(0);
-        return currentWeather;
+        return jsonResponse.getJSONObject(0);
 //        JSONObject temperatureObj = currentWeather.getJSONObject("Temperature");
 //
 //        Object prep = currentWeather.get ("PrecipitationType");

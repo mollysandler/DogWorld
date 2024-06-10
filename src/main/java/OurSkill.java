@@ -16,9 +16,7 @@ import java.util.*;
 public class OurSkill implements PropertyChangeListener, Runnable {
     private static final Map<String, String> skillMap = new HashMap<>();
     private SerialPort robotConnection;
-    private Queue<String> commandQueue = new LinkedList<>();
-//    public OurSkill() {
-//    }
+    private final Queue<String> commandQueue = new LinkedList<>();
 
     public static String getSkillValue(String skillKey) {
         return (String)skillMap.get(skillKey);
@@ -31,7 +29,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
 
     @Override
     public void run() {
-
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
@@ -53,7 +50,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
 
         for(String command : commandQueue){
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
-
             if(command == null){
                 continue;
             }
@@ -104,10 +100,7 @@ public class OurSkill implements PropertyChangeListener, Runnable {
         long duration = 5000L;
         long startTime = System.currentTimeMillis();
             while(System.currentTimeMillis() - startTime < duration) {
-                Iterator queuedSkills = skillSet.iterator();
-
-                while (queuedSkills.hasNext()) {
-                    String currentSkill = (String) queuedSkills.next();
+                for (String currentSkill : skillSet) {
                     outputStream.write(currentSkill.getBytes());
                     System.out.println("task executed");
 
