@@ -198,7 +198,12 @@ public class Driver extends PApplet{
 //                while (!sqsMessenger.getiInvoked()) {
 //                    String response = sqsMessenger.messageReceiver();
 //                    if (!response.isEmpty()) {
-//                        System.out.println("OTHER PLAYER FINISHED WITH A SCORE OF " + response);
+//                        int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
+//                        scores = scores.substring(scores.indexOf(" "));
+//                        scores = scores.trim();
+//                        int received_coding_score = Integer.parseInt(scores);
+//
+//                        WorldData.getWorldData().setOpponentScore(received_paint_score);
 //                    }
 //
 //                    System.out.println("Thread going to sleep");

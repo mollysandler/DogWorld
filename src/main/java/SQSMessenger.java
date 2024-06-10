@@ -19,12 +19,9 @@ public class SQSMessenger {
     private static final String QUEUE_URL = "https://sqs.us-west-1.amazonaws.com/450835264782/SpiderWorldQueue";
     private static final String CREDENTIALS_PATH = "D:\\CalPoly\\CSC309\\sprint3\\csc309project\\.aws\\credentials";
     private AmazonSQS sqs;
-    private WorldData game;
     private boolean iInvoked;
 
-    private PApplet parent;
     private boolean showTextBox;
-    private String inputText;
     private int startTime;
     private final int displayDuration;
 
@@ -39,7 +36,6 @@ public class SQSMessenger {
 
         iInvoked = false;
         showTextBox = false;
-        inputText = "";
         displayDuration = 3000;
     }
 
@@ -60,18 +56,7 @@ public class SQSMessenger {
             scores = scores.trim();
             int received_coding_score = Integer.parseInt(scores);
 
-            String input;
-            if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
-                System.out.println("YOU LOST");
-                input = "YOU LOST\n" + "OPPONENT SCORE: " + response;
-            } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
-                System.out.println("YOU WIN");
-                input = "YOU WIN\n" + "OPPONENT SCORE: " + response;
-            } else {
-                System.out.println("TIE");
-                input = "TIE\n" + "OPPONENT SCORE: " + response;
-            }
-            show(input);
+            WorldData.getWorldData().setOpponentScore(received_paint_score);
         }
         sqsMessenger.setiInvoked(true);
         String s = paint_score + " " + coding_score;
@@ -135,28 +120,6 @@ public class SQSMessenger {
             LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
         }
         return "";
-    }
-
-    public void show(String input) {
-        showTextBox = true;
-        inputText = input;
-        startTime = parent.millis();
-    }
-
-    public void update() {
-        if (showTextBox) {
-            drawTextBox();
-            if (parent.millis() - startTime > displayDuration) {
-                showTextBox = false;
-            }
-        }
-    }
-
-    private void drawTextBox() {
-        parent.fill(200);
-        parent.rect(200, 200, 200, 200);
-//        parent.fill(0);
-//        parent.text(inputText, x + 10, y + h / 2 + 5);
     }
 
     public boolean getiInvoked() {
