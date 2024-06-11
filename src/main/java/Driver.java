@@ -107,7 +107,7 @@ public class Driver extends PApplet{
         speedSlider.setLocalColorScheme(GConstants.ORANGE_SCHEME);
         speedSlider.addEventHandler(this, "handleSliderEvents");
 
-//        GImageButton coins = new GImageButton(this, 15, 775, 100, 100, new String[]{"src/main/images/coin.png"});
+        GImageButton coins = new GImageButton(this, 15, 775, 100, 100, new String[]{"src/main/images/coin.png"});
         storeBtn = new GImageButton(this, 1055, 110, 90, 90, new String[]{"src/main/images/store.png"});
 
         buySpider = new GButton(this, 800, 400, 200, 50);
