@@ -20,7 +20,7 @@ public class SQSMessenger {
     private static final Logger LOGGER = Logger.getLogger(SQSMessenger.class.getName());
     private static final String REGION = "us-west-1";
     private static final String QUEUE_URL = "https://sqs.us-west-1.amazonaws.com/450835264782/SpiderWorldQueue";
-    private static final String CREDENTIALS_PATH = "D:\\CalPoly\\CSC309\\sprint3\\csc309project\\.aws\\credentials";
+    private static final String CREDENTIALS_PATH = "";
     private final AmazonSQS sqs;
     private boolean iInvoked;
     private PApplet parent;

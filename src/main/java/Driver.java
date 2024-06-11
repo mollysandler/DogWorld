@@ -187,10 +187,10 @@ public class Driver extends PApplet {
         dragAndDropManager.initialDiamonds = diamondList;// Pass diamondList
         levelSelector.displayButtons();
 
-        sqsMessenger = SQSMessenger.getInstance();
         new Thread(() -> {
             while (true) {
                 while (WorldData.getWorldData().getToggleMulti()) {
+                    sqsMessenger = SQSMessenger.getInstance();
                     if (sqsMessenger.getiInvoked()) {
                         try {
                             sleep(5000);
