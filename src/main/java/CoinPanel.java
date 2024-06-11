@@ -55,12 +55,14 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                         this.setVisible(true);
                     }
                 }
+                break;
             case "opponent-score":
                 if (evt.getNewValue() instanceof Integer){
                     int score = (Integer) evt.getNewValue();
                     label.setText("You lost!\nOpponent's Score: " + score + "." + "\nYour Score: " + WorldData.getWorldData().getUserScore());
                     this.setVisible(true);
                 }
+                break;
         }
     }
 }
