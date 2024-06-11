@@ -15,6 +15,7 @@ public class PaintMixer {
         }
         if ( tileMap.containsKey( p ) ) {
             String oldColor = tileMap.get( p );
+            if ( Objects.equals( oldColor, "snow" ) ) return;
             if ( oldColor.length() < 6 ) {
                 tileMap.replace(p, newColor.charAt(0) + oldColor);
             }

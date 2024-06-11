@@ -6,12 +6,30 @@ import java.util.List;
  * @author Riya Badadare
  */
 public class DragAndDropManager {
+    private Driver screen;
+//    private InstructionList instructions;
     PImage closedDelete;
     private final InstructionList instructionCopies = InstructionList.getInstance();
     public List<Diamond> initialDiamonds = new ArrayList<>();
     public List<Diamond> addedDiamonds = new ArrayList<>();
     private Diamond currentDiamond = null;
+    private Spider spider;
+    private boolean isSpiderDragging = false;
     Diamond[][] diamondGrid = new Diamond[5][5];
+    private int sandGrid = 5;
+    private int sandCell = 70;
+    private int sandX = 300;
+    private int sandY = 250;
+
+    public DragAndDropManager(Driver screen, PImage closedDelete) {
+        this.screen = screen;
+        this.closedDelete = closedDelete;
+    }
+
+    public void setSpider(Spider spider) {
+        this.spider = spider;
+    }
+//    Diamond[][] diamondGrid = new Diamond[5][5];
 
     public DragAndDropManager(PApplet screen, PImage closedDelete) {
         this.closedDelete = closedDelete;
@@ -39,6 +57,11 @@ public class DragAndDropManager {
             for (Diamond diamond : addedDiamonds) {
                 diamond.drag();
                 diamond.display();
+            }
+            // Handle spider dragging
+            if (spider != null) {
+                spider.drag();
+                spider.display();
             }
         }
     }
@@ -88,6 +111,12 @@ public class DragAndDropManager {
                     break;
                 }
             }
+
+            // Handle spider dragging
+            if (spider.isMouseOver()) {
+                isSpiderDragging = true;
+                spider.mousePressed();
+            }
         }
     }
 
@@ -135,24 +164,58 @@ public class DragAndDropManager {
         // Handle diamond releasing in sandbox mode
         if (isSandbox && currentDiamond != null) {
             currentDiamond.mouseReleased();
-            // Calculate grid position
-            int sandCell = 70;
-            int sandX = 300;
-            int gridX = ((currentDiamond.getxPos() - sandX) / sandCell);
-            int sandY = 250;
-            int gridY = ((currentDiamond.getyPos() - sandY) / sandCell);
-            // Snap to grid
-            if (0 <= gridX && gridX < 5 && 0 <= gridY && gridY < 5) {
-                currentDiamond.snapToGrid(gridX, gridY, sandCell);
+
+            int gridX = (currentDiamond.getxPos() - 210) / 70 - 1;
+            int gridY = (currentDiamond.getyPos() - 165) / 70 - 1;
+            System.out.print( "(" + currentDiamond.getxPos() + ", " + currentDiamond.getyPos() );
+            System.out.println( ") -> (" + gridX + ", " + gridY + ")");
+
+            if (gridX >= 0 && gridX < diamondGrid.length && gridY >= 0 && gridY < diamondGrid[0].length) {
+                // Snap to grid center
+                currentDiamond.setxPos( gridX * 70 + 315 );
+                currentDiamond.setyPos( gridY * 70 + 265 );
                 diamondGrid[gridX][gridY] = currentDiamond;
             } else {
-                    currentDiamond.setVisible(false);
-                    //initialDiamonds.remove(currentDiamond);
-                    addedDiamonds.remove(currentDiamond);
-                }
+                currentDiamond.setVisible(false);
+                addedDiamonds.remove( currentDiamond );
+                screen.removeDiamond( currentDiamond );
+            }
+            // Calculate grid position
+//            int sandCell = 70;
+//            int sandX = 300;
+//            int gridX = ((currentDiamond.getxPos() - sandX) / sandCell);
+//            int sandY = 250;
+//            int gridY = ((currentDiamond.getyPos() - sandY) / sandCell);
+            // Snap to grid
+//            if (0 <= gridX && gridX < 5 && 0 <= gridY && gridY < 5) {
+//                currentDiamond.snapToGrid(gridX, gridY, sandCell);
+//                diamondGrid[gridX][gridY] = currentDiamond;
+//            } else {
+//                    currentDiamond.setVisible(false);
+//                    //initialDiamonds.remove(currentDiamond);
+//                    addedDiamonds.remove(currentDiamond);
+//                }
             currentDiamond.setIsDragging(false);
             currentDiamond = null;
-            System.out.println(gridX + " " + gridY);
+        }
+
+        if (isSandbox && isSpiderDragging && spider != null) {
+            spider.mouseReleased();
+            int gridX = (spider.getxPos() - 200) / 70 - 1;
+            int gridY = (spider.getyPos() - 150) / 70 - 1;
+            System.out.print( "(" + spider.getxPos() + ", " + spider.getyPos() );
+            System.out.println( ") -> (" + gridX + ", " + gridY + ")");
+
+            if (gridX >= 0 && gridX < diamondGrid.length && gridY >= 0 && gridY < diamondGrid[0].length) {
+                // Snap to grid center
+                spider.setxPos( gridX * 70 + 303 );
+                spider.setyPos( gridY * 70 + 253 );
+                spider.setGridX( gridX );
+                spider.setGridY( gridY );
+            } else {
+                spider.goHome();
+            }
+            isSpiderDragging = false;
         }
     }
 }

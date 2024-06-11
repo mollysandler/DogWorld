@@ -19,15 +19,14 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
         closeButton.addEventHandler(this, "handleCloseButtonClick");
         this.addControl(closeButton);
 
-
-        label = new GLabel(pApplet, 20, 0, 260, 80, "placeholder");
+        label = new GLabel(pApplet, 20, 20, 260, 100, "placeholder");
         label.setFont(font);
         this.addControl(label);
 
-        GImageButton coinImageButton = new GImageButton(pApplet, 100, 80, 100, 100, new String[]{"src/main/images/coin.png"});
+        GImageButton coinImageButton = new GImageButton(pApplet, 100, 100, 100, 100, new String[]{"src/main/images/coin.png"});
         this.addControl(coinImageButton);
-
     }
+
     // Event handler for the close button
     public void handleCloseButtonClick(GImageButton button, GEvent event) {
         if (button == closeButton) {
