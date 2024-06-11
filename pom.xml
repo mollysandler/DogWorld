@@ -30,7 +30,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>Driver</mainClass>
+                            <mainClass>Driver.java</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
