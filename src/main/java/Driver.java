@@ -180,7 +180,15 @@ public class Driver extends PApplet{
         sqsMessenger = SQSMessenger.getInstance();
         new Thread(() -> {
             while (true) {
-                while (WorldData.getWorldData().getToggleMulti() && !sqsMessenger.getiInvoked()) {
+                while (WorldData.getWorldData().getToggleMulti()) {
+                    if (sqsMessenger.getiInvoked()) {
+                        try {
+                            sleep(5000);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        sqsMessenger.setiInvoked(false);
+                    }
                     String response = sqsMessenger.messageReceiver();
                     if (!response.isEmpty()) {
                         String scores = response;
