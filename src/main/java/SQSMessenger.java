@@ -50,17 +50,6 @@ public class SQSMessenger {
     }
 
     public void sendScore(int paint_score, int coding_score) {
-        String response = sqsMessenger.messageReceiver();
-        if (!response.isEmpty()) {
-            String scores = response;
-            System.out.println(scores);
-            int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
-            scores = scores.substring(scores.indexOf(" "));
-            scores = scores.trim();
-            int received_coding_score = Integer.parseInt(scores);
-
-            WorldData.getWorldData().setOpponentScore(received_paint_score);
-        }
         sqsMessenger.setiInvoked(true);
         String s = paint_score + " " + coding_score;
         sqsMessenger.messageSender(s);

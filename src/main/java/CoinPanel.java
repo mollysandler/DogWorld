@@ -52,8 +52,6 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                     }else{
 //                        label = new GLabel(myPap, 20, 40, 300, 200, );
                         label.setText("This is your score: " + score + "." + "\nGet full points to get coins!");
-                        label.setFont(font);
-                        this.addControl(label);
                         this.setVisible(true);
                     }
                 }
@@ -61,8 +59,6 @@ public class CoinPanel extends GPanel implements PropertyChangeListener {
                 if (evt.getNewValue() instanceof Integer){
                     int score = (Integer) evt.getNewValue();
                     label.setText("You lost!\nOpponent's Score: " + score + "." + "\nYour Score: " + WorldData.getWorldData().getUserScore());
-                    label.setFont(font);
-                    this.addControl(label);
                     this.setVisible(true);
                 }
         }
