@@ -11,8 +11,8 @@ public class ColdWeatherHandler extends WeatherHandler {
                 tileMap.put( new Point( i, j ), "snow" );
             }
         }
-        System.out.println( tileMap );
+//        System.out.println( tileMap );
         worldData.setTileMap( tileMap );
-        System.out.println( "added snow" );
+//        System.out.println( "added snow" );
     }
 }

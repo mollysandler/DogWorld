@@ -53,7 +53,7 @@ public final class WorldData extends PropertyChangeSupport {
 
     public void setLevel( HashMap <String, ArrayList<Point>> level, int rows, int r, int g, int b ) {
         levelMap = level;
-        System.out.println( level );
+//        System.out.println( level );
         if ( levelMap == null ) {
             levelMap = new HashMap<>();
         }
@@ -65,7 +65,7 @@ public final class WorldData extends PropertyChangeSupport {
         firePropertyChange( "numRows", null, numRows );
         firePropertyChange( "bgColor", null, bgColor );
         resetWorld();
-        System.out.println(levelMap.get("weather"));
+//        System.out.println(levelMap.get("weather"));
         int temp = 20;
         if ( levelMap.containsKey( "weather") ) temp = levelMap.get("weather").get(0).getX();
         if ( temp < 5 ) weather = new ColdWeatherHandler();
@@ -114,7 +114,7 @@ public final class WorldData extends PropertyChangeSupport {
     }
     public void setTileMap(HashMap<Point, String> tileMap) {
         this.tileMap = tileMap;
-        System.out.println( "tileMap is now " + tileMap );
+//        System.out.println( "tileMap is now " + tileMap );
         firePropertyChange( "tileMap", null, null );
     }
 
