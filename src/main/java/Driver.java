@@ -173,7 +173,7 @@ public class Driver extends PApplet{
         sqsMessenger = SQSMessenger.getInstance();
         new Thread(() -> {
             while (true) {
-                while (true) {
+                while (!sqsMessenger.getiInvoked()) {
                     String response = sqsMessenger.messageReceiver();
                     if (!response.isEmpty()) {
                         String scores = response;
@@ -193,12 +193,12 @@ public class Driver extends PApplet{
                         throw new RuntimeException(e);
                     }
                 }
-//                System.out.println("sleeping in infinite loop");
-//                try {
-//                    sleep(1000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
+                System.out.println("sleeping in infinite loop");
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }).start();
 
