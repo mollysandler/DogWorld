@@ -44,7 +44,9 @@ public class Driver extends PApplet{
     private GButton selectDog;
     private GImageButton dogIcon;
     private SQSMessenger sqsMessenger;
-    CoinPanel coinPanel;
+    private CoinPanel coinPanel;
+    private GImageButton onButton;
+    private GImageButton offButton;
     enum ScreenState {
         MAIN,
         SANDBOX,
@@ -136,12 +138,17 @@ public class Driver extends PApplet{
 
         dogIcon = new GImageButton(this, 420, 225, 150, 150, new String[]{"src/main/images/dog_north.png"});
         dogIcon.setVisible(false);
+
+        onButton = new GImageButton(this, 1125, 250, 50, 50, new String[]{"src/main/images/onbutton.png"});
+        offButton = new GImageButton(this, 1125, 250, 50, 50, new String[]{"src/main/images/offButton.png"});
+        offButton.setVisible(false);
     }
 
     @Override
     public void keyPressed(processing.event.KeyEvent event) {
         keyDown = event.getKeyCode();
         super.keyPressed(event);
+        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override
@@ -565,6 +572,14 @@ public class Driver extends PApplet{
             dragAndDropManager.addedDiamonds.clear();
             diamondList.removeAll(dragAndDropManager.addedDiamonds);
             dragAndDropManager.diamondGrid = new Diamond[5][5];
+        } else if (imagebutton == onButton && event == GEvent.CLICKED) {
+
+            onButton.setVisible(false);
+            offButton.setVisible(true);
+        }else if (imagebutton == offButton && event == GEvent.CLICKED) {
+
+            offButton.setVisible(false);
+            onButton.setVisible(true);
         }
     }
 
