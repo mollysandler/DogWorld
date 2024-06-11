@@ -17,6 +17,7 @@ public class Diamond implements Draggable, Cloneable {
     private boolean isDragging;
     private int xOffset;
     private int yOffset;
+    private boolean visible = true;
 
     public Diamond(PApplet screen, int xPos, int yPos, PImage img, String color){
         this.screen = screen;
@@ -28,6 +29,7 @@ public class Diamond implements Draggable, Cloneable {
         this.color = color;
     }
 
+
     public Diamond clone() throws CloneNotSupportedException{
         return (Diamond) super.clone();
     }
@@ -37,6 +39,7 @@ public class Diamond implements Draggable, Cloneable {
 
     @Override
     public void display() {
+        if ( !visible ) return;
         screen.image(img, xPos, yPos);
     }
 
@@ -84,10 +87,10 @@ public class Diamond implements Draggable, Cloneable {
         }
     }
 
-    void snapToGrid(int gridX, int gridY, int cellSize) {
-        setxPos(gridX * cellSize + 300);
-        setyPos(gridY * cellSize + 250);
-    }
+//    void snapToGrid(int gridX, int gridY, int cellSize) {
+//        setxPos(gridX * cellSize + 300);
+//        setyPos(gridY * cellSize + 250);
+//    }
 
     public void mouseReleased() {}
     public String serialize(){

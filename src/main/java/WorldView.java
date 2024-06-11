@@ -1,8 +1,11 @@
 import processing.core.PApplet;
+import processing.core.PFont;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * @author Jemma Arona
@@ -13,6 +16,11 @@ public final class WorldView implements PropertyChangeListener {
     private static final float topPadding = 143;
     private final float tileWidth = 60;
     private int numRows;
+    private boolean isSand;
+    private int sandGrid = 5;
+    private int sandCell = 70;
+    private int sandX = 300;
+    private int sandY = 250;
     private int bgColor;
     private int[] spider;
     private HashMap <String, ArrayList <Point>> levelMap;
@@ -23,7 +31,7 @@ public final class WorldView implements PropertyChangeListener {
     }
 
     public void drawGrid() {
-        screen.fill( bgColor );
+        screen.fill( bgColor, 255.0f );
         screen.stroke( 204, 204, 204 );
         screen.rect( leftPadding, topPadding, tileWidth * numRows, tileWidth * numRows );
         for ( int row = 1; row < numRows; row++ ) {
@@ -43,6 +51,7 @@ public final class WorldView implements PropertyChangeListener {
         for (int i = 0; i < sandGrid; i++) {
             for (int j = 0; j < sandGrid; j++) {
                 screen.stroke(0);
+                screen.fill(211, 211, 210, 255.0f);
                 screen.fill(211, 211, 210);
                 int sandCell = 70;
                 int sandX = 300;
@@ -53,7 +62,7 @@ public final class WorldView implements PropertyChangeListener {
     }
 
     public void drawDiamonds() {
-        screen.textSize( 12 );
+        screen.textFont( screen.createFont( "SansSerif", 12 ) );
         for ( String keyStr : levelMap.keySet() ) {
             if ( !keyStr.startsWith("diamond_") ) { continue; }
             String colorStr = keyStr.substring(8);
@@ -72,14 +81,33 @@ public final class WorldView implements PropertyChangeListener {
                     screen.fill( screen.color( color[0], color[1], color[2] ) );
             }
             for ( Point p : levelMap.get(keyStr)) {
-                float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) - 5 );
-                float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) + 5 );
+                float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) + 0 );
+                float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) - 5 );
                 screen.text('◆', diamondX, diamondY );
             }
         }
     }
 
+//    public void drawSpider() {
+//        String imgPath = "src/main/images/";
+//        if (isSand) imgPath += "spider";
+//        else imgPath += "dog";
+//        switch (spider[2]) {
+//            case 1:
+//                imgPath += "_north.png";
+//                break;
+//            case 2:
+//                imgPath += "_west.png";
+//                break;
+//            case 3:
+//                imgPath += "_south.png";
+//                break;
+//            default:
+//                imgPath += "_east.png";
+//        }
+//    }
     public void drawAvatar() {
+        if (spider[0] == -1) return;
         String imgPath = "src/main/images/";
         String currentAvatar = WorldData.getWorldData().getAvatar();
         switch ( spider[2] ) {
@@ -96,22 +124,59 @@ public final class WorldView implements PropertyChangeListener {
                 imgPath += currentAvatar + "_east.png";
                 break;
         }
-        screen.image( screen.loadImage( imgPath ), leftPadding + spider[0]*tileWidth, topPadding + spider[1]*tileWidth );
+        float x, y;
+        if ( isSand ) {
+            x = sandX + spider[0] * sandCell + 3;
+            y = sandY + spider[1] * sandCell + 3;
+        } else {
+            x = leftPadding + spider[0] * tileWidth;
+            y = topPadding + spider[1] * tileWidth;
+        }
+        screen.image(screen.loadImage(imgPath), x, y);
     }
 
     public void drawPaint() {
+        float lef, top, wid;
+        if ( isSand ) {
+            lef = sandX;
+            top = sandY;
+            wid = sandCell;
+        } else {
+            lef = leftPadding;
+            top = topPadding;
+            wid = tileWidth;
+        }
         for ( Point p : tileMap.keySet() ) {
             int[] color = PaintMixer.getPaintColor(p);
             screen.fill( color[0], color[1], color[2] );
-            screen.rect(leftPadding + tileWidth * ( p.getX() ), topPadding + tileWidth * ( p.getY() ), tileWidth, tileWidth );
+            screen.rect(lef + wid * ( p.getX() ), top + wid * ( p.getY() ), wid, wid );
         }
     }
 
+    public void drawSnow() {
+        for ( Point p : tileMap.keySet() ) {
+            if ( Objects.equals( tileMap.get(p), "snow" ) ) {
+                screen.fill( screen.color(255), 230.0f );
+                screen.rect(leftPadding + tileWidth * (p.getX()),
+                        topPadding + tileWidth * (p.getY()) + 10,
+                        tileWidth, tileWidth - 10);
+            }
+        }
+    }
+
+    public void drawWorld( boolean sandbox ) {
+        isSand = sandbox;
+        drawWorld();
+    }
+
     public void drawWorld() {
-        drawGrid();
+        if ( isSand ) drawSandGrid();
+        else drawGrid();
         drawPaint();
         drawDiamonds();
+//        drawSpider();
         drawAvatar();
+        drawSnow();
     }
 
     @Override
@@ -127,7 +192,7 @@ public final class WorldView implements PropertyChangeListener {
                 levelMap = (HashMap<String, ArrayList<Point>>) evt.getNewValue();
                 break;
             case "tileMap":
-                tileMap = (HashMap<Point, String>) evt.getNewValue();
+                tileMap = WorldData.getWorldData().getTileMap();
                 break;
             case "spider":
                 spider = (int[]) evt.getNewValue();

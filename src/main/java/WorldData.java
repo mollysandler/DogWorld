@@ -9,16 +9,21 @@ public final class WorldData extends PropertyChangeSupport {
     private static WorldData worldData;
     private int numRows;
     private HashMap <String, ArrayList <Point>> levelMap;
-    private final HashMap <Point, String> tileMap;
+    private HashMap <Point, String> tileMap;
     private final int[] spider;
     private final int[] bgColor;
     private int speed = 250;
     private boolean gameState = true;
-    private final boolean gameStatus;
+    private List<String> commands;
+    private boolean gameStatus;
+    private WeatherHandler weather;
+//    private final boolean gameStatus;
     private int coins;
     private final HashMap <String, Integer> lockedAvatars = new HashMap<>();
     private final ArrayList<String> unlockedAvatars = new ArrayList<>();
     private String currentChar = "dog";
+    private boolean toggleMulti;
+    private int userScore;
 
     private WorldData() {
         super( new Object() );
@@ -29,6 +34,7 @@ public final class WorldData extends PropertyChangeSupport {
         gameStatus = true;
         lockedAvatars.put("spider", 15);
         unlockedAvatars.add("dog");
+        toggleMulti = false;
     }
 
     public static WorldData getWorldData() {
@@ -74,12 +80,26 @@ public final class WorldData extends PropertyChangeSupport {
     public void setScore(int score){
         firePropertyChange("score", null, score);
     }
+    public void setOpponentScore(int score){
+        firePropertyChange("opponent-score", null, score);
+    }
+    public void setToggleMulti(boolean t) {
+        toggleMulti = t;
+    }
+    public boolean getToggleMulti() {
+        return toggleMulti;
+    }
+
+    public int getUserScore() {
+        return userScore;
+    }
 
     public void setLevel( HashMap <String, ArrayList<Point>> level ) {
         setLevel( level, 5, 26, 26, 26 );
     }
     public void setLevel( HashMap <String, ArrayList<Point>> level, int rows, int r, int g, int b ) {
         levelMap = level;
+//        System.out.println( level );
         if ( levelMap == null ) {
             levelMap = new HashMap<>();
         }
@@ -91,6 +111,12 @@ public final class WorldData extends PropertyChangeSupport {
         firePropertyChange( "numRows", null, numRows );
         firePropertyChange( "bgColor", null, bgColor );
         resetWorld();
+//        System.out.println(levelMap.get("weather"));
+        int temp = 20;
+        if ( levelMap.containsKey( "weather") ) temp = levelMap.get("weather").get(0).getX();
+        if ( temp < 10 ) weather = new ColdWeatherHandler();
+        else if ( temp > 22 ) weather = new HotWeatherHandler();
+        else weather = new WeatherHandler();
     }
 
     public int[] getSpider() {
@@ -118,11 +144,23 @@ public final class WorldData extends PropertyChangeSupport {
         firePropertyChange( "visible", null, true );
     }
 
+    public void clearSpider() {
+        spider[0] = -1;
+        spider[1] = -1;
+        spider[2] = -1;
+        firePropertyChange( "spider", null, spider );
+    }
+
     public HashMap<String, ArrayList<Point>> getLevelMap() {
         return levelMap;
     }
     public HashMap<Point, String> getTileMap() {
         return tileMap;
+    }
+    public void setTileMap(HashMap<Point, String> tileMap) {
+        this.tileMap = tileMap;
+//        System.out.println( "tileMap is now " + tileMap );
+        firePropertyChange( "tileMap", null, null );
     }
 
     public void setGameState(boolean gameState) {
@@ -137,9 +175,20 @@ public final class WorldData extends PropertyChangeSupport {
         firePropertyChange( "visible", null, true );
     }
 
+    public void setTile( int x, int y, String color ) {
+        Point p = new Point( x, y );
+        if ( tileMap.containsKey( p ) ) {
+            tileMap.replace( p, color );
+        }
+        else {
+            tileMap.put( p, color );
+        }
+        firePropertyChange( "tileMap", null, null );
+    }
+
     public void resetWorld() {
         tileMap.clear();
-        firePropertyChange( "tileMap", null, tileMap);
+        firePropertyChange( "tileMap", null, null);
         try {
             Point pos = levelMap.get("spider").get(0);
             Point rot = levelMap.get("spider").get(1);
@@ -154,7 +203,15 @@ public final class WorldData extends PropertyChangeSupport {
 //        println("cleared");
 //    }
 
-//    public boolean getGameStatus() {
+    public boolean getGameStatus() {
+        return gameStatus;
+    }
+
+    public WeatherHandler getWeather() {
+        return weather;
+    }
+
+//        public boolean getGameStatus() {
 //        return gameStatus;
 //    }
 }

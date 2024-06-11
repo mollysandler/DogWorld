@@ -49,44 +49,22 @@ public class SQSMessenger {
         return sqsMessenger;
     }
 
-//    public void sendScore(int paint_score, int coding_score) {
-//        String response = sqsMessenger.messageReceiver();
-//        if (!response.isEmpty()) {
-//            String scores = response;
-//            System.out.println(scores);
-//            int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
-//            scores = scores.substring(scores.indexOf(" "));
-//            scores = scores.trim();
-//            int received_coding_score = Integer.parseInt(scores);
-//
-//            String input;
-//            if ((received_coding_score + received_paint_score) > (coding_score + paint_score)) {
-//                System.out.println("YOU LOST");
-//                input = "YOU LOST\n" + "OPPONENT SCORE: " + response;
-//            } else if ((received_coding_score + received_paint_score) < (coding_score + paint_score)) {
-//                System.out.println("YOU WIN");
-//                input = "YOU WIN\n" + "OPPONENT SCORE: " + response;
-//            } else {
-//                System.out.println("TIE");
-//                input = "TIE\n" + "OPPONENT SCORE: " + response;
-//            }
-//            show(input);
-//        }
-//        sqsMessenger.setiInvoked(true);
-//        String s = paint_score + " " + coding_score;
-//        sqsMessenger.messageSender(s);
-//    }
+    public void sendScore(int paint_score, int coding_score) {
+        sqsMessenger.setiInvoked(true);
+        String s = paint_score + " " + coding_score;
+        sqsMessenger.messageSender(s);
+    }
 
-//    public void messageSender(String s) {
-//        try {
-//            SendMessageRequest sendMessageRequest = new SendMessageRequest()
-//                    .withQueueUrl(QUEUE_URL)
-//                    .withMessageBody(s);
-//            sqs.sendMessage(sendMessageRequest);
-//        } catch (AmazonSQSException e) {
-//            LOGGER.log(Level.SEVERE, "Failed to send message to SQS", e);
-//        }
-//    }
+    public void messageSender(String s) {
+        try {
+            SendMessageRequest sendMessageRequest = new SendMessageRequest()
+                    .withQueueUrl(QUEUE_URL)
+                    .withMessageBody(s);
+            sqs.sendMessage(sendMessageRequest);
+        } catch (AmazonSQSException e) {
+            LOGGER.log(Level.SEVERE, "Failed to send message to SQS", e);
+        }
+    }
 
     private static BasicAWSCredentials getAWSCredentials() {
         String accessKeyId = null;
@@ -112,29 +90,29 @@ public class SQSMessenger {
         }
     }
 
-//    public String messageReceiver() {
-//        try {
-//            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
-//                    .withQueueUrl(QUEUE_URL)
-//                    .withMaxNumberOfMessages(1);
-//            ReceiveMessageResult receiveMessageResult = sqs.receiveMessage(receiveMessageRequest);
-//
-//            List<Message> messages = receiveMessageResult.getMessages();
-//            for (Message message : messages) {
-//                LOGGER.info("Message received: " + message.getBody());
-//
-//                // Delete the received message from the queue
-//                String messageReceiptHandle = message.getReceiptHandle();
-//                sqs.deleteMessage(new DeleteMessageRequest(QUEUE_URL, messageReceiptHandle));
-//
-//                return String.valueOf(message.getBody());
-//            }
-//
-//        } catch (AmazonSQSException e) {
-//            LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
-//        }
-//        return "";
-//    }
+    public String messageReceiver() {
+        try {
+            ReceiveMessageRequest receiveMessageRequest = new ReceiveMessageRequest()
+                    .withQueueUrl(QUEUE_URL)
+                    .withMaxNumberOfMessages(1);
+            ReceiveMessageResult receiveMessageResult = sqs.receiveMessage(receiveMessageRequest);
+
+            List<Message> messages = receiveMessageResult.getMessages();
+            for (Message message : messages) {
+                LOGGER.info("Message received: " + message.getBody());
+
+                // Delete the received message from the queue
+                String messageReceiptHandle = message.getReceiptHandle();
+                sqs.deleteMessage(new DeleteMessageRequest(QUEUE_URL, messageReceiptHandle));
+
+                return String.valueOf(message.getBody());
+            }
+
+        } catch (AmazonSQSException e) {
+            LOGGER.log(Level.SEVERE, "Failed to receive messages from SQS", e);
+        }
+        return "";
+    }
 
     public void show(String input) {
         showTextBox = true;
@@ -158,10 +136,10 @@ public class SQSMessenger {
 //        parent.text(inputText, x + 10, y + h / 2 + 5);
     }
 
-//    public boolean getiInvoked() {
-//        return iInvoked;
-//    }
-//    public void setiInvoked(boolean t) {
-//        iInvoked = t;
-//    }
+    public boolean getiInvoked() {
+        return iInvoked;
+    }
+    public void setiInvoked(boolean t) {
+        iInvoked = t;
+    }
 }
