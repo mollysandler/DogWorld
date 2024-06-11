@@ -19,6 +19,7 @@ public final class WorldData extends PropertyChangeSupport {
     private final HashMap <String, Integer> lockedAvatars = new HashMap<>();
     private final ArrayList<String> unlockedAvatars = new ArrayList<>();
     private String currentChar = "dog";
+    private boolean toggleMulti;
     private int userScore;
 
     private WorldData() {
@@ -30,6 +31,7 @@ public final class WorldData extends PropertyChangeSupport {
         gameStatus = true;
         lockedAvatars.put("spider", 15);
         unlockedAvatars.add("dog");
+        toggleMulti = false;
     }
 
     public static WorldData getWorldData() {
@@ -77,6 +79,12 @@ public final class WorldData extends PropertyChangeSupport {
     }
     public void setOpponentScore(int score){
         firePropertyChange("opponent-score", null, score);
+    }
+    public void setToggleMulti(boolean t) {
+        toggleMulti = t;
+    }
+    public boolean getToggleMulti() {
+        return toggleMulti;
     }
 
     public int getUserScore() {

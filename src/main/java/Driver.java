@@ -180,7 +180,7 @@ public class Driver extends PApplet{
         sqsMessenger = SQSMessenger.getInstance();
         new Thread(() -> {
             while (true) {
-                while (!sqsMessenger.getiInvoked()) {
+                while (WorldData.getWorldData().getToggleMulti() && !sqsMessenger.getiInvoked()) {
                     String response = sqsMessenger.messageReceiver();
                     if (!response.isEmpty()) {
                         String scores = response;
@@ -208,6 +208,7 @@ public class Driver extends PApplet{
                 }
             }
         }).start();
+
 
 //        OurSkill robotSkill = new OurSkill();
 //        robotSkill.connectBluetooth();
@@ -559,7 +560,7 @@ public class Driver extends PApplet{
                 currentState = ScreenState.STORE;
             }
 
-        }else if (imagebutton == sandboxBtn && event == GEvent.CLICKED){
+        } else if (imagebutton == sandboxBtn && event == GEvent.CLICKED){
             cleanUpMap();
             currentState = ScreenState.SANDBOX;
             // println("Switched to sandbox");
@@ -568,18 +569,19 @@ public class Driver extends PApplet{
             currentState = ScreenState.MAIN;
             levelSelector.showButtons();
             // Clean up Sandbox
-        }else if (imagebutton == resetBtn && event == GEvent.CLICKED){
+        } else if (imagebutton == resetBtn && event == GEvent.CLICKED){
             dragAndDropManager.addedDiamonds.clear();
             diamondList.removeAll(dragAndDropManager.addedDiamonds);
             dragAndDropManager.diamondGrid = new Diamond[5][5];
         } else if (imagebutton == onButton && event == GEvent.CLICKED) {
-
             onButton.setVisible(false);
             offButton.setVisible(true);
-        }else if (imagebutton == offButton && event == GEvent.CLICKED) {
+            WorldData.getWorldData().setToggleMulti(true);
 
+        } else if (imagebutton == offButton && event == GEvent.CLICKED) {
             offButton.setVisible(false);
             onButton.setVisible(true);
+            WorldData.getWorldData().setToggleMulti(false);
         }
     }
 
