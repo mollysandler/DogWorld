@@ -504,10 +504,10 @@ public class Driver extends PApplet{
 
     public void handleButtonEvents(GImageButton imagebutton, GEvent event){
         if (imagebutton == btnPlay && event == GEvent.CLICKED){
-            System.out.println( "clicked play button");
+//            System.out.println( "clicked play button");
             if ( currentState == ScreenState.SANDBOX ) {
                 if ( sandSpider.getGridX() < 0 || sandSpider.getGridY() < 0 ) return;
-                System.out.println( "spider is on board" );
+//                System.out.println( "spider is on board" );
                 ArrayList<Point> tempSpider = new ArrayList<>();
                 tempSpider.add( new Point( sandSpider.getGridX(), sandSpider.getGridY() ) );
                 tempSpider.add( new Point( 1, 0 ) );

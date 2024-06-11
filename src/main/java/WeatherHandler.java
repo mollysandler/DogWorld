@@ -1,4 +1,4 @@
-public abstract class WeatherHandler {
+public class WeatherHandler {
 
     public void handleStart() {
         return;

@@ -5,6 +5,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /**
  * @author Jemma Arona
@@ -32,7 +33,7 @@ public final class WorldView implements PropertyChangeListener {
 
 
     public void drawGrid() {
-        screen.fill( bgColor );
+        screen.fill( bgColor, 255.0f );
         screen.stroke( 204, 204, 204 );
         screen.rect( leftPadding, topPadding, tileWidth * numRows, tileWidth * numRows );
         for ( int row = 1; row < numRows; row++ ) {
@@ -51,7 +52,7 @@ public final class WorldView implements PropertyChangeListener {
         for (int i = 0; i < sandGrid; i++) {
             for (int j = 0; j < sandGrid; j++) {
                 screen.stroke(0);
-                screen.fill(211, 211, 210);
+                screen.fill(211, 211, 210, 255.0f);
                 screen.rect(sandX + i * sandCell, sandY + j * sandCell, sandCell, sandCell);
             }
 
@@ -135,6 +136,17 @@ public final class WorldView implements PropertyChangeListener {
         }
     }
 
+    public void drawSnow() {
+        for ( Point p : tileMap.keySet() ) {
+            if ( Objects.equals( tileMap.get(p), "snow" ) ) {
+                screen.fill( screen.color(255), 230.0f );
+                screen.rect(leftPadding + tileWidth * (p.getX()),
+                        topPadding + tileWidth * (p.getY()) + 10,
+                        tileWidth, tileWidth - 10);
+            }
+        }
+    }
+
     public void drawWorld( boolean sandbox ) {
         isSand = sandbox;
         drawWorld();
@@ -146,6 +158,7 @@ public final class WorldView implements PropertyChangeListener {
         drawPaint();
         drawDiamonds();
         drawSpider();
+        drawSnow();
     }
 
     @Override
@@ -161,7 +174,7 @@ public final class WorldView implements PropertyChangeListener {
                 levelMap = (HashMap<String, ArrayList<Point>>) evt.getNewValue();
                 break;
             case "tileMap":
-                tileMap = (HashMap<Point, String>) evt.getNewValue();
+                tileMap = WorldData.getWorldData().getTileMap();
                 break;
             case "spider":
                 spider = (int[]) evt.getNewValue();

@@ -21,7 +21,7 @@ public class PlayButtonFunc implements Runnable{
 
     @Override
     public void run() {
-
+        WorldData.getWorldData().getWeather().handleStart();
 //        WorldData myData = WorldData.getWorldData();
         InstructionList instructionList = InstructionList.getInstance();
         control = 0;

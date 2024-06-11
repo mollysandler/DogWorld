@@ -25,6 +25,7 @@ public class StepInstruction extends Instruction{
                 dataSpider[0] + (rot + 1)%2 *(1 - rot),  //+1 if right, -1 if left, +0 otherwise
                 dataSpider[1] + rot%2 *(rot - 2),           //+1 if down, -1 if up, +0 otherwise
                 rot);
+        myData.getWeather().handleStep();
     }
 
     private int[] stepHandler(int x, int y, int currRot){

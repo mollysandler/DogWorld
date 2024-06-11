@@ -177,8 +177,8 @@ public class DragAndDropManager {
             currentDiamond.mouseReleased();
             int gridX = (currentDiamond.getxPos() - 210) / 70 - 1;
             int gridY = (currentDiamond.getyPos() - 165) / 70 - 1;
-            System.out.print( "(" + currentDiamond.getxPos() + ", " + currentDiamond.getyPos() );
-            System.out.println( ") -> (" + gridX + ", " + gridY + ")");
+//            System.out.print( "(" + currentDiamond.getxPos() + ", " + currentDiamond.getyPos() );
+//            System.out.println( ") -> (" + gridX + ", " + gridY + ")");
 
             if (gridX >= 0 && gridX < diamondGrid.length && gridY >= 0 && gridY < diamondGrid[0].length) {
                 // Snap to grid center
@@ -198,8 +198,8 @@ public class DragAndDropManager {
             spider.mouseReleased();
             int gridX = (spider.getxPos() - 200) / 70 - 1;
             int gridY = (spider.getyPos() - 150) / 70 - 1;
-            System.out.print( "(" + spider.getxPos() + ", " + spider.getyPos() );
-            System.out.println( ") -> (" + gridX + ", " + gridY + ")");
+//            System.out.print( "(" + spider.getxPos() + ", " + spider.getyPos() );
+//            System.out.println( ") -> (" + gridX + ", " + gridY + ")");
 
             if (gridX >= 0 && gridX < diamondGrid.length && gridY >= 0 && gridY < diamondGrid[0].length) {
                 // Snap to grid center
