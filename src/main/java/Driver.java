@@ -211,14 +211,12 @@ public class Driver extends PApplet {
                         WorldData.getWorldData().setOpponentScore(received_paint_score);
                     }
 
-                    System.out.println("Thread going to sleep");
                     try {
                         sleep(3000);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
                 }
-                System.out.println("sleeping in infinite loop");
                 try {
                     sleep(1000);
                 } catch (InterruptedException e) {
