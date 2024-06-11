@@ -40,6 +40,7 @@ public class Diamond implements Draggable, Cloneable {
 
     @Override
     public void display() {
+        if ( !visible ) return;
         screen.image(img, xPos, yPos);
     }
 
@@ -53,7 +54,7 @@ public class Diamond implements Draggable, Cloneable {
 
     @Override
     public void setxPos(int x) {
-        this.yPos = x;
+        this.xPos = x;
     }
 
 

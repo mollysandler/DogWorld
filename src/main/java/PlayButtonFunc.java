@@ -8,14 +8,21 @@ import java.util.Stack;
 public class PlayButtonFunc implements Runnable{
 
     private static int control;
+    private final boolean isSand;
+    private Spider spider;
 
-    public PlayButtonFunc(){
-
+    public PlayButtonFunc( boolean isSand ){
+        this.isSand = isSand;
     }
+
+    public void setSpider(Spider spider) {
+        this.spider = spider;
+    }
+
     @Override
     public void run() {
 
-        WorldData myData = WorldData.getWorldData();
+//        WorldData myData = WorldData.getWorldData();
         InstructionList instructionList = InstructionList.getInstance();
         control = 0;
 
@@ -34,7 +41,7 @@ public class PlayButtonFunc implements Runnable{
 
         //per instruction send each instruction to their respective function
         int instructionIndex = 0;
-        Stack<Integer> repeatStack = new Stack();
+        Stack<Integer> repeatStack = new Stack<>();
 
         while (instructionIndex < instructions.size()) {
             Instruction instruction = instructions.get(instructionIndex);
@@ -76,6 +83,19 @@ public class PlayButtonFunc implements Runnable{
 //            }
 //            instruction.runAction();
 //            commands.clear();
+        }
+
+        if ( isSand ) {
+            try {
+                Thread.sleep( 2000 );
+                WorldData.getWorldData().resetWorld();
+                WorldData.getWorldData().clearSpider();
+                spider.setVisible( true );
+                return;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+
         }
 
         ScoreChecker.logScore( instructions.size() );

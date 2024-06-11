@@ -117,7 +117,7 @@ public class Driver extends PApplet{
         speedSlider.addEventHandler(this, "handleSliderEvents");
         PImage spiderImage = loadImage("src/main/images/spider_north.png");
 
-        sandSpider = new Spider(this, 100, 500, spiderImage);
+        sandSpider = new Spider(this, 192, 545, spiderImage);
         sandSpider.setVisible(false);
 
 
@@ -132,6 +132,7 @@ public class Driver extends PApplet{
 
     @Override
     public void setup(){
+        textAlign(CENTER, TOP);
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
 //        try {
@@ -142,14 +143,14 @@ public class Driver extends PApplet{
         int currentLevel = 1;
         LoadLevels level = new LoadLevels(currentLevel);
 
+        HashMap<String, ArrayList<Point>> map = level.loadHashMap();
+        worldData.setLevel(map);
+
         //gets all the buttons and blocks on the board
         buttonDisplay();
 
         levelSelector = new LevelSelector(this, 60, 40);
         this.loadImages();
-
-        HashMap<String, ArrayList<Point>> map = level.loadHashMap();
-        worldData.setLevel(map);
 
         OriginalInstructions originalInstructions = new OriginalInstructions();
 
@@ -341,7 +342,7 @@ public class Driver extends PApplet{
     private void drawMain() {
         background(40,52,68);
         mainWorldBtn.setVisible(false);
-        diamondRed.setVisible(false);
+//        diamondRed.setVisible(false);
         resetBtn.setVisible(false);
         saveBtn.setVisible(false);
 
@@ -369,15 +370,15 @@ public class Driver extends PApplet{
             image(closedDelete, 60, 600);
         }
 
-        worldView.drawWorld();
+        worldView.drawWorld( false );
         sandboxBtn.setVisible(true);
         sandboxBtn.setEnabled(true);
-        btnPlay.setEnabled(true);
-        btnPlay.setVisible(true);
+//        btnPlay.setEnabled(true);
+//        btnPlay.setVisible(true);
         speedSlider.setEnabled(true);
         speedSlider.setVisible(true);
 
-        btnPlay.setEnabled(WorldData.getWorldData().getGameState());
+        btnPlay.setEnabled(worldData.getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
     }
@@ -456,6 +457,10 @@ public class Driver extends PApplet{
             }
         }
 
+        PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
+        textFont(font);
+        text("Welcome to SandBox", (float) width / 2,  50);
+
         drawLevelButtons(200, 200);
 
         // reset diamonds
@@ -464,9 +469,8 @@ public class Driver extends PApplet{
         }
 
         // Enable diamonds?
-        sandSpider.setVisible(true);
         sandSpider.display();
-        worldView.drawSandGrid();
+        worldView.drawWorld( true );
         saveBtn.setEnabled(currentModal == null);
         saveBtn.setVisible(currentModal == null);
         resetBtn.setVisible(currentModal == null);
@@ -496,22 +500,31 @@ public class Driver extends PApplet{
 
         dragAndDropManager.makeDraggable(true);
 
-        PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
-        textFont(font);
-        textAlign(CENTER, TOP);
-
-        text("Welcome to SandBox", (float) width / 2,  50);
-
     }
+
     public void handleButtonEvents(GImageButton imagebutton, GEvent event){
         if (imagebutton == btnPlay && event == GEvent.CLICKED){
-            WorldData.getWorldData().resetWorld();
-            WorldData.getWorldData().setGameState(false);
-            PlayButtonFunc playButtonFunc = new PlayButtonFunc();
+            System.out.println( "clicked play button");
+            if ( currentState == ScreenState.SANDBOX ) {
+                if ( sandSpider.getGridX() < 0 || sandSpider.getGridY() < 0 ) return;
+                System.out.println( "spider is on board" );
+                ArrayList<Point> tempSpider = new ArrayList<>();
+                tempSpider.add( new Point( sandSpider.getGridX(), sandSpider.getGridY() ) );
+                tempSpider.add( new Point( 1, 0 ) );
+                HashMap<String, ArrayList<Point>> tempLevel = new HashMap<>();
+                tempLevel.put( "spider", tempSpider );
+                worldData.setLevel( tempLevel );
+                sandSpider.setVisible( false );
+            }
+            worldData.resetWorld();
+            WorldData.getWorldData().setGameState( currentState == ScreenState.MAIN );
+            PlayButtonFunc playButtonFunc = new PlayButtonFunc( currentState == ScreenState.SANDBOX );
+            if ( currentState == ScreenState.SANDBOX ) playButtonFunc.setSpider( sandSpider );
             Thread t1 = new Thread(playButtonFunc);
             t1.start();
         }
     }
+
     public void handleSliderEvents(GSlider slider, GEvent event){
         if (slider == speedSlider && event == GEvent.RELEASED){
             WorldData.getWorldData().setSpeed(slider.getValueI());
@@ -522,7 +535,10 @@ public class Driver extends PApplet{
         if (sandButton == sandboxBtn && event == GEvent.CLICKED){
             cleanUpMain();
             currentState = ScreenState.SANDBOX;
-            // println("Switched to sandbox");
+            println("Switched to sandbox");
+            WorldData.getWorldData().setLevel( new HashMap<>() );
+            WorldData.getWorldData().clearSpider();
+            sandSpider.setVisible( true );
         }
     }
 
@@ -531,7 +547,11 @@ public class Driver extends PApplet{
             cleanUpSand();
             currentState = ScreenState.MAIN;
             levelSelector.showButtons();
-            // Clean up Sandbox
+            println("Switched to main");
+
+            LoadLevels level = new LoadLevels(1);
+            HashMap<String, ArrayList<Point>> map = level.loadHashMap();
+            worldData.setLevel(map);
         }
     }
 
@@ -540,13 +560,19 @@ public class Driver extends PApplet{
             dragAndDropManager.addedDiamonds.clear();
             diamondList.removeAll(dragAndDropManager.addedDiamonds);
             dragAndDropManager.diamondGrid = new Diamond[5][5];
+            WorldData.getWorldData().clearSpider();
+            sandSpider.goHome();
         }
+    }
+
+    public void removeDiamond( Diamond d ) {
+        diamondList.remove( d );
     }
 
     public void cleanUpMain(){
         worldData.resetWorld();
-        btnPlay.setVisible(false);
-        btnPlay.setEnabled(false);
+//        btnPlay.setVisible(false);
+//        btnPlay.setEnabled(false);
         sandboxBtn.setVisible(false);
         sandboxBtn.setEnabled(false);
         speedSlider.setVisible(false);

@@ -2,14 +2,16 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 
-    public class Spider implements Draggable, Cloneable {
+    public class Spider implements Draggable
+//            , Cloneable
+    {
 
 
         PImage img;
         protected PApplet screen;
 
-        private int xPos;
-        private int yPos;
+        private int xPos, yPos, xHome, yHome;
+        private int gridX = -1, gridY = -1;
         private final int width;
         private final int height;
         private boolean isDragging;
@@ -22,16 +24,26 @@ import processing.core.PImage;
             this.screen = screen;
             this.xPos = xPos;
             this.yPos = yPos;
+            xHome = xPos;
+            yHome = yPos;
             this.img = img;
             width = img.width;
             height = img.height;
 
         }
 
-        //clone
-        public Diamond clone() throws CloneNotSupportedException{
-            return (Diamond) super.clone();
+        public void goHome() {
+            xPos = xHome;
+            yPos = yHome;
+            gridX = -1;
+            gridY = -1;
+            visible = true;
         }
+
+        //clone
+//        public Diamond clone() throws CloneNotSupportedException{
+//            return (Diamond) super.clone();
+//        }
 
         public void setVisible(boolean visible) {
             this.visible = visible;
@@ -40,7 +52,7 @@ import processing.core.PImage;
 
         @Override
         public void display() {
-            screen.image(img, xPos, yPos);
+            if ( visible ) screen.image(img, xPos, yPos);
         }
 
 
@@ -53,7 +65,7 @@ import processing.core.PImage;
 
         @Override
         public void setxPos(int x) {
-            this.yPos = x;
+            this.xPos = x;
         }
 
 
@@ -61,6 +73,22 @@ import processing.core.PImage;
         public void setyPos(int y) {
             this.yPos = y;
 
+        }
+
+        public void setGridX(int gridX) {
+            this.gridX = gridX;
+        }
+
+        public void setGridY(int gridY) {
+            this.gridY = gridY;
+        }
+
+        public int getGridX() {
+            return gridX;
+        }
+
+        public int getGridY() {
+            return gridY;
         }
 
         public int getyPos() {

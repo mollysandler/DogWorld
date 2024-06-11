@@ -52,6 +52,7 @@ public final class WorldData extends PropertyChangeSupport {
 
     public void setLevel( HashMap <String, ArrayList<Point>> level, int rows, int r, int g, int b ) {
         levelMap = level;
+        System.out.println( level );
         if ( levelMap == null ) {
             levelMap = new HashMap<>();
         }
@@ -90,6 +91,12 @@ public final class WorldData extends PropertyChangeSupport {
         }
         firePropertyChange( "spider", null, spider );
         firePropertyChange( "visible", null, true );
+    }
+
+    public void clearSpider() {
+        spider[0] = -1;
+        spider[1] = -1;
+        spider[2] = -1;
     }
 
     public HashMap<String, ArrayList<Point>> getLevelMap() {

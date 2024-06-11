@@ -1,4 +1,6 @@
 import processing.core.PApplet;
+import processing.core.PFont;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -14,6 +16,7 @@ public final class WorldView implements PropertyChangeListener {
     private final float tileWidth = 60;
     private int numRows;
 
+    private boolean isSand;
     private int sandGrid = 5;
     private int sandCell = 70;
     private int sandX = 300;
@@ -58,7 +61,7 @@ public final class WorldView implements PropertyChangeListener {
     }
 
     public void drawDiamonds() {
-        screen.textSize( 12 );
+        screen.textFont( screen.createFont( "SansSerif", 12 ) );
         for ( String keyStr : levelMap.keySet() ) {
             if ( !keyStr.startsWith("diamond_") ) { continue; }
             String colorStr = keyStr.substring(8);
@@ -77,43 +80,69 @@ public final class WorldView implements PropertyChangeListener {
                     screen.fill( screen.color( color[0], color[1], color[2] ) );
             }
             for ( Point p : levelMap.get(keyStr)) {
-                float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) - 5 );
-                float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) + 5 );
+                float diamondX = (float) ( leftPadding + tileWidth * ( p.getX() + .5 ) + 0 );
+                float diamondY = (float) ( topPadding + tileWidth * ( p.getY() + .5 ) - 5 );
                 screen.text('◆', diamondX, diamondY );
             }
         }
     }
 
     public void drawSpider() {
-        String IMAGEFOLDERPATH = "src/main/images/";
-        String imgPath = IMAGEFOLDERPATH;
+        if ( spider[0] == -1 ) return;
+        String imgPath = "src/main/images/";
+        if ( isSand ) imgPath += "spider";
+        else imgPath += "dog";
         switch ( spider[2] ) {
             case 1:
-                imgPath += "dog_north.png";
+                imgPath += "_north.png";
                 break;
             case 2:
-                imgPath += "dog_west.png";
+                imgPath += "_west.png";
                 break;
             case 3:
-                imgPath += "dog_south.png";
+                imgPath += "_south.png";
                 break;
             default:
-                imgPath += "dog_east.png";
+                imgPath += "_east.png";
                 break;
         }
-        screen.image( screen.loadImage( imgPath ), leftPadding + spider[0]*tileWidth, topPadding + spider[1]*tileWidth );
+        float x, y;
+        if ( isSand ) {
+            x = sandX + spider[0] * sandCell + 5;
+            y = sandY + spider[1] * sandCell + 7;
+        } else {
+            x = leftPadding + spider[0] * tileWidth;
+            y = topPadding + spider[1] * tileWidth;
+        }
+        screen.image(screen.loadImage(imgPath), x, y);
     }
 
     public void drawPaint() {
+        float lef, top, wid;
+        if ( isSand ) {
+            lef = sandX;
+            top = sandY;
+            wid = sandCell;
+        } else {
+            lef = leftPadding;
+            top = topPadding;
+            wid = tileWidth;
+        }
         for ( Point p : tileMap.keySet() ) {
             int[] color = PaintMixer.getPaintColor(p);
             screen.fill( color[0], color[1], color[2] );
-            screen.rect(leftPadding + tileWidth * ( p.getX() ), topPadding + tileWidth * ( p.getY() ), tileWidth, tileWidth );
+            screen.rect(lef + wid * ( p.getX() ), top + wid * ( p.getY() ), wid, wid );
         }
     }
 
+    public void drawWorld( boolean sandbox ) {
+        isSand = sandbox;
+        drawWorld();
+    }
+
     public void drawWorld() {
-        drawGrid();
+        if ( isSand ) drawSandGrid();
+        else drawGrid();
         drawPaint();
         drawDiamonds();
         drawSpider();
@@ -143,6 +172,4 @@ public final class WorldView implements PropertyChangeListener {
                 break;
         }
     }
-
-
 }
