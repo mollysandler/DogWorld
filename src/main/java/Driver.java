@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import static java.lang.Thread.sleep;
+
 /**
  * @author Molly Sandler
  */
@@ -41,6 +43,7 @@ public class Driver extends PApplet{
     private GImageButton spiderIcon;
     private GButton selectDog;
     private GImageButton dogIcon;
+    private SQSMessenger sqsMessenger;
     CoinPanel coinPanel;
     enum ScreenState {
         MAIN,
@@ -167,30 +170,37 @@ public class Driver extends PApplet{
         dragAndDropManager.initialDiamonds = diamondList;// Pass diamondList
         levelSelector.displayButtons();
 
-//        sqsMessenger = SQSMessenger.getInstance();
-//        new Thread(() -> {
-//            while (true) {
-//                while (!sqsMessenger.getiInvoked()) {
-//                    String response = sqsMessenger.messageReceiver();
-//                    if (!response.isEmpty()) {
-//                        System.out.println("OTHER PLAYER FINISHED WITH A SCORE OF " + response);
-//                    }
-//
-//                    System.out.println("Thread going to sleep");
-//                    try {
-//                        sleep(3000);
-//                    } catch (InterruptedException e) {
-//                        throw new RuntimeException(e);
-//                    }
-//                }
-//                System.out.println("sleeping in infinite loop");
-//                try {
-//                    sleep(1000);
-//                } catch (InterruptedException e) {
-//                    throw new RuntimeException(e);
-//                }
-//            }
-//        }).start();
+        sqsMessenger = SQSMessenger.getInstance();
+        new Thread(() -> {
+            while (true) {
+                while (!sqsMessenger.getiInvoked()) {
+                    String response = sqsMessenger.messageReceiver();
+                    if (!response.isEmpty()) {
+                        String scores = response;
+                        System.out.println(scores);
+                        int received_paint_score = Integer.parseInt(scores.substring(0, scores.indexOf(" ")));
+                        scores = scores.substring(scores.indexOf(" "));
+                        scores = scores.trim();
+                        int received_coding_score = Integer.parseInt(scores);
+
+                        WorldData.getWorldData().setOpponentScore(received_paint_score);
+                    }
+
+                    System.out.println("Thread going to sleep");
+                    try {
+                        sleep(3000);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+                System.out.println("sleeping in infinite loop");
+                try {
+                    sleep(1000);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }).start();
 
 //        OurSkill robotSkill = new OurSkill();
 //        robotSkill.connectBluetooth();

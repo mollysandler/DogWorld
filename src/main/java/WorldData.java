@@ -19,6 +19,7 @@ public final class WorldData extends PropertyChangeSupport {
     private final HashMap <String, Integer> lockedAvatars = new HashMap<>();
     private final ArrayList<String> unlockedAvatars = new ArrayList<>();
     private String currentChar = "dog";
+    private int userScore;
 
     private WorldData() {
         super( new Object() );
@@ -73,6 +74,13 @@ public final class WorldData extends PropertyChangeSupport {
     }
     public void setScore(int score){
         firePropertyChange("score", null, score);
+    }
+    public void setOpponentScore(int score){
+        firePropertyChange("opponent-score", null, score);
+    }
+
+    public int getUserScore() {
+        return userScore;
     }
 
     public void setLevel( HashMap <String, ArrayList<Point>> level ) {
