@@ -159,7 +159,7 @@ public class Driver extends PApplet {
 
     @Override
     public void setup() {
-        textAlign(CENTER, TOP);
+//        textAlign(CENTER, TOP);
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
         int currentLevel = 1;
