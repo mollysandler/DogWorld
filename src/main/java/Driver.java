@@ -2,14 +2,11 @@ import g4p_controls.*;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
-
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import static java.lang.Thread.sleep;
 
 /**
  * @author Molly Sandler
@@ -24,10 +21,7 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private LevelSelector levelSelector;
-//    private SQSMessenger sqsMessenger;
-    public List<Diamond> diamondList = new ArrayList<>();
-    private List<Diamond> addedDiamond = new ArrayList<>();
-    private GPanel blockPanel;
+    public List<Diamond> diamondList = new ArrayList<>();;
     private GImageButton btnPlay;
     private GImageButton sandboxBtn;
     private GImageButton mainWorldBtn;
@@ -38,10 +32,8 @@ public class Driver extends PApplet{
     public static int keyDown = -1;
     private GTextField levelNameField;
     private GButton saveLevelBtnModal;
-    private List<Diamond[][]> savedGrids = new ArrayList<>();
-    private List<String> savedLevelNames = new ArrayList<>();
-    private List<GButton> savedLevelButtons = new ArrayList<>();
-    private GImageButton coins;
+    private final List<Diamond[][]> savedGrids = new ArrayList<>();
+    private final List<String> savedLevelNames = new ArrayList<>();
     private GImageButton storeBtn;
     private PFont font;
     private GButton buySpider;
@@ -49,32 +41,23 @@ public class Driver extends PApplet{
     private GImageButton spiderIcon;
     private GButton selectDog;
     private GImageButton dogIcon;
-
-
     CoinPanel coinPanel;
-
     enum ScreenState {
         MAIN,
         SANDBOX,
         STORE
     }
-
     ScreenState currentState = ScreenState.MAIN;
     DragAndDropManager dragAndDropManager;
-
-    private OurSkill RobotSkill;
 
     @Override
     public void settings(){
         size(1200, 900);
     }
-
     private boolean isSandboxMode() {
         return currentState == ScreenState.SANDBOX;
     }
-
     public void buttonDisplay() {
-        // Draw diamonds?!
         PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
         diamondRedImage.resize(40, 40);
         diamondRed = new Diamond(this, 200, 250, diamondRedImage, "red");
@@ -103,7 +86,6 @@ public class Driver extends PApplet{
         openedDelete = loadImage("src/main/images/trash2.png");
         openedDelete.resize(100, 150);
 
-//        Driver.class.getClass().getClassLoader().getResource("fila name");
         String[] playButtonImgs = {"src/main/images/playButtonImg.png"};
         btnPlay = new GImageButton(this, 180, 615, playButtonImgs);
         btnPlay.addEventHandler(this, "handleButtonEvents");
@@ -125,7 +107,7 @@ public class Driver extends PApplet{
         speedSlider.setLocalColorScheme(GConstants.ORANGE_SCHEME);
         speedSlider.addEventHandler(this, "handleSliderEvents");
 
-        coins = new GImageButton(this, 15, 775, 100, 100, new String[]{"src/main/images/coin.png"});
+//        GImageButton coins = new GImageButton(this, 15, 775, 100, 100, new String[]{"src/main/images/coin.png"});
         storeBtn = new GImageButton(this, 1055, 110, 90, 90, new String[]{"src/main/images/store.png"});
 
         buySpider = new GButton(this, 800, 400, 200, 50);
@@ -163,11 +145,6 @@ public class Driver extends PApplet{
     public void setup(){
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
-//        try {
-//            LevelGenerator.makeLevels();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
         int currentLevel = 1;
         LoadLevels level = new LoadLevels(currentLevel);
 
@@ -179,9 +156,7 @@ public class Driver extends PApplet{
 
         HashMap<String, ArrayList<Point>> map = level.loadHashMap();
         worldData.setLevel(map);
-
-        OriginalInstructions originalInstructions = new OriginalInstructions();
-
+//        OriginalInstructions originalInstructions = new OriginalInstructions();
         diamondList.add(diamondRed);
         diamondList.add(diamondGreen);
         diamondList.add(diamondBlue);
@@ -224,17 +199,11 @@ public class Driver extends PApplet{
 //        robotThread.start();
         //uncomment if using dog
 
-        // Create a button to show the panel
-
         // Initialize the panel but keep it hidden initially
         coinPanel = new CoinPanel(this, 480, 315, 300, 200);
         coinPanel.setVisible(false);
         worldData.addPropertyChangeListener(coinPanel);
-
-         font = createFont("Comic Sans MS", 64);
-
-
-
+        font = createFont("Comic Sans MS", 64);
     }
 
     public void loadImages() {
@@ -354,7 +323,7 @@ public class Driver extends PApplet{
             fill(0, 100);
             rect(0, 0, width, height);
             push();
-            translate(width / 2, height / 2);
+            translate((float) width / 2, (float) height / 2);
             rectMode(CENTER);
             textAlign(CENTER, CENTER);
             currentModal.display(this);
@@ -363,8 +332,8 @@ public class Driver extends PApplet{
             pop();
 
             // Modal boundaries
-            float modalX = width / 2 - 300;
-            float modalY = height / 2 - 300;
+            float modalX = (float) width / 2 - 300;
+            float modalY = (float) height / 2 - 300;
             float modalWidth = 600;
             float modalHeight = 600;
 
@@ -375,10 +344,7 @@ public class Driver extends PApplet{
             }
         }
         keyDown = -1;
-
-
         textFont(font);
-
         fill(255,255,255);
         textSize(64);
         text(String.valueOf(WorldData.getWorldData().getCoins()), 120, 850);
@@ -423,20 +389,16 @@ public class Driver extends PApplet{
         btnPlay.setVisible(true);
         speedSlider.setEnabled(true);
         speedSlider.setVisible(true);
-
         btnPlay.setEnabled(WorldData.getWorldData().getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
         levelSelector.showButtons();
 //        sqsMessenger.update();
-
-
     }
 
     private void drawSandbox() {
         background(190, 164, 132);
         storeBtn.setVisible(false);
-
         noStroke();
         fill(0, 20);
         rect(680, 140, 300, 700, 20);
@@ -447,8 +409,7 @@ public class Driver extends PApplet{
                 circle(i, j, 2);
             }
         }
-
-        drawLevelButtons(200, 200);
+        drawLevelButtons();
 
         // reset diamonds
         for (Diamond diamond : diamondList){
@@ -469,7 +430,6 @@ public class Driver extends PApplet{
         diamondRed.display();
         diamondGreen.display();
         diamondBlue.display();
-//        worldView.drawSandGrid();
         for ( Instruction inst : OriginalInstructions.getInstance() ) inst.display();
         // to edit the sandbox instruction images make a new setup method in OriginalInstructions
         mainWorldBtn.setVisible(true);
@@ -483,12 +443,8 @@ public class Driver extends PApplet{
             //otherwise display the closed trashcan
             image(closedDelete, 60, 600);
         }
-
         dragAndDropManager.makeDraggable(true);
-
-
         text("Welcome to SandBox", 280,  80);
-
     }
 
     private void drawStore(){
@@ -496,7 +452,6 @@ public class Driver extends PApplet{
         levelSelector.hideButtons();
         buySpider.setVisible(true);
         spiderIcon.setVisible(true);
-
         selectDog.setVisible(true);
         dogIcon.setVisible(true);
 
@@ -515,9 +470,9 @@ public class Driver extends PApplet{
         }
     }
 
-    private void drawLevelButtons(float x, float y) {
+    private void drawLevelButtons() {
         push();
-        translate(x, y);
+        translate((float) 200, (float) 200);
         rectMode(CENTER);
         textAlign(CENTER, CENTER);
         float off = 0;
@@ -534,14 +489,12 @@ public class Driver extends PApplet{
             fill(0);
             text(level, off, 0);
 
-            if (abs(mouseX - (x + off)) <= buttonWidth / 2 && abs(mouseY - y) <= 30 && mousePressed) {
+            if (abs(mouseX - ((float) 200 + off)) <= buttonWidth / 2 && abs(mouseY - (float) 200) <= 30 && mousePressed) {
                 // On level selected
                 dragAndDropManager.addedDiamonds.clear();
                 loadLevelData(savedLevelNames.get(i));
             }
-
             off += tw/2 + gap;
-
         }
         rectMode(CORNER);
         textAlign(CORNER, CORNER);
@@ -559,7 +512,7 @@ public class Driver extends PApplet{
             String line;
             int row = 0;
             while ((line = reader.readLine()) != null && row < 5) {
-                System.out.println("Processing line: " + line);
+//                System.out.println("Processing line: " + line);
                 String[] cells = line.split(" ");
                 for (int col = 0; col < cells.length && col < 5; col++) {
                     if (!"null".equals(cells[col])) {
@@ -620,14 +573,13 @@ public class Driver extends PApplet{
             sandboxBtn.setVisible(false);
             sandboxBtn.setEnabled(false);
             speedSlider.setVisible(false);
-        }else if (currentState == ScreenState.STORE){
+        }
+        else if (currentState == ScreenState.STORE){
             spiderIcon.setVisible(false);
             buySpider.setVisible(false);
             selectSpider.setVisible(false);
-
             selectDog.setVisible(false);
             dogIcon.setVisible(false);
-
 
             //clean up store
         }else if (currentState == ScreenState.SANDBOX){
@@ -637,11 +589,10 @@ public class Driver extends PApplet{
         }
     }
 
-
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
-        System.out.println(mouseX + ", " + mouseY);
+//        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override
@@ -649,11 +600,9 @@ public class Driver extends PApplet{
         dragAndDropManager.mouseReleased(isSandboxMode());
     }
 
-
     public static void main(String[] args) {
         String[] processingArgs = {"Driver"};
         Driver running = new Driver();
         PApplet.runSketch(processingArgs, running);
-
     }
 }

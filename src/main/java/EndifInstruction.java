@@ -1,5 +1,8 @@
 import processing.core.PApplet;
 import processing.core.PImage;
+/**
+ * @author Jemma Arona
+ */
 
 public class EndifInstruction extends Instruction{
     public EndifInstruction(PApplet screen, int xPos, int yPos, PImage img) {

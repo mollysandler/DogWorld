@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,6 @@ public abstract class Instruction implements Draggable, Cloneable {
     private int yOffset;
     private final String skill;
 
-
     public Instruction(PApplet screen, int xPos, int yPos, PImage img, String skill){
         this.screen = screen;
         this.xPos = xPos;
@@ -31,11 +29,9 @@ public abstract class Instruction implements Draggable, Cloneable {
         height = img.height;
     }
 
-
     public void display(){
         screen.image(img, xPos, yPos);
     }
-
     public boolean isMouseOver() {
         return (((xPos < screen.mouseX) && (screen.mouseX < xPos + width))
                 && ((yPos < screen.mouseY) && (screen.mouseY < yPos + height)));
@@ -45,11 +41,6 @@ public abstract class Instruction implements Draggable, Cloneable {
     public Instruction clone() throws CloneNotSupportedException {
         return (Instruction) super.clone();
     }
-
-//    public void changeColor(String newColor) {
-//        final String url = "src/main/images/paint_" + newColor + ".png";
-//        img = screen.loadImage(url);
-//    }
 
     public boolean toSnap(Instruction b) {
         double xDiff = Math.abs(this.xPos - b.xPos);
@@ -77,15 +68,12 @@ public abstract class Instruction implements Draggable, Cloneable {
     public int getxPos() {
         return this.xPos;
     }
-
     public void setyPos(int newyPos) {
         this.yPos = newyPos;
     }
-
     public void setxPos(int newxPos) {
         this.xPos = newxPos;
     }
-
     public String toString() {
         return "instruction\n";
     }
@@ -111,7 +99,6 @@ public abstract class Instruction implements Draggable, Cloneable {
         runAction();
     }
     public abstract void runAction();
-
 }
 
 

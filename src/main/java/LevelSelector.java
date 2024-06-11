@@ -2,7 +2,6 @@ import g4p_controls.GEvent;
 import g4p_controls.GImageButton;
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -17,14 +16,12 @@ public class LevelSelector{
     private final int yPos;
     private final HashMap<GImageButton, Integer> buttons = new HashMap<>();
 
-
     public LevelSelector(PApplet screen, int xPos, int yPos) {
         this.screen = screen;
         this.xPos = xPos;
         this.yPos = yPos;
         this.imgs = new ArrayList<>();
     }
-
 
     public void displayButtons(){
         int level = 1;
@@ -47,14 +44,12 @@ public class LevelSelector{
             LoadLevels l = new LoadLevels(level);
             WorldData.getWorldData().setLevel(l.loadHashMap());
             double temperature = l.loadHashMap().get("weather").get(0).getX();
-//            SQSMessenger.getInstance().setiInvoked(false);
         }
     }
 
     public void addToImg(PImage image) {
         imgs.add(image);
     }
-
     public void displayNavBar() {
         screen.fill(200, 200, 200);
         screen.rect(xPos - 25, yPos - 10, 1130, 60);
@@ -73,5 +68,4 @@ public class LevelSelector{
             button.setVisible(true);
         }
     }
-
 }

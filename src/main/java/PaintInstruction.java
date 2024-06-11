@@ -1,6 +1,5 @@
 import processing.core.PApplet;
 import processing.core.PImage;
-
 import java.util.Arrays;
 
 /**
@@ -11,17 +10,16 @@ public class PaintInstruction extends Instruction {
     private String color;
     private int[] colorValue = {255, 255, 255};
     private final String[] colors = {"red", "green", "blue", "dark", "light"};
+    private final int dropdownW = 30;
+    private boolean showDropdown = false;
     private final int[][] colorValues = {
             {240, 80, 80}, {30, 180, 30}, {75, 150, 255},
             {20, 20, 20}, {240, 240, 240}
     };
-    private final int dropdownW = 30;
-    private boolean showDropdown = false;
 
     public PaintInstruction(PApplet screen, int xPos, int yPos, PImage img, String color) {
         super(screen, xPos, yPos, img, "wave");
         this.color = color;
-
     }
     private void dropdownClick() {
         var s = super.screen;
@@ -77,14 +75,9 @@ public class PaintInstruction extends Instruction {
     public String toString(){
         return "paint " + this.color;
     }
-//    public String getColor() {
-//        return this.color;
-//    }
-
     private int getDropdownX() {
         return getxPos() + 100;
     }
-
     private int getDropdownY() {
         return getyPos() + 26;
     }

@@ -13,11 +13,6 @@ public final class WorldView implements PropertyChangeListener {
     private static final float topPadding = 143;
     private final float tileWidth = 60;
     private int numRows;
-
-    private int sandGrid = 5;
-    private int sandCell = 70;
-    private int sandX = 300;
-    private int sandY = 250;
     private int bgColor;
     private int[] spider;
     private HashMap <String, ArrayList <Point>> levelMap;
@@ -26,7 +21,6 @@ public final class WorldView implements PropertyChangeListener {
     public WorldView(PApplet screen) {
         this.screen = screen;
     }
-
 
     public void drawGrid() {
         screen.fill( bgColor );
@@ -45,16 +39,17 @@ public final class WorldView implements PropertyChangeListener {
     public void drawSandGrid(){
 
         screen.color(50, 50, 50);
+        int sandGrid = 5;
         for (int i = 0; i < sandGrid; i++) {
             for (int j = 0; j < sandGrid; j++) {
                 screen.stroke(0);
                 screen.fill(211, 211, 210);
+                int sandCell = 70;
+                int sandX = 300;
+                int sandY = 250;
                 screen.rect(sandX + i * sandCell, sandY + j * sandCell, sandCell, sandCell);
             }
-
         }
-
-
     }
 
     public void drawDiamonds() {
@@ -85,8 +80,7 @@ public final class WorldView implements PropertyChangeListener {
     }
 
     public void drawAvatar() {
-        String IMAGEFOLDERPATH = "src/main/images/";
-        String imgPath = IMAGEFOLDERPATH;
+        String imgPath = "src/main/images/";
         String currentAvatar = WorldData.getWorldData().getAvatar();
         switch ( spider[2] ) {
             case 1:
@@ -144,6 +138,4 @@ public final class WorldView implements PropertyChangeListener {
                 break;
         }
     }
-
-
 }

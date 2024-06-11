@@ -1,10 +1,8 @@
 import processing.core.PApplet;
-import processing.core.PConstants;
 import processing.core.PImage;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+/**
+ * @author Riya Badadere
+ */
 
 public class EndRepeatInstruction extends Instruction {
     public EndRepeatInstruction(PApplet screen, int xPos, int yPos, PImage img) {
