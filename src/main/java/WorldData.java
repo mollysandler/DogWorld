@@ -1,6 +1,5 @@
 import java.beans.PropertyChangeSupport;
 import java.util.*;
-
 import static processing.core.PApplet.println;
 
 /**
@@ -18,6 +17,11 @@ public final class WorldData extends PropertyChangeSupport {
     private List<String> commands;
     private boolean gameStatus;
     private WeatherHandler weather;
+//    private final boolean gameStatus;
+    private int coins;
+    private final HashMap <String, Integer> lockedAvatars = new HashMap<>();
+    private final ArrayList<String> unlockedAvatars = new ArrayList<>();
+    private String currentChar = "dog";
 
     private WorldData() {
         super( new Object() );
@@ -26,6 +30,8 @@ public final class WorldData extends PropertyChangeSupport {
         spider = new int[]{0, 0, 0};
         bgColor = new int[]{0, 0, 0};
         gameStatus = true;
+        lockedAvatars.put("spider", 15);
+        unlockedAvatars.add("dog");
     }
 
     public static WorldData getWorldData() {
@@ -37,20 +43,44 @@ public final class WorldData extends PropertyChangeSupport {
     public void setSpeed(int speed) {
         this.speed = speed * 5;
     }
-
     public int getSpeed() {
         return speed;
     }
+    public void addCoins(int value){
+        coins += value;
+    }
+    public int getCoins() {
+        return coins;
+    }
+
+    public void buyAvatar(String avatar){
+        avatar = avatar.toLowerCase();
+        if (coins > lockedAvatars.get(avatar)) {
+            unlockedAvatars.add(avatar);
+            coins -= lockedAvatars.get(avatar);
+        }
+    }
+    public void setAvatar(String avatar){
+        currentChar = avatar.toLowerCase();
+    }
+    public String getAvatar(){
+        return currentChar;
+    }
+
+    public ArrayList<String> getUnlockedAvatars(){
+        return unlockedAvatars;
+    }
 
     public void setCommands(List<String> commandsInput){
-        commands = commandsInput;
-        firePropertyChange("commands", null, commands);
+        firePropertyChange("commands", null, commandsInput);
+    }
+    public void setScore(int score){
+        firePropertyChange("score", null, score);
     }
 
     public void setLevel( HashMap <String, ArrayList<Point>> level ) {
         setLevel( level, 5, 26, 26, 26 );
     }
-
     public void setLevel( HashMap <String, ArrayList<Point>> level, int rows, int r, int g, int b ) {
         levelMap = level;
 //        System.out.println( level );
@@ -68,7 +98,7 @@ public final class WorldData extends PropertyChangeSupport {
 //        System.out.println(levelMap.get("weather"));
         int temp = 20;
         if ( levelMap.containsKey( "weather") ) temp = levelMap.get("weather").get(0).getX();
-        if ( temp < 5 ) weather = new ColdWeatherHandler();
+        if ( temp < 10 ) weather = new ColdWeatherHandler();
         else if ( temp > 22 ) weather = new HotWeatherHandler();
         else weather = new WeatherHandler();
     }
@@ -76,11 +106,9 @@ public final class WorldData extends PropertyChangeSupport {
     public int[] getSpider() {
         return spider;
     }
-
     public int[] getBgColor() {
         return bgColor;
     }
-
     public int getNumRows() {
         return numRows;
     }
@@ -104,6 +132,7 @@ public final class WorldData extends PropertyChangeSupport {
         spider[0] = -1;
         spider[1] = -1;
         spider[2] = -1;
+        firePropertyChange( "spider", null, spider );
     }
 
     public HashMap<String, ArrayList<Point>> getLevelMap() {
@@ -153,11 +182,10 @@ public final class WorldData extends PropertyChangeSupport {
         }
     }
 
-    public void sandboxWorld(){
-        tileMap.clear();
-        println("cleared");
-
-    }
+//    public void sandboxWorld(){
+//        tileMap.clear();
+//        println("cleared");
+//    }
 
     public boolean getGameStatus() {
         return gameStatus;
@@ -166,5 +194,9 @@ public final class WorldData extends PropertyChangeSupport {
     public WeatherHandler getWeather() {
         return weather;
     }
+
+//        public boolean getGameStatus() {
+//        return gameStatus;
+//    }
 }
 

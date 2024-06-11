@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
+/**
+ * @author Jemma Arona
+ */
+
 public class ScoreChecker {
     public static int[] scoreSolution( int loc ) {
         int[] scores = new int[]{0,0};
@@ -50,9 +54,10 @@ public class ScoreChecker {
 
     public static void logScore( int loc ) {
         int[] score = scoreSolution(loc);
+        WorldData worldData = WorldData.getWorldData();
+        worldData.setScore(score[0]);
         System.out.println( "Paint Accuracy Score: " + score[0] );
         System.out.println( "Coding Brevity Score: " + score[1] );
-//        SQSMessenger.getInstance().sendScore(score[0], score[1]);
     }
 
     public static int scoreColor( int[] g, int[] p, int[] b ) {

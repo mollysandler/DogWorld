@@ -2,9 +2,7 @@ package Dog;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-/**
- * @author Ivan Martinez
- */
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -14,13 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import com.fazecast.jSerialComm.*;
+/**
+ * @author Ivan Martinez
+ */
 
 public class Skill {
-
     private static final Map<String, String> skillMap = new HashMap();
-
-    public Skill() {
-    }
+    public Skill() {}
 
     public static String getSkillValue(String skillKey) {
         return (String)skillMap.get(skillKey);
@@ -34,7 +32,6 @@ public class Skill {
         SerialPort robotConnection = SerialPort.getCommPort("COM7"); //port to which robot is communicating
 
         robotConnection.openPort();
-
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
@@ -66,15 +63,12 @@ public class Skill {
                 PerformSkills(skillSet, robotConnection);
                 skillSet.clear();
                 printAllSkills();
-
             }
             else if (commandSerial == null){ //if a command is not found let the user know
                 System.out.println("Not a real skill!");
             }
             else{
-
                 skillSet.add(commandSerial); //adds the command serial to the skill set
-
                 System.out.println("Current skill map:"); //prints the current set of instructions
                 for (String commands : skillSet) {
                     System.out.print(commands + ", ");
@@ -84,11 +78,8 @@ public class Skill {
         }
     }
 
-
     //send all the desired skills in the skillSet to the robot to be performed
     public void PerformSkills(List<String> skillSet, SerialPort robotConnection) throws IOException {
-
-
         OutputStream outputStream = robotConnection.getOutputStream(); //creates an output stream to the serial port
         long duration = 5000L;
         long startTime = System.currentTimeMillis();

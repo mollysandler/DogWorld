@@ -2,10 +2,9 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
 
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Objects;
+/**
+ * @author Riya Badadere
+ */
 
 public class RepeatInstruction extends Instruction {
     public int iterations = 0;
@@ -21,7 +20,7 @@ public class RepeatInstruction extends Instruction {
     }
     private void updateRepeat(String value) {
         repeatCount = value;
-        maxIterations = value.length() > 0 ? Integer.parseInt(value) : 0;
+        maxIterations = !value.isEmpty() ? Integer.parseInt(value) : 0;
     }
     private void inputClick() {
         var s = super.screen;
@@ -50,7 +49,7 @@ public class RepeatInstruction extends Instruction {
         if (input) {
             if (Driver.keyDown >= 48 && Driver.keyDown <= 57 && repeatCount.length() < 3) {
                 updateRepeat(repeatCount + (char) Driver.keyDown);
-            } else if (Driver.keyDown == 8 && repeatCount.length() > 0) {
+            } else if (Driver.keyDown == 8 && !repeatCount.isEmpty()) {
                 updateRepeat(repeatCount.substring(0, repeatCount.length() - 1));
             }
         }

@@ -5,21 +5,18 @@
 import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 /**
- * @author Molly Sandler, Andy Duong
+ * @author Molly Sandler, Andy Duong, Ivan Martinez.
  */
 public class OurSkill implements PropertyChangeListener, Runnable {
     private static final Map<String, String> skillMap = new HashMap<>();
     private SerialPort robotConnection;
-    private Queue<String> commandQueue = new LinkedList<>();
-    public OurSkill() {
-    }
+    private final Queue<String> commandQueue = new LinkedList<>();
 
     public static String getSkillValue(String skillKey) {
         return (String)skillMap.get(skillKey);
@@ -27,13 +24,11 @@ public class OurSkill implements PropertyChangeListener, Runnable {
 
     public void connectBluetooth(){
         robotConnection = SerialPort.getCommPort("COM5"); //port to which robot is communicating
-
         robotConnection.openPort();
     }
 
     @Override
     public void run() {
-
         robotConnection.addDataListener(new SerialPortDataListener() {
             @Override
             public int getListeningEvents() { return SerialPort.LISTENING_EVENT_DATA_AVAILABLE; }
@@ -53,10 +48,8 @@ public class OurSkill implements PropertyChangeListener, Runnable {
 
         /////// MUST CHANGE PORT DESCRIPTOR TO THE SPECIFIC OUTGOING SERIAL PORT THE ROBOT IS CONNECTED TO /////////
 
-
         for(String command : commandQueue){
             String commandSerial = getSkillValue(command); //gets the serialCommand from each input
-
             if(command == null){
                 continue;
             }
@@ -84,7 +77,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
-
             }
             else if (commandSerial == null){ //if a command is not found let the user know
                 System.out.println("Not a real skill!");
@@ -101,7 +93,6 @@ public class OurSkill implements PropertyChangeListener, Runnable {
         }
     }
 
-
     //send all the desired skills in the skillSet to the robot to be performed
     public void PerformSkills(List<String> skillSet, SerialPort robotConnection) throws IOException {
 
@@ -109,10 +100,7 @@ public class OurSkill implements PropertyChangeListener, Runnable {
         long duration = 5000L;
         long startTime = System.currentTimeMillis();
             while(System.currentTimeMillis() - startTime < duration) {
-                Iterator queuedSkills = skillSet.iterator();
-
-                while (queuedSkills.hasNext()) {
-                    String currentSkill = (String) queuedSkills.next();
+                for (String currentSkill : skillSet) {
                     outputStream.write(currentSkill.getBytes());
                     System.out.println("task executed");
 

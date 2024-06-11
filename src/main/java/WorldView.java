@@ -16,7 +16,6 @@ public final class WorldView implements PropertyChangeListener {
     private static final float topPadding = 143;
     private final float tileWidth = 60;
     private int numRows;
-
     private boolean isSand;
     private int sandGrid = 5;
     private int sandCell = 70;
@@ -30,7 +29,6 @@ public final class WorldView implements PropertyChangeListener {
     public WorldView(PApplet screen) {
         this.screen = screen;
     }
-
 
     public void drawGrid() {
         screen.fill( bgColor, 255.0f );
@@ -49,16 +47,18 @@ public final class WorldView implements PropertyChangeListener {
     public void drawSandGrid(){
 
         screen.color(50, 50, 50);
+        int sandGrid = 5;
         for (int i = 0; i < sandGrid; i++) {
             for (int j = 0; j < sandGrid; j++) {
                 screen.stroke(0);
                 screen.fill(211, 211, 210, 255.0f);
+                screen.fill(211, 211, 210);
+                int sandCell = 70;
+                int sandX = 300;
+                int sandY = 250;
                 screen.rect(sandX + i * sandCell, sandY + j * sandCell, sandCell, sandCell);
             }
-
         }
-
-
     }
 
     public void drawDiamonds() {
@@ -88,29 +88,46 @@ public final class WorldView implements PropertyChangeListener {
         }
     }
 
-    public void drawSpider() {
-        if ( spider[0] == -1 ) return;
+//    public void drawSpider() {
+//        String imgPath = "src/main/images/";
+//        if (isSand) imgPath += "spider";
+//        else imgPath += "dog";
+//        switch (spider[2]) {
+//            case 1:
+//                imgPath += "_north.png";
+//                break;
+//            case 2:
+//                imgPath += "_west.png";
+//                break;
+//            case 3:
+//                imgPath += "_south.png";
+//                break;
+//            default:
+//                imgPath += "_east.png";
+//        }
+//    }
+    public void drawAvatar() {
+        if (spider[0] == -1) return;
         String imgPath = "src/main/images/";
-        if ( isSand ) imgPath += "spider";
-        else imgPath += "dog";
+        String currentAvatar = WorldData.getWorldData().getAvatar();
         switch ( spider[2] ) {
             case 1:
-                imgPath += "_north.png";
+                imgPath += currentAvatar + "_north.png";
                 break;
             case 2:
-                imgPath += "_west.png";
+                imgPath += currentAvatar + "_west.png";
                 break;
             case 3:
-                imgPath += "_south.png";
+                imgPath += currentAvatar + "_south.png";
                 break;
             default:
-                imgPath += "_east.png";
+                imgPath += currentAvatar + "_east.png";
                 break;
         }
         float x, y;
         if ( isSand ) {
-            x = sandX + spider[0] * sandCell + 5;
-            y = sandY + spider[1] * sandCell + 7;
+            x = sandX + spider[0] * sandCell + 3;
+            y = sandY + spider[1] * sandCell + 3;
         } else {
             x = leftPadding + spider[0] * tileWidth;
             y = topPadding + spider[1] * tileWidth;
@@ -157,7 +174,8 @@ public final class WorldView implements PropertyChangeListener {
         else drawGrid();
         drawPaint();
         drawDiamonds();
-        drawSpider();
+//        drawSpider();
+        drawAvatar();
         drawSnow();
     }
 

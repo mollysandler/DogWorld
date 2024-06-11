@@ -2,10 +2,11 @@ package Dog;//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
+
+import java.io.IOException;
 /**
  * @author Ivan Martinez
  */
-import java.io.IOException;
 
 public class Main {
     public Main() {

@@ -6,15 +6,12 @@ import java.util.Stack;
  * @author Andy Duong
  */
 public class PlayButtonFunc implements Runnable{
-
     private static int control;
     private final boolean isSand;
     private Spider spider;
-
     public PlayButtonFunc( boolean isSand ){
         this.isSand = isSand;
     }
-
     public void setSpider(Spider spider) {
         this.spider = spider;
     }
@@ -22,19 +19,16 @@ public class PlayButtonFunc implements Runnable{
     @Override
     public void run() {
         WorldData.getWorldData().getWeather().handleStart();
-//        WorldData myData = WorldData.getWorldData();
         InstructionList instructionList = InstructionList.getInstance();
         control = 0;
 
         List<Instruction> instructions = instructionList.getSortedInstructions();
-
         if(instructions.isEmpty()){
+            WorldData.getWorldData().setGameState(true);
             return;
         }
 
-//        int[] dataSpider = myData.getSpider();
         List<String> commands = new ArrayList<>();
-
         for (Instruction instruction : instructions) {
             if (instruction instanceof RepeatInstruction) ((RepeatInstruction) instruction).iterations = 0;
         }
@@ -42,7 +36,6 @@ public class PlayButtonFunc implements Runnable{
         //per instruction send each instruction to their respective function
         int instructionIndex = 0;
         Stack<Integer> repeatStack = new Stack<>();
-
         while (instructionIndex < instructions.size()) {
             Instruction instruction = instructions.get(instructionIndex);
 
@@ -61,28 +54,8 @@ public class PlayButtonFunc implements Runnable{
                 else instructionIndex = repeatStack.peek();
                 System.out.println(ri.iterations);
             }
-
             instruction.checkRunAction( control );
             instructionIndex ++;
-
-//            if(instruction.getSkill() .equals( "turn")){
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//                commands.add(instruction.getSkill());
-//            }
-//            commands.add(instruction.getSkill());
-//            commands.add("perform");
-//            WorldData.getWorldData().setCommands(commands);
-//
-//            try {
-//                Thread.sleep(myData.getSpeed());
-//            } catch (InterruptedException e) {
-//                throw new RuntimeException(e);
-//            }
-//            instruction.runAction();
-//            commands.clear();
         }
 
         if ( isSand ) {
@@ -97,15 +70,12 @@ public class PlayButtonFunc implements Runnable{
             }
 
         }
-
         ScoreChecker.logScore( instructions.size() );
         commands.add("rest");
         commands.add("perform");
         WorldData.getWorldData().setCommands(commands);
-
         WorldData.getWorldData().setGameState(true);//comment out if using dog
     }
-
     public static void setControl( int c ) {
         control = c;
     }

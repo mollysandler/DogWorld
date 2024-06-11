@@ -2,20 +2,16 @@ import g4p_controls.*;
 import processing.core.PApplet;
 import processing.core.PFont;
 import processing.core.PImage;
-
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import static java.lang.Thread.sleep;
-
 /**
  * @author Molly Sandler
  */
-public class Driver extends PApplet{
+public class Driver extends PApplet {
 
     private WorldData worldData;
     private final WorldView worldView = new WorldView(this);
@@ -25,10 +21,8 @@ public class Driver extends PApplet{
     private PImage closedDelete;
     private PImage openedDelete;
     private LevelSelector levelSelector;
-//    private SQSMessenger sqsMessenger;
     public List<Diamond> diamondList = new ArrayList<>();
-    private List<Diamond> addedDiamond = new ArrayList<>();
-    private GPanel blockPanel;
+    ;
     private GImageButton btnPlay;
     private GImageButton sandboxBtn;
     private GImageButton mainWorldBtn;
@@ -40,23 +34,28 @@ public class Driver extends PApplet{
     private GTextField levelNameField;
     private GButton saveLevelBtnModal;
     private Spider sandSpider;
-
     private List<Diamond[][]> savedGrids = new ArrayList<>();
     private List<String> savedLevelNames = new ArrayList<>();
     private List<GButton> savedLevelButtons = new ArrayList<>();
-
+    private GImageButton storeBtn;
+    private PFont font;
+    private GButton buySpider;
+    private GButton selectSpider;
+    private GImageButton spiderIcon;
+    private GButton selectDog;
+    private GImageButton dogIcon;
+    CoinPanel coinPanel;
     enum ScreenState {
         MAIN,
-        SANDBOX
+        SANDBOX,
+        STORE
     }
 
     ScreenState currentState = ScreenState.MAIN;
     DragAndDropManager dragAndDropManager;
 
-    private OurSkill RobotSkill;
-
     @Override
-    public void settings(){
+    public void settings() {
         size(1200, 900);
     }
 
@@ -65,7 +64,6 @@ public class Driver extends PApplet{
     }
 
     public void buttonDisplay() {
-        // Draw diamonds?!
         PImage diamondRedImage = loadImage("src/main/images/red-diamond.png");
         diamondRedImage.resize(40, 40);
         diamondRed = new Diamond(this, 200, 250, diamondRedImage, "red");
@@ -81,7 +79,7 @@ public class Driver extends PApplet{
         String[] resetImage = {"src/main/images/reset.png"};
         resetBtn = new GImageButton(this, 500, 625, 100, 100, resetImage);
         resetBtn.setVisible(false);
-        resetBtn.addEventHandler(this, "handleResetButtonEvents");
+        resetBtn.addEventHandler(this, "handleButtonEvents");
 
         String[] saveImage = {"src/main/images/save.png"};
         saveBtn = new GImageButton(this, 350, 625, 100, 100, saveImage);
@@ -94,7 +92,6 @@ public class Driver extends PApplet{
         openedDelete = loadImage("src/main/images/trash2.png");
         openedDelete.resize(100, 150);
 
-//        Driver.class.getClass().getClassLoader().getResource("fila name");
         String[] playButtonImgs = {"src/main/images/playButtonImg.png"};
         btnPlay = new GImageButton(this, 180, 615, playButtonImgs);
         btnPlay.addEventHandler(this, "handleButtonEvents");
@@ -102,11 +99,11 @@ public class Driver extends PApplet{
         String[] sandboxButtonImage = {"src/main/images/sandbox.png"};
         String[] homeButtonImage = {"src/main/images/home.png"};
 
-        sandboxBtn = new GImageButton(this, 1000, 100, 100, 100, sandboxButtonImage);
-        sandboxBtn.addEventHandler(this, "handleSandboxEvents");
+        sandboxBtn = new GImageButton(this, 950, 100, 100, 100, sandboxButtonImage);
+        sandboxBtn.addEventHandler(this, "handleButtonEvents");
 
         mainWorldBtn = new GImageButton(this, 1000, 100, 100, 100, homeButtonImage);
-        mainWorldBtn.addEventHandler(this, "handleMainWorldButtonEvents");
+        mainWorldBtn.addEventHandler(this, "handleButtonEvents");
         mainWorldBtn.setVisible(false);
 
         speedSlider = new GSlider(this, 25, 475, 275, 100, 30);
@@ -116,12 +113,32 @@ public class Driver extends PApplet{
         speedSlider.setLocalColorScheme(GConstants.ORANGE_SCHEME);
         speedSlider.addEventHandler(this, "handleSliderEvents");
         PImage spiderImage = loadImage("src/main/images/spider_north.png");
-
         sandSpider = new Spider(this, 192, 545, spiderImage);
         sandSpider.setVisible(false);
+        GImageButton coins = new GImageButton(this, 15, 775, 100, 100, new String[]{"src/main/images/coin.png"});
+        storeBtn = new GImageButton(this, 1055, 110, 90, 90, new String[]{"src/main/images/store.png"});
+        buySpider = new GButton(this, 800, 400, 200, 50);
+        buySpider.addEventHandler(this, "handleTransaction");
+        buySpider.setText("Buy Spider");
+        buySpider.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+        buySpider.setVisible(false);
+        selectSpider = new GButton(this, 800, 400, 200, 50);
+        selectSpider.addEventHandler(this, "handleTransaction");
+        selectSpider.setText("Select Spider");
+        selectSpider.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+        selectSpider.setVisible(false);
 
+        spiderIcon = new GImageButton(this, 820, 225, 150, 150, new String[]{"src/main/images/spider_north.png"});
+        spiderIcon.setVisible(false);
 
+        selectDog = new GButton(this, 400, 400, 200, 50);
+        selectDog.addEventHandler(this, "handleTransaction");
+        selectDog.setText("Select Dog");
+        selectDog.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+        selectDog.setVisible(false);
 
+        dogIcon = new GImageButton(this, 420, 225, 150, 150, new String[]{"src/main/images/dog_north.png"});
+        dogIcon.setVisible(false);
     }
 
     @Override
@@ -131,15 +148,10 @@ public class Driver extends PApplet{
     }
 
     @Override
-    public void setup(){
+    public void setup() {
         textAlign(CENTER, TOP);
         worldData = WorldData.getWorldData();
         worldData.addPropertyChangeListener(worldView);
-//        try {
-//            LevelGenerator.makeLevels();
-//        } catch (Exception e) {
-//            throw new RuntimeException(e);
-//        }
         int currentLevel = 1;
         LoadLevels level = new LoadLevels(currentLevel);
 
@@ -151,9 +163,10 @@ public class Driver extends PApplet{
 
         levelSelector = new LevelSelector(this, 60, 40);
         this.loadImages();
-
         OriginalInstructions originalInstructions = new OriginalInstructions();
-
+//        HashMap<String, ArrayList<Point>> map = level.loadHashMap();
+//        worldData.setLevel(map);
+//        OriginalInstructions originalInstructions = new OriginalInstructions();
         diamondList.add(diamondRed);
         diamondList.add(diamondGreen);
         diamondList.add(diamondBlue);
@@ -163,8 +176,6 @@ public class Driver extends PApplet{
         dragAndDropManager = new DragAndDropManager(this, closedDelete);
         dragAndDropManager.initialDiamonds = diamondList;// Pass diamondList
         levelSelector.displayButtons();
-
-//        blockPanel = new BlockPanel(this, 100, 100, 600, 900);
 
 //        sqsMessenger = SQSMessenger.getInstance();
 //        new Thread(() -> {
@@ -198,9 +209,12 @@ public class Driver extends PApplet{
 //        robotThread.start();
         //uncomment if using dog
 
-
+        // Initialize the panel but keep it hidden initially
+        coinPanel = new CoinPanel(this, 480, 315, 300, 200);
+        coinPanel.setVisible(false);
+        worldData.addPropertyChangeListener(coinPanel);
+        font = createFont("Comic Sans MS", 64);
     }
-
 
     public void loadImages() {
         for (int i = 1; i < 21; i++) {
@@ -225,7 +239,7 @@ public class Driver extends PApplet{
         }
     }
 
-    public void handleSaveButtonEvents(GImageButton save, GEvent event){
+    public void handleSaveButtonEvents(GImageButton save, GEvent event) {
         if (save == saveBtn && event == GEvent.CLICKED) {
             currentModal = screen -> {
                 screen.fill(255);
@@ -311,12 +325,15 @@ public class Driver extends PApplet{
             case SANDBOX:
                 drawSandbox();
                 break;
+            case STORE:
+                drawStore();
+                break;
         }
         if (currentModal != null) {
             fill(0, 100);
             rect(0, 0, width, height);
             push();
-            translate(width / 2, height / 2);
+            translate((float) width / 2, (float) height / 2);
             rectMode(CENTER);
             textAlign(CENTER, CENTER);
             currentModal.display(this);
@@ -325,8 +342,8 @@ public class Driver extends PApplet{
             pop();
 
             // Modal boundaries
-            float modalX = width / 2 - 300;
-            float modalY = height / 2 - 300;
+            float modalX = (float) width / 2 - 300;
+            float modalY = (float) height / 2 - 300;
             float modalWidth = 600;
             float modalHeight = 600;
 
@@ -337,14 +354,19 @@ public class Driver extends PApplet{
             }
         }
         keyDown = -1;
+        textFont(font);
+        fill(255, 255, 255);
+        textSize(64);
+        text(String.valueOf(worldData.getCoins()), 120, 850);
     }
 
     private void drawMain() {
-        background(40,52,68);
+        background(40, 52, 68);
         mainWorldBtn.setVisible(false);
-//        diamondRed.setVisible(false);
+        diamondRed.setVisible(false);
         resetBtn.setVisible(false);
         saveBtn.setVisible(false);
+        storeBtn.setVisible(true);
 
         noStroke();
         fill(28, 37, 48);
@@ -364,28 +386,108 @@ public class Driver extends PApplet{
         //if the mouse is over the trashcan, display the opened can
         if (mouseX > 100 && mouseX < 100 + closedDelete.width && mouseY > 600 && mouseY < 600 + closedDelete.height) {
             image(openedDelete, 60, 600); //display the open trash can
-        }
-        else {
+        } else {
             //otherwise display the closed trashcan
             image(closedDelete, 60, 600);
         }
 
-        worldView.drawWorld( false );
+        worldView.drawWorld(false);
         sandboxBtn.setVisible(true);
         sandboxBtn.setEnabled(true);
 //        btnPlay.setEnabled(true);
 //        btnPlay.setVisible(true);
         speedSlider.setEnabled(true);
         speedSlider.setVisible(true);
-
-        btnPlay.setEnabled(worldData.getGameState());
+//        btnPlay.setEnabled(worldData.getGameState());
+//        btnPlay.setEnabled(worldData.getGameState());
         dragAndDropManager.makeDraggable(false);
         levelSelector.displayNavBar();
+        levelSelector.showButtons();
+//        sqsMessenger.update();
+
+        textFont(font);
+        fill(255,255,255);
+        textSize(64);
+        text(String.valueOf(WorldData.getWorldData().getCoins()), 120, 850);
     }
 
-    private void drawLevelButtons(float x, float y) {
+//    private void drawSandbox() {
+//        background(190, 164, 132);
+//        storeBtn.setVisible(false);
+//        noStroke();
+//        fill(0, 20);
+//        rect(680, 140, 300, 700, 20);
+//        noStroke();
+//        fill(255, 150);
+//        for (int i = 710; i < 980; i += 40) {
+//            for (int j = 170; j < 840; j += 40) {
+//                circle(i, j, 2);
+//            }
+//        }
+//        drawLevelButtons();
+//
+//        // reset diamonds
+//        for (Diamond diamond : diamondList){
+//            diamond.display();
+//        }
+//
+//        // Enable diamonds?
+//        worldView.drawSandGrid();
+//        saveBtn.setEnabled(currentModal == null);
+//        saveBtn.setVisible(currentModal == null);
+//        resetBtn.setVisible(currentModal == null);
+//        resetBtn.setEnabled(currentModal == null);
+//
+//        for (int i = 0; i < OriginalInstructions.getInstance().length - 1; i++) {
+//            (OriginalInstructions.getInstance()[i]).display();
+//        }
+//
+//        diamondRed.display();
+//        diamondGreen.display();
+//        diamondBlue.display();
+//        for ( Instruction inst : OriginalInstructions.getInstance() ) inst.display();
+//        // to edit the sandbox instruction images make a new setup method in OriginalInstructions
+//        mainWorldBtn.setVisible(true);
+//        levelSelector.hideButtons();
+//
+//        //if the mouse is over the trashcan, display the opened can
+//        if (mouseX > 100 && mouseX < 100 + closedDelete.width && mouseY > 600 && mouseY < 600 + closedDelete.height) {
+//            image(openedDelete, 60, 600); //display the open trash can
+//        }
+//        else {
+//            //otherwise display the closed trashcan
+//            image(closedDelete, 60, 600);
+//        }
+//        dragAndDropManager.makeDraggable(true);
+//        text("Welcome to SandBox", 280,  80);
+//    }
+
+    private void drawStore(){
+        background(40,52,68);
+        levelSelector.hideButtons();
+        buySpider.setVisible(true);
+        spiderIcon.setVisible(true);
+        selectDog.setVisible(true);
+        dogIcon.setVisible(true);
+
+        if (worldData.getUnlockedAvatars().contains("spider")){
+            buySpider.setVisible(false);
+            selectSpider.setVisible(true);
+        }
+    }
+    public void handleTransaction(GButton button, GEvent event){
+        if (button == buySpider && event == GEvent.CLICKED){
+            worldData.buyAvatar("spider");
+        } else if (button == selectSpider && event == GEvent.CLICKED) {
+            worldData.setAvatar("spider");
+        } else if (button == selectDog && event == GEvent.CLICKED) {
+            worldData.setAvatar("dog");
+        }
+    }
+
+    private void drawLevelButtons() {
         push();
-        translate(x, y);
+        translate((float) 200, (float) 200);
         rectMode(CENTER);
         textAlign(CENTER, CENTER);
         float off = 0;
@@ -402,14 +504,12 @@ public class Driver extends PApplet{
             fill(0);
             text(level, off, 0);
 
-            if (abs(mouseX - (x + off)) <= buttonWidth / 2 && abs(mouseY - y) <= 30 && mousePressed) {
+            if (abs(mouseX - ((float) 200 + off)) <= buttonWidth / 2 && abs(mouseY - (float) 200) <= 30 && mousePressed) {
                 // On level selected
                 dragAndDropManager.addedDiamonds.clear();
                 loadLevelData(savedLevelNames.get(i));
             }
-
             off += tw/2 + gap;
-
         }
         rectMode(CORNER);
         textAlign(CORNER, CORNER);
@@ -427,7 +527,7 @@ public class Driver extends PApplet{
             String line;
             int row = 0;
             while ((line = reader.readLine()) != null && row < 5) {
-                System.out.println("Processing line: " + line);
+//                System.out.println("Processing line: " + line);
                 String[] cells = line.split(" ");
                 for (int col = 0; col < cells.length && col < 5; col++) {
                     if (!"null".equals(cells[col])) {
@@ -441,10 +541,10 @@ public class Driver extends PApplet{
             throw new RuntimeException(e);
         }
     }
-
     private void drawSandbox() {
         background(190, 164, 132);
         dragAndDropManager.setSpider(sandSpider);
+        storeBtn.setVisible(false);
 
         noStroke();
         fill(0, 20);
@@ -459,9 +559,9 @@ public class Driver extends PApplet{
 
         PFont font = createFont("Arial-Bold", 48); // Load a bold Arial font at size 48
         textFont(font);
-        text("Welcome to SandBox", (float) width / 2,  50);
+        text("Welcome to SandBox", 280,  80);
 
-        drawLevelButtons(200, 200);
+        drawLevelButtons();
 
         // reset diamonds
         for (Diamond diamond : diamondList){
@@ -517,34 +617,30 @@ public class Driver extends PApplet{
                 sandSpider.setVisible( false );
             }
             worldData.resetWorld();
-            WorldData.getWorldData().setGameState( currentState == ScreenState.MAIN );
+            worldData.setGameState( currentState == ScreenState.MAIN );
             PlayButtonFunc playButtonFunc = new PlayButtonFunc( currentState == ScreenState.SANDBOX );
             if ( currentState == ScreenState.SANDBOX ) playButtonFunc.setSpider( sandSpider );
             Thread t1 = new Thread(playButtonFunc);
             t1.start();
-        }
-    }
-
-    public void handleSliderEvents(GSlider slider, GEvent event){
-        if (slider == speedSlider && event == GEvent.RELEASED){
-            WorldData.getWorldData().setSpeed(slider.getValueI());
-        }
-    }
-
-    public void handleSandboxEvents(GImageButton sandButton, GEvent event){
-        if (sandButton == sandboxBtn && event == GEvent.CLICKED){
-            cleanUpMain();
+        } else if (imagebutton == storeBtn && event == GEvent.CLICKED) {
+            cleanUpMap();
+            if (currentState == ScreenState.STORE){
+                currentState = ScreenState.MAIN;
+                btnPlay.setVisible( true );
+            } else if (currentState == ScreenState.MAIN){
+                currentState = ScreenState.STORE;
+                btnPlay.setVisible( false );
+            }
+        } else if (imagebutton == sandboxBtn && event == GEvent.CLICKED) {
+            cleanUpMap();
             currentState = ScreenState.SANDBOX;
             println("Switched to sandbox");
-            WorldData.getWorldData().setLevel( new HashMap<>() );
-            WorldData.getWorldData().clearSpider();
+            worldData.setLevel( new HashMap<>() );
+            worldData.clearSpider();
             sandSpider.setVisible( true );
-        }
-    }
-
-    public void handleMainWorldButtonEvents(GImageButton mainButton, GEvent event){
-        if (mainButton == mainWorldBtn && event == GEvent.CLICKED){
-            cleanUpSand();
+            worldData.setAvatar("spider");
+        } else if (imagebutton == mainWorldBtn && event == GEvent.CLICKED) {
+            cleanUpMap();
             currentState = ScreenState.MAIN;
             levelSelector.showButtons();
             println("Switched to main");
@@ -552,16 +648,19 @@ public class Driver extends PApplet{
             LoadLevels level = new LoadLevels(1);
             HashMap<String, ArrayList<Point>> map = level.loadHashMap();
             worldData.setLevel(map);
-        }
-    }
-
-    public void handleResetButtonEvents(GImageButton reset, GEvent event){
-        if (reset == resetBtn && event == GEvent.CLICKED){
+            worldData.setAvatar("dog");
+        } else if (imagebutton == resetBtn && event == GEvent.CLICKED) {
             dragAndDropManager.addedDiamonds.clear();
             diamondList.removeAll(dragAndDropManager.addedDiamonds);
             dragAndDropManager.diamondGrid = new Diamond[5][5];
-            WorldData.getWorldData().clearSpider();
+            worldData.clearSpider();
             sandSpider.goHome();
+        }
+    }
+
+    public void handleSliderEvents(GSlider slider, GEvent event){
+        if (slider == speedSlider && event == GEvent.RELEASED){
+            worldData.setSpeed(slider.getValueI());
         }
     }
 
@@ -569,34 +668,57 @@ public class Driver extends PApplet{
         diamondList.remove( d );
     }
 
-    public void cleanUpMain(){
-        worldData.resetWorld();
-//        btnPlay.setVisible(false);
-//        btnPlay.setEnabled(false);
-        sandboxBtn.setVisible(false);
-        sandboxBtn.setEnabled(false);
-        speedSlider.setVisible(false);
+//    public void cleanUpMain(){
+//        worldData.resetWorld();
+////        btnPlay.setVisible(false);
+////        btnPlay.setEnabled(false);
+//        sandboxBtn.setVisible(false);
+//        sandboxBtn.setEnabled(false);
+//        speedSlider.setVisible(false);
+//    }
+//
+//    public void cleanUpSand() {
+//        dragAndDropManager.addedDiamonds.clear();
+//        diamondList.removeAll(dragAndDropManager.addedDiamonds);
+//        dragAndDropManager.diamondGrid = new Diamond[5][5];
+//        sandSpider.setVisible(false);
+//    }
 
-    }
-
-    public void cleanUpSand(){
+    public void cleanUpMap(){
+        if (currentState == ScreenState.MAIN){
+            //clean up main
+            worldData.resetWorld();
+//            btnPlay.setVisible(false);
+//            btnPlay.setEnabled(false);
+            sandboxBtn.setVisible(false);
+            sandboxBtn.setEnabled(false);
+            speedSlider.setVisible(false);
+        }
+        else if (currentState == ScreenState.STORE) {
+            //clean up store
+            spiderIcon.setVisible(false);
+            buySpider.setVisible(false);
+            selectSpider.setVisible(false);
+            selectDog.setVisible(false);
+            dogIcon.setVisible(false);
+        }else if (currentState == ScreenState.SANDBOX){
         dragAndDropManager.addedDiamonds.clear();
         diamondList.removeAll(dragAndDropManager.addedDiamonds);
         dragAndDropManager.diamondGrid = new Diamond[5][5];
         sandSpider.setVisible(false);
+        }
     }
-
 
     @Override
     public void mousePressed() {
         dragAndDropManager.mousePressed(isSandboxMode());
+//        System.out.println(mouseX + ", " + mouseY);
     }
 
     @Override
     public void mouseReleased() {
         dragAndDropManager.mouseReleased(isSandboxMode());
     }
-
 
     public static void main(String[] args) {
         String[] processingArgs = {"Driver"};

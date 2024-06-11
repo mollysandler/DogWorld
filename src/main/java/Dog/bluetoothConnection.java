@@ -1,13 +1,13 @@
-package Dog;//
+package Dog;
+//
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by FernFlower decompiler)
 //
-
+import java.io.IOException;
+import java.util.Scanner;
 /**
  * @author Ivan Martinez
  */
-import java.io.IOException;
-import java.util.Scanner;
 
 public class bluetoothConnection {
     public bluetoothConnection() {

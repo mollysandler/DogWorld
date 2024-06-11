@@ -24,7 +24,6 @@ public class PaintMixer {
             tileMap.put(p, newColor.substring( 0, 1 ));
         }
     }
-
     public static int[] getPaintColor( Point p ) {
         HashMap<Point, String> tileMap = WorldData.getWorldData().getTileMap();
         if ( !tileMap.containsKey(p) ) return WorldData.getWorldData().getBgColor();
